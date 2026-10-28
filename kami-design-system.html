@@ -1,0 +1,877 @@
+<!doctype html>
+<html lang="pt-AO">
+<head>
+<meta charset="utf-8">
+<title>Kami — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#24272A; --muted:#5B6166; --line:#C9CDD1; --line-strong:#8F969C; --bg:#F5F6F6; --white:#fff;
+  --green-700:#124A33; --green-600:#1B6B4A; --green-100:#E3F1EA;
+  --saffron-500:#F2B01E; --saffron-100:#FFF3D1; --saffron-800:#6E4C00;
+  --blue-600:#1F5FA8; --blue-100:#E3EEF9;
+  --red-600:#B42318; --red-100:#FCE8E6;
+  --r-badge:4px; --r-ctl:6px; --r-card:10px; --r-phone:28px;
+}
+@page{size:A4 landscape;margin:0}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;color:var(--ink);font-size:14px;line-height:1.45;-webkit-print-color-adjust:exact;print-color-adjust:exact;font-variant-numeric:tabular-nums}
+h1,h2,h3,h4,p{margin:0}
+.sprite{position:absolute;width:0;height:0;overflow:hidden}
+.i{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.i-lg{width:24px;height:24px}
+
+/* ---------- Página ---------- */
+.page{width:297mm;height:209.5mm;padding:38px 48px 52px;position:relative;overflow:hidden;background:#fff;display:grid;grid-template-columns:240px 1fr;column-gap:40px;break-after:page}
+.page:last-child{break-after:auto}
+.page-wide{grid-template-columns:1fr;grid-template-rows:auto 1fr;row-gap:18px}
+.rail h2{font-size:26px;line-height:32px;font-weight:700;letter-spacing:-.01em;margin-bottom:12px}
+.rail p{color:var(--muted);font-size:14px;margin-bottom:10px}
+.rail .note{border:1px solid var(--line);border-radius:var(--r-ctl);padding:10px 12px;font-size:13px;color:var(--ink);background:var(--bg);margin-top:16px}
+.head{display:grid;grid-template-columns:240px 1fr;column-gap:40px;align-items:end}
+.head h2{font-size:26px;line-height:32px;font-weight:700;letter-spacing:-.01em}
+.head p{color:var(--muted);font-size:14px;max-width:70ch}
+.foot{position:absolute;left:48px;right:48px;bottom:20px;display:flex;justify-content:space-between;font-size:11px;color:var(--muted);border-top:1px solid var(--line);padding-top:8px}
+.main{min-width:0}
+.h3{font-size:16px;font-weight:600;margin-bottom:10px}
+.sub{font-size:13px;color:var(--muted)}
+.row{display:flex;gap:16px}
+.wrap{flex-wrap:wrap}
+.col{display:flex;flex-direction:column}
+.gap8{gap:8px}.gap12{gap:12px}.gap16{gap:16px}.gap24{gap:24px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.sec{margin-bottom:22px}
+.mono{font-feature-settings:"tnum";}
+
+/* ---------- Cartão base ---------- */
+.card{border:1px solid var(--line);border-radius:var(--r-card);background:#fff}
+.pad{padding:16px}
+.pad-sm{padding:12px}
+
+/* ---------- Botões ---------- */
+.btn{height:40px;padding:0 16px;border:1.5px solid transparent;border-radius:var(--r-ctl);font:600 14px/1 inherit;font-family:inherit;display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#fff;color:var(--ink);white-space:nowrap}
+.btn-primary{background:var(--green-600);border-color:var(--green-600);color:#fff}
+.btn-secondary{background:#fff;border-color:var(--line-strong);color:var(--ink)}
+.btn-ghost{color:var(--green-600);border-color:transparent;background:transparent}
+.btn-danger{background:#fff;border-color:var(--red-600);color:var(--red-600)}
+.btn-sm{height:32px;padding:0 12px;font-size:13px}
+.btn-lg{height:48px;padding:0 20px;font-size:15px}
+.btn-block{width:100%}
+.btn-primary.is-hover{background:var(--green-700);border-color:var(--green-700)}
+.btn-secondary.is-hover{background:var(--bg);border-color:var(--ink)}
+.is-focus{outline:2px solid var(--green-600);outline-offset:2px}
+.btn.is-disabled{background:var(--bg);border-color:var(--line);color:#8A9096}
+.icon-btn{width:36px;height:36px;padding:0}
+
+/* ---------- Campos ---------- */
+.field{display:flex;flex-direction:column;gap:6px}
+.field label,.label{font-size:13px;font-weight:600}
+.opt{font-weight:400;color:var(--muted)}
+.input{height:40px;border:1.5px solid var(--line-strong);border-radius:var(--r-ctl);padding:0 12px;display:flex;align-items:center;justify-content:space-between;background:#fff;font-size:14px;color:var(--ink)}
+.input.ph-text{color:#6D747A}
+.input.is-focus{border-color:var(--green-600)}
+.input.is-error{border-color:var(--red-600)}
+.input.is-disabled{background:var(--bg);border-color:var(--line);color:#8A9096}
+.textarea{height:64px;align-items:flex-start;padding-top:10px}
+.hint{font-size:12px;color:var(--muted)}
+.err{font-size:12px;color:var(--red-600);font-weight:500}
+.check{width:20px;height:20px;border:1.5px solid var(--line-strong);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;background:#fff;flex:none}
+.check.on{background:var(--green-600);border-color:var(--green-600);color:#fff}
+.check .i{width:14px;height:14px;stroke-width:2.5}
+.radio{width:20px;height:20px;border:1.5px solid var(--line-strong);border-radius:50%;background:#fff;display:inline-flex;align-items:center;justify-content:center;flex:none}
+.radio.on{border-color:var(--green-600)}
+.radio.on::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--green-600)}
+.toggle{width:40px;height:22px;border:1.5px solid var(--line-strong);border-radius:11px;background:#fff;position:relative;flex:none}
+.toggle::after{content:"";position:absolute;top:2.5px;left:3px;width:14px;height:14px;border-radius:50%;background:var(--line-strong)}
+.toggle.on{background:var(--green-600);border-color:var(--green-600)}
+.toggle.on::after{left:21px;background:#fff}
+.inline{display:flex;align-items:center;gap:10px;font-size:14px}
+.stepper{display:inline-flex;align-items:center;border:1.5px solid var(--line-strong);border-radius:var(--r-ctl);height:36px;background:#fff}
+.stepper button{all:unset;width:34px;height:100%;display:flex;align-items:center;justify-content:center;color:var(--ink)}
+.stepper span{min-width:26px;text-align:center;font-weight:600;border-left:1.5px solid var(--line);border-right:1.5px solid var(--line);height:100%;display:flex;align-items:center;justify-content:center}
+.seg{display:flex;border:1.5px solid var(--line-strong);border-radius:var(--r-ctl);overflow:hidden;height:40px;background:#fff}
+.seg div{flex:1;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:14px}
+.seg div+div{border-left:1.5px solid var(--line-strong)}
+.seg .on{background:var(--green-600);color:#fff}
+
+/* ---------- Badges / alertas / tabs ---------- */
+.badge{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 8px;border:1px solid;border-radius:var(--r-badge);font-size:12px;font-weight:600;white-space:nowrap}
+.b-new{background:var(--saffron-100);border-color:#D9A100;color:var(--saffron-800)}
+.b-prep{background:var(--blue-100);border-color:#8DB3DE;color:var(--blue-600)}
+.b-ready{background:var(--green-100);border-color:#8FC4A9;color:var(--green-600)}
+.b-done{background:var(--bg);border-color:var(--line-strong);color:var(--muted)}
+.b-cancel{background:var(--red-100);border-color:#E3A29B;color:var(--red-600)}
+.dot{width:8px;height:8px;border-radius:50%;background:currentColor}
+.alert{border:1.5px solid;border-radius:8px;padding:10px 12px;display:flex;gap:10px;align-items:flex-start;font-size:13px}
+.alert b{display:block;font-size:14px;margin-bottom:2px}
+.a-info{background:var(--blue-100);border-color:var(--blue-600)}
+.a-info .i{color:var(--blue-600)}
+.a-warn{background:var(--saffron-100);border-color:#D9A100}
+.a-warn .i{color:var(--saffron-800)}
+.a-ok{background:var(--green-100);border-color:var(--green-600)}
+.a-ok .i{color:var(--green-600)}
+.a-err{background:var(--red-100);border-color:var(--red-600)}
+.a-err .i{color:var(--red-600)}
+.tabs{display:flex;border-bottom:1.5px solid var(--line)}
+.tab{padding:10px 14px;font-weight:600;font-size:14px;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-1.5px;display:flex;gap:8px;align-items:center}
+.tab.on{color:var(--green-600);border-bottom-color:var(--green-600)}
+.chip{height:32px;padding:0 12px;border:1.5px solid var(--line-strong);border-radius:16px;display:inline-flex;align-items:center;font-size:13px;font-weight:600;background:#fff;white-space:nowrap}
+.chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+
+/* ---------- Imagem placeholder ---------- */
+.ph{background:repeating-linear-gradient(135deg,#E6E9EB 0 8px,#F1F3F4 8px 16px);border:1px solid var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:11px}
+.ph-dash{border:1.5px dashed var(--line-strong);background:#fff;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--green-600);font-weight:600;font-size:12px}
+
+/* ---------- Talão (assinatura) ---------- */
+.ticket{border:1px solid var(--line-strong);border-left:6px solid var(--saffron-500);border-radius:var(--r-card);background:#fff;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.ticket.t-prep{border-left-color:var(--blue-600)}
+.ticket.t-ready{border-left-color:var(--green-600)}
+.ticket-h{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.ticket-h b{font-size:16px}
+.ticket-h small{display:block;color:var(--muted);font-size:12px}
+.ticket ul{list-style:none;margin:0;padding:0;border-top:1px dashed var(--line-strong);border-bottom:1px dashed var(--line-strong)}
+.ticket li{display:flex;gap:10px;padding:6px 0;font-size:13px}
+.ticket li b{min-width:22px}
+.ticket li i{color:var(--muted);font-style:normal;display:block;font-size:12px}
+.ticket-f{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.price{font-weight:700}
+
+/* ---------- Tabela ---------- */
+.tbl{border:1px solid var(--line);border-radius:var(--r-card);overflow:hidden;background:#fff}
+.tbl table{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{background:var(--bg);text-align:left;font-weight:600;padding:9px 12px;border-bottom:1px solid var(--line)}
+.tbl td{padding:9px 12px;border-bottom:1px solid var(--line)}
+.tbl tr:last-child td{border-bottom:0}
+.tbl .r{text-align:right}
+
+/* ---------- Telemóvel ---------- */
+.phones{display:flex;gap:22px;justify-content:flex-start}
+.phone-wrap{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.phone-cap{font-size:13px;font-weight:600}
+.phone-cap span{display:block;font-weight:400;color:var(--muted);font-size:12px}
+.phone{width:360px;height:740px;border:2px solid var(--ink);border-radius:var(--r-phone);overflow:hidden;background:#fff;display:flex;flex-direction:column;zoom:.66}
+.appbar{height:56px;padding:0 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--line);flex:none;margin-top:10px}
+.appbar b{font-size:17px}
+.appbar small{display:block;color:var(--muted);font-size:12px;font-weight:400}
+.screen{flex:1;overflow:hidden;padding:14px 16px;display:flex;flex-direction:column;gap:12px}
+.bottom{flex:none;border-top:1px solid var(--line);padding:12px 16px 20px;background:#fff}
+.prod{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.prod:last-child{border-bottom:0}
+.prod .ph{width:84px;height:84px;flex:none}
+.prod h4{font-size:15px;font-weight:600}
+.prod p{font-size:13px;color:var(--muted);line-height:1.35;margin:2px 0 6px}
+.prod .meta{display:flex;justify-content:space-between;align-items:center}
+.addbtn{width:36px;height:36px;border:1.5px solid var(--green-600);border-radius:var(--r-ctl);color:var(--green-600);display:flex;align-items:center;justify-content:center;background:#fff}
+.cartline{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}
+.cartline h4{font-size:15px;font-weight:600}
+.cartline small{display:block;color:var(--muted);font-size:12px}
+.sumrow{display:flex;justify-content:space-between;font-size:14px;padding:3px 0}
+.sumrow.tot{font-weight:700;font-size:17px;border-top:1.5px solid var(--ink);margin-top:6px;padding-top:10px}
+.map{height:130px;border:1.5px solid var(--line-strong);border-radius:8px;background:
+ linear-gradient(var(--line) 1px,transparent 1px) 0 0/26px 26px,linear-gradient(90deg,var(--line) 1px,transparent 1px) 0 0/26px 26px,#F1F3F4;position:relative;overflow:hidden}
+.map .zone{position:absolute;inset:18px 30px;border:2px dashed var(--green-600);border-radius:50%;background:rgba(27,107,74,.08)}
+.map .pin{position:absolute;left:50%;top:50%;transform:translate(-50%,-70%);color:var(--red-600)}
+.map .pin .i{width:30px;height:30px;fill:#fff}
+.timeline{list-style:none;margin:0;padding:0}
+.timeline li{position:relative;padding:0 0 18px 34px;font-size:14px}
+.timeline li::before{content:"";position:absolute;left:8px;top:22px;bottom:0;width:2px;background:var(--line)}
+.timeline li:last-child::before{display:none}
+.timeline li .mk{position:absolute;left:0;top:0;width:18px;height:18px;border-radius:50%;border:2px solid var(--line-strong);background:#fff;display:flex;align-items:center;justify-content:center;color:#fff}
+.timeline li.done .mk{background:var(--green-600);border-color:var(--green-600)}
+.timeline li.done::before{background:var(--green-600)}
+.timeline li.now .mk{border-color:var(--blue-600);box-shadow:inset 0 0 0 4px #fff;background:var(--blue-600)}
+.timeline li b{display:block}
+.timeline li small{color:var(--muted);font-size:12px}
+.timeline li.wait{color:var(--muted)}
+.timeline .mk .i{width:12px;height:12px;stroke-width:3}
+.estimate{border:1.5px solid var(--ink);border-radius:var(--r-card);padding:14px}
+.estimate .big{font-size:28px;font-weight:700;line-height:1.1}
+
+/* ---------- Back-office ---------- */
+.desk{width:100%;height:100%;border:1.5px solid var(--ink);border-radius:var(--r-card);overflow:hidden;display:grid;grid-template-columns:196px 1fr;grid-template-rows:52px 1fr;background:var(--bg);position:relative}
+.desk .top{grid-column:1/3;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 16px}
+.desk .side{background:#fff;border-right:1px solid var(--line);padding:12px;display:flex;flex-direction:column;gap:4px}
+.nav{height:38px;padding:0 10px;border-radius:var(--r-ctl);display:flex;align-items:center;gap:10px;font-weight:500;font-size:14px;color:var(--ink);border:1px solid transparent}
+.nav.on{background:var(--green-100);border-color:#8FC4A9;color:var(--green-700);font-weight:600}
+.nav .badge{margin-left:auto}
+.desk .content{padding:14px 16px;overflow:hidden;display:flex;flex-direction:column;gap:12px;min-width:0}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px}
+.logo i{width:26px;height:26px;border-radius:6px;background:var(--green-600);color:#fff;font-style:normal;display:flex;align-items:center;justify-content:center;font-size:15px}
+.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;flex:1;min-height:0}
+.colhead{display:flex;align-items:center;justify-content:space-between;font-weight:600;font-size:14px;margin-bottom:8px}
+.count{min-width:22px;height:22px;border-radius:11px;background:#fff;border:1px solid var(--line-strong);display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:600}
+.scrim{position:absolute;inset:0;background:rgba(36,39,42,.45);display:flex;align-items:center;justify-content:center}
+.modal{width:380px;background:#fff;border:1.5px solid var(--ink);border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,.22);padding:18px;display:flex;flex-direction:column;gap:12px}
+.modal h3{font-size:18px}
+.mesa{border:1.5px solid var(--line-strong);border-radius:var(--r-card);background:#fff;padding:12px;display:flex;flex-direction:column;gap:8px;min-height:110px}
+.mesa b{font-size:16px}
+.mesa.act{border-color:var(--blue-600);border-width:2px}
+.mesa.sel{border-color:var(--green-600);border-width:2px;background:var(--green-100)}
+.mesa.free{border-style:dashed;color:var(--muted)}
+.swatch{height:84px;border-radius:8px 8px 0 0;border-bottom:1px solid rgba(0,0,0,.12)}
+.sw-card{border:1px solid var(--line);border-radius:var(--r-card);overflow:hidden;background:#fff}
+.sw-card .t{padding:8px 10px}
+.sw-card b{display:block;font-size:13px}
+.sw-card span{font-size:12px;color:var(--muted)}
+.sw-card code{font-family:inherit;font-weight:600;font-size:12px}
+.spec{width:100%;border-collapse:collapse;font-size:13px}
+.spec td,.spec th{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+.spec th{font-weight:600;background:var(--bg)}
+.ok{color:var(--green-600);font-weight:700}
+.dd{border:1.5px solid;border-radius:var(--r-card);padding:12px 14px;font-size:13px}
+.dd.do{border-color:var(--green-600)}
+.dd.dont{border-color:var(--red-600)}
+.dd h4{font-size:14px;margin-bottom:6px;display:flex;gap:8px;align-items:center}
+.dd.do h4{color:var(--green-600)}.dd.dont h4{color:var(--red-600)}
+.dd ul{margin:0;padding-left:18px}
+.dd li{margin:3px 0}
+.qr{width:120px;height:120px;border:1.5px solid var(--ink);border-radius:8px;padding:8px;background:#fff}
+</style>
+</head>
+<body>
+
+<svg class="sprite" aria-hidden="true">
+  <symbol id="cart" viewBox="0 0 24 24"><path d="M3 4h2l2.2 10.2a1 1 0 0 0 1 .8h8.6a1 1 0 0 0 1-.8L19 8H6"/><circle cx="9" cy="19" r="1.2"/><circle cx="17" cy="19" r="1.2"/></symbol>
+  <symbol id="plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+  <symbol id="pin" viewBox="0 0 24 24"><path d="M12 21s-6-5.6-6-11a6 6 0 1 1 12 0c0 5.4-6 11-6 11z"/><circle cx="12" cy="10" r="2"/></symbol>
+  <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="bell" viewBox="0 0 24 24"><path d="M6 16v-5a6 6 0 1 1 12 0v5l1.5 2h-15z"/><path d="M10 21h4"/></symbol>
+  <symbol id="back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+  <symbol id="info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+  <symbol id="warn" viewBox="0 0 24 24"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17h.01"/></symbol>
+  <symbol id="list" viewBox="0 0 24 24"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></symbol>
+  <symbol id="table" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/></symbol>
+  <symbol id="box" viewBox="0 0 24 24"><path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8"/></symbol>
+  <symbol id="map" viewBox="0 0 24 24"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></symbol>
+  <symbol id="sliders" viewBox="0 0 24 24"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></symbol>
+  <symbol id="image" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M21 16l-5-5-8 8"/></symbol>
+  <symbol id="search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M16 16l4 4"/></symbol>
+  <symbol id="chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="vol" viewBox="0 0 24 24"><path d="M4 10v4h4l5 4V6l-5 4z"/><path d="M16.5 9a4 4 0 0 1 0 6"/></symbol>
+</svg>
+
+<!-- ===================== 1. CAPA ===================== -->
+<section class="page" style="grid-template-columns:1fr 430px;column-gap:56px;padding-top:56px">
+  <div class="col" style="justify-content:space-between">
+    <div>
+      <div class="logo" style="font-size:20px;margin-bottom:56px"><i style="width:34px;height:34px;font-size:20px">K</i>Kami</div>
+      <h1 style="font-size:52px;line-height:56px;font-weight:700;letter-spacing:-.02em;max-width:11ch">Design system</h1>
+      <p style="font-size:18px;line-height:28px;color:var(--muted);max-width:40ch;margin-top:18px">Cores, tipografia, componentes e ecrãs-tipo para a plataforma de gestão de restaurantes: página pública, pedidos por QR Code e back-office.</p>
+    </div>
+    <div class="col gap8" style="font-size:13px;color:var(--muted)">
+      <div class="row gap8">
+        <span style="width:44px;height:14px;background:var(--green-600);border-radius:3px"></span>
+        <span style="width:44px;height:14px;background:var(--saffron-500);border-radius:3px"></span>
+        <span style="width:44px;height:14px;background:var(--ink);border-radius:3px"></span>
+        <span style="width:44px;height:14px;background:var(--blue-600);border-radius:3px"></span>
+        <span style="width:44px;height:14px;background:var(--red-600);border-radius:3px"></span>
+      </div>
+      <div>Versão 0.1, 28 de Outubro de 2026. Baseado no documento de requisitos README-KAMI.</div>
+      <div>Kami é um nome de trabalho, retirado do nome do ficheiro de requisitos.</div>
+    </div>
+  </div>
+  <div class="col gap16" style="justify-content:center">
+    <div class="ticket" style="padding:16px 18px;gap:12px">
+      <div class="ticket-h"><div><b style="font-size:20px">Mesa 4</b><small>Pedido 0142, há 2 min</small></div><span class="badge b-new"><span class="dot"></span>Novo</span></div>
+      <ul>
+        <li><b>2x</b><div>Muamba de galinha<i>Sem gindungo</i></div></li>
+        <li><b>1x</b><div>Mufete de cacusso</div></li>
+        <li><b>3x</b><div>Cuca 33 cl</div></li>
+      </ul>
+      <div class="ticket-f"><span class="price" style="font-size:18px">17.200 Kz</span><div class="row gap8"><button class="btn btn-secondary btn-sm">Recusar</button><button class="btn btn-primary btn-sm">Aceitar pedido</button></div></div>
+    </div>
+    <p class="sub" style="max-width:44ch">O talão de pedido é o elemento central do sistema: um cartão com contorno definido e uma barra lateral que muda de cor com o estado.</p>
+  </div>
+  <div class="foot"><span>Kami Design System</span><span>1</span></div>
+</section>
+
+<!-- ===================== 2. PRINCÍPIOS ===================== -->
+<section class="page">
+  <div class="rail">
+    <h2>Princípios</h2>
+    <p>O estilo é simples e funcional. Em vez de sombras e gradientes, a hierarquia vem de contornos, espaço e peso do texto.</p>
+    <div class="note">Quem usa o back-office está a trabalhar, de pé, muitas vezes com pressa. A interface deve ser lida num relance.</div>
+  </div>
+  <div class="main col gap16">
+    <div class="grid2">
+      <div class="card pad"><h3 class="h3">Contornos definem o que é interactivo</h3><p class="sub" style="font-size:14px;color:var(--ink)">Botões, campos, cartões e selectores têm sempre contorno visível, de 1 a 2 px. Um elemento nunca depende só da cor de fundo para se distinguir.</p></div>
+      <div class="card pad"><h3 class="h3">A cor tem significado</h3><p class="sub" style="font-size:14px;color:var(--ink)">Verde é a marca e o estado pronto. Açafrão pede atenção a um pedido novo. Azul indica trabalho em curso. Vermelho aparece só em erros e cancelamentos.</p></div>
+      <div class="card pad"><h3 class="h3">Feito para mãos ocupadas</h3><p class="sub" style="font-size:14px;color:var(--ink)">Alvos de toque de pelo menos 40 px, texto de corpo a 14 px ou mais, e uma só acção principal por ecrã.</p></div>
+      <div class="card pad"><h3 class="h3">Sem decoração</h3><p class="sub" style="font-size:14px;color:var(--ink)">Sem gradientes, sem sombras em cartões e sem animações de entrada. A única sombra do sistema é a do modal, para o separar do fundo.</p></div>
+    </div>
+    <div>
+      <h3 class="h3">Fundamentos num relance</h3>
+      <div class="tbl"><table>
+        <tr><th style="width:180px">Fundamento</th><th>Valor</th><th>Onde se aplica</th></tr>
+        <tr><td>Contorno base</td><td>1 px, Contorno <code>#C9CDD1</code></td><td>Cartões, tabelas, separadores</td></tr>
+        <tr><td>Contorno de controlo</td><td>1,5 px, <code>#8F969C</code></td><td>Campos, botões secundários, selectores</td></tr>
+        <tr><td>Foco</td><td>Anel de 2 px a verde, afastado 2 px</td><td>Todos os elementos interactivos</td></tr>
+        <tr><td>Raios</td><td>4 / 6 / 10 / 28 px</td><td>Etiquetas / controlos / cartões / ecrã de telemóvel</td></tr>
+        <tr><td>Sombra</td><td>Nenhuma, excepto no modal</td><td>Modal de novo pedido</td></tr>
+        <tr><td>Tipo</td><td>IBM Plex Sans, 400 a 700</td><td>Toda a interface, com algarismos tabulares nos preços</td></tr>
+      </table></div>
+    </div>
+  </div>
+  <div class="foot"><span>Kami Design System</span><span>2</span></div>
+</section>
+
+<!-- ===================== 3. CORES ===================== -->
+<section class="page">
+  <div class="rail">
+    <h2>Cores</h2>
+    <p>Uma marca verde, um único acento e neutros frios para a estrutura. Os estados dos pedidos têm cores fixas em toda a plataforma.</p>
+    <p>Verde evoca frescura e confiança, e lê-se naturalmente como "pronto". O açafrão foi escolhido para o aviso de novo pedido porque se vê bem num balcão luminoso e não se confunde com erro.</p>
+    <div class="note">O vermelho não é cor de marca: fica reservado a erros, recusas e cancelamentos.</div>
+  </div>
+  <div class="main col gap16">
+    <div>
+      <div class="h3">Marca e acento</div>
+      <div class="grid4">
+        <div class="sw-card"><div class="swatch" style="background:#1B6B4A"></div><div class="t"><b>Verde Mandioca</b><code>#1B6B4A</code><br><span>Acção principal, ligações, foco</span></div></div>
+        <div class="sw-card"><div class="swatch" style="background:#124A33"></div><div class="t"><b>Verde Profundo</b><code>#124A33</code><br><span>Estado hover, texto sobre verde claro</span></div></div>
+        <div class="sw-card"><div class="swatch" style="background:#E3F1EA"></div><div class="t"><b>Verde Claro</b><code>#E3F1EA</code><br><span>Selecção, navegação activa</span></div></div>
+        <div class="sw-card"><div class="swatch" style="background:#F2B01E"></div><div class="t"><b>Açafrão</b><code>#F2B01E</code><br><span>Barra de novo pedido, alertas</span></div></div>
+      </div>
+    </div>
+    <div>
+      <div class="h3">Neutros</div>
+      <div class="grid4" style="grid-template-columns:repeat(5,1fr)">
+        <div class="sw-card"><div class="swatch" style="background:#24272A"></div><div class="t"><b>Carvão</b><code>#24272A</code><br><span>Texto</span></div></div>
+        <div class="sw-card"><div class="swatch" style="background:#5B6166"></div><div class="t"><b>Pedra</b><code>#5B6166</code><br><span>Texto secundário</span></div></div>
+        <div class="sw-card"><div class="swatch" style="background:#8F969C"></div><div class="t"><b>Contorno forte</b><code>#8F969C</code><br><span>Campos e controlos</span></div></div>
+        <div class="sw-card"><div class="swatch" style="background:#C9CDD1"></div><div class="t"><b>Contorno</b><code>#C9CDD1</code><br><span>Cartões e divisórias</span></div></div>
+        <div class="sw-card"><div class="swatch" style="background:#F5F6F6"></div><div class="t"><b>Fundo</b><code>#F5F6F6</code><br><span>Fundo do back-office</span></div></div>
+      </div>
+    </div>
+    <div>
+      <div class="h3">Estados do pedido</div>
+      <div class="grid4" style="grid-template-columns:repeat(5,1fr)">
+        <div class="card pad-sm col gap8"><span class="badge b-new"><span class="dot"></span>Novo</span><span class="sub">Fundo <code>#FFF3D1</code><br>Texto <code>#6E4C00</code></span></div>
+        <div class="card pad-sm col gap8"><span class="badge b-prep"><span class="dot"></span>Em preparação</span><span class="sub">Fundo <code>#E3EEF9</code><br>Texto <code>#1F5FA8</code></span></div>
+        <div class="card pad-sm col gap8"><span class="badge b-ready"><span class="dot"></span>Pronto</span><span class="sub">Fundo <code>#E3F1EA</code><br>Texto <code>#1B6B4A</code></span></div>
+        <div class="card pad-sm col gap8"><span class="badge b-done"><span class="dot"></span>Concluído</span><span class="sub">Fundo <code>#F5F6F6</code><br>Texto <code>#5B6166</code></span></div>
+        <div class="card pad-sm col gap8"><span class="badge b-cancel"><span class="dot"></span>Cancelado</span><span class="sub">Fundo <code>#FCE8E6</code><br>Texto <code>#B42318</code></span></div>
+      </div>
+    </div>
+    <p class="sub">Os estados do pedido ainda não estão fechados nos requisitos (secção 16 do README). As cinco etiquetas acima são uma proposta a validar.</p>
+  </div>
+  <div class="foot"><span>Kami Design System</span><span>3</span></div>
+</section>
+
+<!-- ===================== 4. TIPOGRAFIA ===================== -->
+<section class="page">
+  <div class="rail">
+    <h2>Tipografia</h2>
+    <p>Uma só família, IBM Plex Sans. As formas técnicas e regulares combinam com os contornos definidos e lêem-se bem em ecrãs pequenos.</p>
+    <p>Os preços usam algarismos tabulares, para que valores em coluna fiquem alinhados. Em português, escreve-se em minúsculas, com maiúscula só no início da frase.</p>
+    <div class="note">Fallback: Segoe UI, depois a fonte de sistema.</div>
+  </div>
+  <div class="main col gap16">
+    <div class="card pad row" style="gap:32px;align-items:center">
+      <div style="font-size:88px;line-height:88px;font-weight:600;letter-spacing:-.02em">Aa</div>
+      <div class="col gap8">
+        <div style="font-size:22px;font-weight:600">IBM Plex Sans</div>
+        <div style="font-size:15px;color:var(--muted)">ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>abcdefghijklmnopqrstuvwxyz ç ã õ é ê á<br>0123456789 Kz 4.500</div>
+        <div class="row gap16" style="font-size:15px"><span style="font-weight:400">Normal 400</span><span style="font-weight:500">Médio 500</span><span style="font-weight:600">Semi-negrito 600</span><span style="font-weight:700">Negrito 700</span></div>
+      </div>
+    </div>
+    <div class="tbl"><table>
+      <tr><th style="width:130px">Estilo</th><th style="width:170px">Tamanho / linha / peso</th><th>Amostra</th></tr>
+      <tr><td>Título de página</td><td>28 / 34 / 700</td><td style="font-size:28px;line-height:34px;font-weight:700;letter-spacing:-.01em">Pedidos de hoje</td></tr>
+      <tr><td>Título de secção</td><td>20 / 28 / 600</td><td style="font-size:20px;line-height:28px;font-weight:600">Mesa 4, atendimento activo</td></tr>
+      <tr><td>Título de cartão</td><td>16 / 22 / 600</td><td style="font-size:16px;line-height:22px;font-weight:600">Muamba de galinha</td></tr>
+      <tr><td>Corpo</td><td>14 / 20 / 400</td><td style="font-size:14px;line-height:20px">Frango cozinhado em óleo de palma, com quiabo, servido com funge.</td></tr>
+      <tr><td>Corpo pequeno</td><td>13 / 18 / 400</td><td style="font-size:13px;line-height:18px;color:var(--muted)">Pedido recebido às 13:05 por Mesa 4</td></tr>
+      <tr><td>Etiqueta</td><td>12 / 16 / 600</td><td style="font-size:12px;line-height:16px;font-weight:600">Em preparação</td></tr>
+      <tr><td>Preço</td><td>16 / 22 / 700, tabular</td><td style="font-size:16px;line-height:22px;font-weight:700">4.500 Kz &nbsp;&nbsp; 12.800 Kz &nbsp;&nbsp; 130.000 Kz</td></tr>
+    </table></div>
+    <p class="sub">Linhas de texto com menos de 70 caracteres. Texto de botão em semi-negrito (600), sempre em frase: "Aceitar pedido", nunca "ACEITAR".</p>
+  </div>
+  <div class="foot"><span>Kami Design System</span><span>4</span></div>
+</section>
+
+<!-- ===================== 5. FORMA E ESPAÇO ===================== -->
+<section class="page">
+  <div class="rail">
+    <h2>Forma e espaço</h2>
+    <p>Contornos nítidos e cantos pouco arredondados. Cada nível de elemento tem o seu raio, de modo que um botão e um cartão não parecem a mesma coisa.</p>
+    <p>O espaço segue uma escala de 4 px. Num ecrã de telemóvel a margem lateral é 16 px; no back-office, a barra lateral tem 196 px.</p>
+  </div>
+  <div class="main col gap16">
+    <div class="grid2">
+      <div>
+        <div class="h3">Contornos</div>
+        <div class="col gap12">
+          <div class="card pad-sm row" style="align-items:center;gap:14px"><div style="width:90px;height:44px;border:1px solid var(--line);border-radius:10px"></div><div><b>1 px, Contorno</b><div class="sub">Cartões, tabelas e divisórias</div></div></div>
+          <div class="card pad-sm row" style="align-items:center;gap:14px"><div style="width:90px;height:44px;border:1.5px solid var(--line-strong);border-radius:6px"></div><div><b>1,5 px, Contorno forte</b><div class="sub">Campos, botões secundários, selectores</div></div></div>
+          <div class="card pad-sm row" style="align-items:center;gap:14px"><div style="width:90px;height:44px;border:2px solid var(--green-600);border-radius:6px"></div><div><b>2 px, Verde</b><div class="sub">Foco, selecção activa (mesa seleccionada)</div></div></div>
+          <div class="card pad-sm row" style="align-items:center;gap:14px"><div style="width:90px;height:44px;border:1.5px dashed var(--line-strong);border-radius:8px"></div><div><b>1,5 px tracejado</b><div class="sub">Zonas de acção vazias (adicionar fotografia, mesa livre)</div></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="h3">Raios</div>
+        <div class="row gap12 wrap" style="align-items:flex-end">
+          <div class="col gap8" style="align-items:center"><div style="width:64px;height:64px;border:1.5px solid var(--ink);border-radius:4px"></div><span class="sub">4, etiquetas</span></div>
+          <div class="col gap8" style="align-items:center"><div style="width:64px;height:64px;border:1.5px solid var(--ink);border-radius:6px"></div><span class="sub">6, controlos</span></div>
+          <div class="col gap8" style="align-items:center"><div style="width:64px;height:64px;border:1.5px solid var(--ink);border-radius:10px"></div><span class="sub">10, cartões</span></div>
+          <div class="col gap8" style="align-items:center"><div style="width:64px;height:64px;border:1.5px solid var(--ink);border-radius:28px"></div><span class="sub">28, telemóvel</span></div>
+        </div>
+        <div class="h3" style="margin-top:22px">Elevação</div>
+        <div class="row gap12" style="align-items:center">
+          <div style="width:120px;height:64px;border:1px solid var(--line);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--muted)">Cartão, sem sombra</div>
+          <div style="width:120px;height:64px;border:1.5px solid var(--ink);border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,.22);display:flex;align-items:center;justify-content:center;font-size:12px">Modal</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="h3">Escala de espaço</div>
+      <div class="row gap16" style="align-items:flex-end">
+        <div class="col gap8" style="align-items:center"><div style="width:4px;height:4px;background:var(--green-600)"></div><span class="sub">4</span></div>
+        <div class="col gap8" style="align-items:center"><div style="width:8px;height:8px;background:var(--green-600)"></div><span class="sub">8</span></div>
+        <div class="col gap8" style="align-items:center"><div style="width:12px;height:12px;background:var(--green-600)"></div><span class="sub">12</span></div>
+        <div class="col gap8" style="align-items:center"><div style="width:16px;height:16px;background:var(--green-600)"></div><span class="sub">16</span></div>
+        <div class="col gap8" style="align-items:center"><div style="width:24px;height:24px;background:var(--green-600)"></div><span class="sub">24</span></div>
+        <div class="col gap8" style="align-items:center"><div style="width:32px;height:32px;background:var(--green-600)"></div><span class="sub">32</span></div>
+        <div class="col gap8" style="align-items:center"><div style="width:48px;height:48px;background:var(--green-600)"></div><span class="sub">48</span></div>
+        <div style="margin-left:24px;font-size:13px;color:var(--muted);max-width:46ch">Espaço dentro de um cartão: 12 ou 16. Entre cartões: 12. Entre secções: 24.</div>
+      </div>
+    </div>
+    <div>
+      <div class="h3">Ícones</div>
+      <div class="row gap16" style="align-items:center">
+        <svg class="i i-lg"><use href="#cart"/></svg><svg class="i i-lg"><use href="#pin"/></svg><svg class="i i-lg"><use href="#clock"/></svg><svg class="i i-lg"><use href="#bell"/></svg><svg class="i i-lg"><use href="#table"/></svg><svg class="i i-lg"><use href="#list"/></svg><svg class="i i-lg"><use href="#box"/></svg><svg class="i i-lg"><use href="#map"/></svg><svg class="i i-lg"><use href="#image"/></svg><svg class="i i-lg"><use href="#check"/></svg>
+        <span class="sub" style="margin-left:12px">Traço de 1,75 px, cantos arredondados, 18 px no texto e 24 px sozinhos. Herdam a cor do texto.</span>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Kami Design System</span><span>5</span></div>
+</section>
+
+<!-- ===================== 6. COMPONENTES I ===================== -->
+<section class="page page-wide">
+  <div class="head"><h2>Componentes: acções e campos</h2><p>Botões, campos e controlos de selecção. Cada estado tem um sinal visível além da cor: contorno mais forte, anel de foco ou texto de erro.</p></div>
+  <div class="grid3" style="grid-template-columns:1.05fr 1.05fr .9fr;align-items:start">
+    <div class="col gap16">
+      <div class="card pad">
+        <div class="h3">Botões</div>
+        <div class="col gap12">
+          <div class="row gap8 wrap"><button class="btn btn-primary">Aceitar pedido</button><button class="btn btn-secondary">Recusar</button><button class="btn btn-ghost">Corrigir</button><button class="btn btn-danger">Encerrar</button></div>
+          <div class="row gap8 wrap"><button class="btn btn-primary is-hover">Hover</button><button class="btn btn-primary is-focus">Foco</button><button class="btn is-disabled">Desactivado</button></div>
+          <div class="row gap8 wrap" style="align-items:center"><button class="btn btn-primary btn-lg">Grande, 48</button><button class="btn btn-primary">Normal, 40</button><button class="btn btn-primary btn-sm">Pequeno, 32</button></div>
+          <div class="row gap8"><button class="btn btn-secondary icon-btn"><svg class="i"><use href="#plus"/></svg></button><button class="btn btn-secondary icon-btn"><svg class="i"><use href="#minus"/></svg></button><span class="sub" style="align-self:center">Só ícone, 36 px</span></div>
+        </div>
+        <div class="sub" style="margin-top:10px">Uma acção principal (verde) por ecrã. Acções destrutivas em contorno vermelho, nunca preenchidas.</div>
+      </div>
+      <div class="card pad">
+        <div class="h3">Quantidade e selector de canal</div>
+        <div class="row gap16" style="align-items:center"><div class="stepper"><button><svg class="i"><use href="#minus"/></svg></button><span>2</span><button><svg class="i"><use href="#plus"/></svg></button></div>
+        <div class="seg" style="width:230px"><div class="on">Levantamento</div><div>Entrega</div></div></div>
+      </div>
+    </div>
+    <div class="card pad col gap12">
+      <div class="h3" style="margin:0">Campos</div>
+      <div class="field"><label>Nome do produto</label><div class="input">Muamba de galinha</div></div>
+      <div class="field"><label>Preço em Kz</label><div class="input is-focus">4.500</div><span class="hint">Foco: contorno e anel verdes.</span></div>
+      <div class="field"><label>Telefone</label><div class="input is-error">923 45</div><span class="err">Indique um número com 9 dígitos.</span></div>
+      <div class="field"><label>Descrição <span class="opt">(opcional)</span></label><div class="input textarea ph-text">Ingredientes e acompanhamento</div></div>
+      <div class="field"><label>Categoria</label><div class="input">Pratos principais <svg class="i"><use href="#chev"/></svg></div></div>
+      <div class="field"><label>Identificador do endereço</label><div class="input is-disabled">quilamba</div></div>
+    </div>
+    <div class="card pad col gap12">
+      <div class="h3" style="margin:0">Selecção</div>
+      <div class="inline"><span class="check on"><svg class="i"><use href="#check"/></svg></span>Sem gindungo</div>
+      <div class="inline"><span class="check"></span>Sem cebola</div>
+      <div class="inline"><span class="radio on"></span>Levantamento</div>
+      <div class="inline"><span class="radio"></span>Entrega</div>
+      <div class="inline"><span class="toggle on"></span>Disponível no menu</div>
+      <div class="inline"><span class="toggle"></span>Som de novos pedidos</div>
+      <div class="sub" style="margin-top:6px">Alvos de toque com pelo menos 40 px de altura, incluindo a etiqueta ao lado.</div>
+    </div>
+  </div>
+  <div class="foot"><span>Kami Design System</span><span>6</span></div>
+</section>
+
+<!-- ===================== 7. COMPONENTES II ===================== -->
+<section class="page page-wide">
+  <div class="head"><h2>Componentes: estado e conteúdo</h2><p>Etiquetas de estado, avisos, separadores, cartões e tabelas. Os avisos usam sempre ícone, título curto e a acção que o utilizador pode tomar.</p></div>
+  <div class="grid3" style="grid-template-columns:1fr 1fr 1fr;align-items:start">
+    <div class="col gap12">
+      <div class="card pad col gap12">
+        <div class="h3" style="margin:0">Etiquetas de estado</div>
+        <div class="row gap8 wrap"><span class="badge b-new"><span class="dot"></span>Novo</span><span class="badge b-prep"><span class="dot"></span>Em preparação</span><span class="badge b-ready"><span class="dot"></span>Pronto</span><span class="badge b-done"><span class="dot"></span>Concluído</span><span class="badge b-cancel"><span class="dot"></span>Cancelado</span></div>
+      </div>
+      <div class="card pad col gap12">
+        <div class="h3" style="margin:0">Separadores</div>
+        <div class="tabs"><div class="tab on">Todos <span class="count">6</span></div><div class="tab">Presencial</div><div class="tab">Online</div></div>
+        <div class="row gap8"><span class="chip on">Pratos</span><span class="chip">Bebidas</span><span class="chip">Sobremesas</span></div>
+      </div>
+      <div class="card pad col gap12">
+        <div class="h3" style="margin:0">Avisos</div>
+        <div class="alert a-warn"><svg class="i"><use href="#warn"/></svg><div><b>Mesa 4 já tem um atendimento activo</b>Peça a um funcionário para o encerrar.</div></div>
+        <div class="alert a-ok"><svg class="i"><use href="#check"/></svg><div><b>Localização dentro da zona de entrega</b></div></div>
+        <div class="alert a-err"><svg class="i"><use href="#x"/></svg><div><b>Não foi possível enviar o pedido</b>Verifique a ligação e tente outra vez.</div></div>
+        <div class="alert a-info"><svg class="i"><use href="#info"/></svg><div><b>Sem fotografia</b>Adicione uma para o produto se destacar no menu.</div></div>
+      </div>
+    </div>
+    <div class="col gap12">
+      <div class="h3" style="margin:0">Talão de pedido (em três estados)</div>
+      <div class="ticket">
+        <div class="ticket-h"><div><b>Mesa 7</b><small>Pedido 0143, há 1 min</small></div><span class="badge b-new"><span class="dot"></span>Novo</span></div>
+        <ul><li><b>1x</b><div>Calulu de peixe</div></li><li><b>2x</b><div>Sumo de maracujá</div></li></ul>
+        <div class="ticket-f"><span class="price">7.200 Kz</span><button class="btn btn-primary btn-sm">Aceitar</button></div>
+      </div>
+      <div class="ticket t-prep">
+        <div class="ticket-h"><div><b>Entrega, Maria Cardoso</b><small>Pedido 0141, aceite às 13:02</small></div><span class="badge b-prep"><span class="dot"></span>Em preparação</span></div>
+        <ul><li><b>2x</b><div>Mufete de cacusso</div></li></ul>
+        <div class="ticket-f"><span class="sub">Pronto em cerca de 20 min</span><button class="btn btn-secondary btn-sm">Marcar pronto</button></div>
+      </div>
+      <div class="ticket t-ready">
+        <div class="ticket-h"><div><b>Levantamento, João Neto</b><small>Pedido 0139</small></div><span class="badge b-ready"><span class="dot"></span>Pronto</span></div>
+        <ul><li><b>1x</b><div>Muamba de galinha</div></li></ul>
+        <div class="ticket-f"><span class="price">4.500 Kz</span><button class="btn btn-secondary btn-sm">Concluir</button></div>
+      </div>
+    </div>
+    <div class="col gap12">
+      <div class="h3" style="margin:0">Tabela</div>
+      <div class="tbl"><table>
+        <tr><th>Produto</th><th>Categoria</th><th class="r">Preço</th></tr>
+        <tr><td>Muamba de galinha</td><td>Pratos</td><td class="r price">4.500 Kz</td></tr>
+        <tr><td>Calulu de peixe</td><td>Pratos</td><td class="r price">5.200 Kz</td></tr>
+        <tr><td>Cuca 33 cl</td><td>Bebidas</td><td class="r price">800 Kz</td></tr>
+        <tr><td>Gelado de múcua</td><td>Sobremesas</td><td class="r price">1.500 Kz</td></tr>
+      </table></div>
+      <div class="h3" style="margin:6px 0 0">Item de menu</div>
+      <div class="card pad-sm"><div class="prod" style="padding:0;border:0"><div class="ph" style="width:76px;height:76px"><svg class="i"><use href="#image"/></svg></div><div style="flex:1"><h4>Mufete de cacusso</h4><p>Peixe grelhado, feijão de óleo de palma e banana.</p><div class="meta"><span class="price">6.800 Kz</span><span class="addbtn"><svg class="i"><use href="#plus"/></svg></span></div></div></div></div>
+      <div class="h3" style="margin:6px 0 0">Aviso de sistema</div>
+      <div class="card pad-sm row" style="align-items:center;gap:10px;border-color:var(--ink);border-width:1.5px"><svg class="i" style="color:var(--green-600)"><use href="#check"/></svg><div style="flex:1;font-weight:600">Pedido aceite</div><button class="btn btn-ghost btn-sm">Desfazer</button></div>
+    </div>
+  </div>
+  <div class="foot"><span>Kami Design System</span><span>7</span></div>
+</section>
+
+<!-- ===================== 8. ECRÃS ONLINE ===================== -->
+<section class="page">
+  <div class="rail">
+    <h2>Ecrãs: pedido online</h2>
+    <p>O cliente abre o endereço partilhado no WhatsApp, escolhe produtos e decide entre levantamento e entrega.</p>
+    <p>O botão de carrinho fica sempre fixo na base do ecrã. Um produto pode não ter fotografia e continua a ter o mesmo tamanho de linha.</p>
+    <div class="note">No fluxo de entrega, a localização é recolhida automaticamente e o cliente confirma ou corrige antes de enviar, como definido no ponto 10.1 dos requisitos.</div>
+  </div>
+  <div class="main phones">
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="appbar"><div><b>Restaurante Quilamba</b><small>Aberto até às 22:00, Talatona</small></div></div>
+        <div class="screen">
+          <div class="seg"><div class="on">Levantamento</div><div>Entrega</div></div>
+          <div class="row gap8"><span class="chip on">Pratos</span><span class="chip">Bebidas</span><span class="chip">Sobremesas</span></div>
+          <div>
+            <div class="prod"><div class="ph"><svg class="i"><use href="#image"/></svg></div><div style="flex:1"><h4>Muamba de galinha</h4><p>Frango em óleo de palma com quiabo e funge.</p><div class="meta"><span class="price">4.500 Kz</span><span class="addbtn"><svg class="i"><use href="#plus"/></svg></span></div></div></div>
+            <div class="prod"><div class="ph"><svg class="i"><use href="#image"/></svg></div><div style="flex:1"><h4>Mufete de cacusso</h4><p>Peixe grelhado, feijão de óleo de palma e banana.</p><div class="meta"><span class="price">6.800 Kz</span><span class="addbtn"><svg class="i"><use href="#plus"/></svg></span></div></div></div>
+            <div class="prod"><div style="flex:1"><h4>Calulu de peixe</h4><p>Peixe seco com folhas e quiabo.</p><div class="meta"><span class="price">5.200 Kz</span><span class="addbtn"><svg class="i"><use href="#plus"/></svg></span></div></div></div>
+            <div class="prod"><div class="ph"><svg class="i"><use href="#image"/></svg></div><div style="flex:1"><h4>Feijão de óleo de palma</h4><p>Com mandioca cozida.</p><div class="meta"><span class="price">3.000 Kz</span><span class="addbtn"><svg class="i"><use href="#plus"/></svg></span></div></div></div>
+          </div>
+        </div>
+        <div class="bottom"><button class="btn btn-primary btn-lg btn-block" style="justify-content:space-between"><span class="row gap8" style="align-items:center"><svg class="i"><use href="#cart"/></svg>Ver carrinho (3)</span><span>14.800 Kz</span></button></div>
+      </div>
+      <div class="phone-cap">Menu da página pública<span>Produto sem fotografia permitido</span></div>
+    </div>
+
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="appbar"><svg class="i"><use href="#back"/></svg><b>Carrinho</b></div>
+        <div class="screen">
+          <div>
+            <div class="cartline"><div><h4>Muamba de galinha</h4><small>Sem gindungo</small><span class="price" style="font-size:14px">9.000 Kz</span></div><div class="col gap8" style="align-items:flex-end"><div class="stepper"><button><svg class="i"><use href="#minus"/></svg></button><span>2</span><button><svg class="i"><use href="#plus"/></svg></button></div><button class="btn btn-ghost btn-sm" style="padding:0">Remover</button></div></div>
+            <div class="cartline"><div><h4>Calulu de peixe</h4><span class="price" style="font-size:14px">5.200 Kz</span></div><div class="col gap8" style="align-items:flex-end"><div class="stepper"><button><svg class="i"><use href="#minus"/></svg></button><span>1</span><button><svg class="i"><use href="#plus"/></svg></button></div><button class="btn btn-ghost btn-sm" style="padding:0">Remover</button></div></div>
+          </div>
+          <div class="field"><label>Observações <span class="opt">(opcional)</span></label><div class="input textarea ph-text">Ex.: sem sal, bem passado</div></div>
+          <div style="margin-top:auto">
+            <div class="sumrow"><span>Produtos</span><span>14.200 Kz</span></div>
+            <div class="sumrow tot"><span>Total</span><span>14.200 Kz</span></div>
+          </div>
+        </div>
+        <div class="bottom"><button class="btn btn-primary btn-lg btn-block">Continuar</button></div>
+      </div>
+      <div class="phone-cap">Carrinho<span>Editar quantidades e remover antes de finalizar</span></div>
+    </div>
+
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="appbar"><svg class="i"><use href="#back"/></svg><b>Finalizar pedido</b></div>
+        <div class="screen">
+          <div class="seg"><div>Levantamento</div><div class="on">Entrega</div></div>
+          <div class="map"><div class="zone"></div><div class="pin"><svg class="i"><use href="#pin"/></svg></div></div>
+          <div class="field"><label>Local de entrega</label><div class="input">Rua Direita de Talatona <button class="btn btn-ghost btn-sm" style="padding:0">Corrigir</button></div></div>
+          <div class="alert a-ok"><svg class="i"><use href="#check"/></svg><div><b>Dentro da zona de entrega</b></div></div>
+          <div class="field"><label>Nome</label><div class="input">Maria Cardoso</div></div>
+          <div class="field"><label>Telefone</label><div class="input">923 456 789</div></div>
+        </div>
+        <div class="bottom"><button class="btn btn-primary btn-lg btn-block">Enviar pedido</button></div>
+      </div>
+      <div class="phone-cap">Entrega<span>Localização recolhida e confirmada pelo cliente</span></div>
+    </div>
+  </div>
+  <div class="foot"><span>Kami Design System</span><span>8</span></div>
+</section>
+
+<!-- ===================== 9. ECRÃS QR ===================== -->
+<section class="page">
+  <div class="rail">
+    <h2>Ecrãs: pedido na mesa</h2>
+    <p>O cliente lê o QR Code da mesa. O menu abre já com a mesa identificada e, depois de enviar, acompanha o pedido.</p>
+    <p>A estimativa de tempo só aparece depois de o restaurante aceitar o pedido. Os passos do estado formam uma sequência real, por isso usam linha temporal.</p>
+    <div class="note">Para validar: o ecrã de sessão activa mostra "Ver o menu" em modo de consulta. Os requisitos ainda não definem como atender um cliente novo numa sessão antiga.</div>
+  </div>
+  <div class="main phones">
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="appbar"><b>Restaurante Quilamba</b></div>
+        <div class="screen" style="justify-content:center;gap:16px">
+          <div style="width:56px;height:56px;border:2px solid #D9A100;background:var(--saffron-100);border-radius:var(--r-card);display:flex;align-items:center;justify-content:center;color:var(--saffron-800)"><svg class="i i-lg"><use href="#warn"/></svg></div>
+          <h3 style="font-size:22px;line-height:28px">A Mesa 4 já tem um atendimento activo</h3>
+          <p style="color:var(--muted);font-size:14px;line-height:21px">Para fazer um pedido, fale com um funcionário do restaurante. Ele encerra o atendimento anterior e pode começar de novo.</p>
+          <div class="alert a-warn"><svg class="i"><use href="#clock"/></svg><div>Atendimento iniciado às 13:05</div></div>
+        </div>
+        <div class="bottom col gap8"><button class="btn btn-primary btn-lg btn-block">Tentar outra vez</button><button class="btn btn-secondary btn-lg btn-block">Ver o menu</button></div>
+      </div>
+      <div class="phone-cap">Sessão já activa<span>Não cria uma segunda sessão (RN-05)</span></div>
+    </div>
+
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="appbar"><div><b>Restaurante Quilamba</b><small>Atendimento iniciado às 13:05</small></div><span class="badge b-done" style="margin-left:auto;height:28px;font-size:13px;border-color:var(--ink);color:var(--ink);background:#fff">Mesa 4</span></div>
+        <div class="screen">
+          <div class="row gap8"><span class="chip">Pratos</span><span class="chip on">Bebidas</span><span class="chip">Sobremesas</span></div>
+          <div>
+            <div class="prod"><div class="ph"><svg class="i"><use href="#image"/></svg></div><div style="flex:1"><h4>Cuca 33 cl</h4><p>Cerveja angolana.</p><div class="meta"><span class="price">800 Kz</span><div class="stepper"><button><svg class="i"><use href="#minus"/></svg></button><span>3</span><button><svg class="i"><use href="#plus"/></svg></button></div></div></div></div>
+            <div class="prod"><div class="ph"><svg class="i"><use href="#image"/></svg></div><div style="flex:1"><h4>Sumo de maracujá</h4><p>Natural, sem açúcar adicionado.</p><div class="meta"><span class="price">1.000 Kz</span><span class="addbtn"><svg class="i"><use href="#plus"/></svg></span></div></div></div>
+            <div class="prod"><div style="flex:1"><h4>Água 50 cl</h4><p>Sem gás.</p><div class="meta"><span class="price">300 Kz</span><span class="addbtn"><svg class="i"><use href="#plus"/></svg></span></div></div></div>
+          </div>
+        </div>
+        <div class="bottom"><button class="btn btn-primary btn-lg btn-block" style="justify-content:space-between"><span class="row gap8" style="align-items:center"><svg class="i"><use href="#cart"/></svg>Enviar pedido (3)</span><span>2.400 Kz</span></button></div>
+      </div>
+      <div class="phone-cap">Menu da mesa<span>Mesa identificada pelo QR Code</span></div>
+    </div>
+
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="appbar"><svg class="i"><use href="#back"/></svg><div><b>Pedido 0142</b><small>Mesa 4</small></div></div>
+        <div class="screen">
+          <div class="estimate"><div class="sub">Pronto em cerca de</div><div class="big">25 a 30 min</div></div>
+          <ul class="timeline" style="margin-top:6px">
+            <li class="done"><span class="mk"><svg class="i"><use href="#check"/></svg></span><b>Pedido recebido</b><small>13:12</small></li>
+            <li class="done"><span class="mk"><svg class="i"><use href="#check"/></svg></span><b>Aceite pelo restaurante</b><small>13:14</small></li>
+            <li class="now"><span class="mk"></span><b>Em preparação</b><small>A cozinha está a tratar do seu pedido</small></li>
+            <li class="wait"><span class="mk"></span><b>Pronto</b></li>
+          </ul>
+          <div class="card pad-sm" style="margin-top:auto">
+            <div class="sumrow"><span>2x Muamba de galinha</span><span>9.000 Kz</span></div>
+            <div class="sumrow"><span>3x Cuca 33 cl</span><span>2.400 Kz</span></div>
+            <div class="sumrow tot"><span>Total</span><span>11.400 Kz</span></div>
+          </div>
+        </div>
+        <div class="bottom"><button class="btn btn-secondary btn-lg btn-block">Fazer outro pedido</button></div>
+      </div>
+      <div class="phone-cap">Acompanhamento<span>Estimativa depois de aceite (RT-01)</span></div>
+    </div>
+  </div>
+  <div class="foot"><span>Kami Design System</span><span>9</span></div>
+</section>
+
+<!-- ===================== 10. BACK-OFFICE PEDIDOS ===================== -->
+<section class="page page-wide">
+  <div class="head"><h2>Back-office: pedidos</h2><p>Quadro em três colunas. Um pedido novo abre um modal com som e fica a repetir o aviso até alguém o tratar. O talão novo tem a barra de açafrão.</p></div>
+  <div style="min-height:0">
+    <div class="desk">
+      <div class="top"><div class="logo"><i>K</i>Restaurante Quilamba</div><div class="row gap16" style="align-items:center"><div class="inline" style="font-size:13px"><svg class="i"><use href="#vol"/></svg>Som activado <span class="toggle on"></span></div><div class="inline" style="font-size:13px"><span class="toggle on"></span>Aberto</div><svg class="i"><use href="#bell"/></svg></div></div>
+      <div class="side">
+        <div class="nav on"><svg class="i"><use href="#list"/></svg>Pedidos<span class="badge b-new">3</span></div>
+        <div class="nav"><svg class="i"><use href="#table"/></svg>Mesas</div>
+        <div class="nav"><svg class="i"><use href="#box"/></svg>Produtos</div>
+        <div class="nav"><svg class="i"><use href="#map"/></svg>Zonas de entrega</div>
+        <div class="nav"><svg class="i"><use href="#sliders"/></svg>Definições</div>
+      </div>
+      <div class="content">
+        <div class="alert a-warn" style="padding:8px 12px"><svg class="i"><use href="#bell"/></svg><div><b style="display:inline;margin:0">Há 3 pedidos por aceitar.</b> O mais antigo chegou há 2 min.</div></div>
+        <div class="tabs"><div class="tab on">Todos <span class="count">6</span></div><div class="tab">Presencial <span class="count">4</span></div><div class="tab">Online <span class="count">2</span></div></div>
+        <div class="cols">
+          <div>
+            <div class="colhead">Novos <span class="count">3</span></div>
+            <div class="col gap8">
+              <div class="ticket"><div class="ticket-h"><div><b>Mesa 4</b><small>Pedido 0142, há 2 min</small></div><span class="badge b-new"><span class="dot"></span>Novo</span></div><ul><li><b>2x</b><div>Muamba de galinha<i>Sem gindungo</i></div></li><li><b>3x</b><div>Cuca 33 cl</div></li></ul><div class="ticket-f"><span class="price">11.400 Kz</span><button class="btn btn-primary btn-sm">Aceitar</button></div></div>
+              <div class="ticket"><div class="ticket-h"><div><b>Entrega, Maria Cardoso</b><small>Pedido 0143, há 1 min</small></div><span class="badge b-new"><span class="dot"></span>Novo</span></div><ul><li><b>1x</b><div>Calulu de peixe</div></li></ul><div class="ticket-f"><span class="price">5.200 Kz</span><button class="btn btn-primary btn-sm">Aceitar</button></div></div>
+            </div>
+          </div>
+          <div>
+            <div class="colhead">Em preparação <span class="count">2</span></div>
+            <div class="col gap8">
+              <div class="ticket t-prep"><div class="ticket-h"><div><b>Mesa 2</b><small>Pedido 0140, aceite às 13:02</small></div><span class="badge b-prep"><span class="dot"></span>Em preparação</span></div><ul><li><b>2x</b><div>Mufete de cacusso</div></li></ul><div class="ticket-f"><span class="sub">Pronto às 13:25</span><button class="btn btn-secondary btn-sm">Marcar pronto</button></div></div>
+              <div class="ticket t-prep"><div class="ticket-h"><div><b>Levantamento, João Neto</b><small>Pedido 0139</small></div><span class="badge b-prep"><span class="dot"></span>Em preparação</span></div><ul><li><b>1x</b><div>Muamba de galinha</div></li></ul><div class="ticket-f"><span class="sub">Pronto às 13:20</span><button class="btn btn-secondary btn-sm">Marcar pronto</button></div></div>
+            </div>
+          </div>
+          <div>
+            <div class="colhead">Prontos <span class="count">1</span></div>
+            <div class="col gap8">
+              <div class="ticket t-ready"><div class="ticket-h"><div><b>Mesa 6</b><small>Pedido 0138</small></div><span class="badge b-ready"><span class="dot"></span>Pronto</span></div><ul><li><b>1x</b><div>Feijão de óleo de palma</div></li></ul><div class="ticket-f"><span class="price">3.000 Kz</span><button class="btn btn-secondary btn-sm">Concluir</button></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="scrim">
+        <div class="modal">
+          <div class="row" style="justify-content:space-between;align-items:center"><h3>Novo pedido, Mesa 5</h3><span class="badge b-new"><span class="dot"></span>Novo</span></div>
+          <div class="ticket" style="border-radius:8px;padding:8px 12px"><ul style="border:0"><li><b>1x</b><div>Mufete de cacusso</div></li><li><b>2x</b><div>Sumo de maracujá</div></li></ul></div>
+          <div class="field"><label>Tempo de preparação</label><div class="input">20 minutos <svg class="i"><use href="#chev"/></svg></div></div>
+          <div class="row gap8" style="justify-content:flex-end"><button class="btn btn-secondary">Recusar</button><button class="btn btn-primary">Aceitar pedido</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Kami Design System</span><span>10</span></div>
+</section>
+
+<!-- ===================== 11. MESAS ===================== -->
+<section class="page page-wide">
+  <div class="head"><h2>Back-office: mesas e atendimentos</h2><p>Cada mesa mostra se tem atendimento activo. O funcionário autorizado encerra o atendimento e imprime o QR Code da mesa.</p></div>
+  <div style="min-height:0">
+    <div class="desk">
+      <div class="top"><div class="logo"><i>K</i>Restaurante Quilamba</div><div class="row gap16" style="align-items:center"><div class="inline" style="font-size:13px"><span class="toggle on"></span>Aberto</div><svg class="i"><use href="#bell"/></svg></div></div>
+      <div class="side">
+        <div class="nav"><svg class="i"><use href="#list"/></svg>Pedidos</div>
+        <div class="nav on"><svg class="i"><use href="#table"/></svg>Mesas</div>
+        <div class="nav"><svg class="i"><use href="#box"/></svg>Produtos</div>
+        <div class="nav"><svg class="i"><use href="#map"/></svg>Zonas de entrega</div>
+        <div class="nav"><svg class="i"><use href="#sliders"/></svg>Definições</div>
+      </div>
+      <div class="content">
+        <div class="row" style="justify-content:space-between;align-items:center"><h3 style="font-size:20px">Mesas</h3><button class="btn btn-secondary btn-sm"><svg class="i"><use href="#plus"/></svg>Adicionar mesa</button></div>
+        <div class="row gap16" style="flex:1;min-height:0">
+          <div style="flex:1.5;display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:min-content;gap:12px;align-content:start">
+            <div class="mesa free"><b>Mesa 1</b><span class="badge b-done" style="width:fit-content">Livre</span></div>
+            <div class="mesa free"><b>Mesa 2</b><span class="badge b-done" style="width:fit-content">Livre</span></div>
+            <div class="mesa free"><b>Mesa 3</b><span class="badge b-done" style="width:fit-content">Livre</span></div>
+            <div class="mesa sel"><b>Mesa 4</b><span class="badge b-prep" style="width:fit-content"><span class="dot"></span>Atendimento activo</span><span class="sub">Desde as 13:05, 2 pedidos</span></div>
+            <div class="mesa act"><b>Mesa 5</b><span class="badge b-new" style="width:fit-content"><span class="dot"></span>1 pedido novo</span><span class="sub">Desde as 13:18</span></div>
+            <div class="mesa free"><b>Mesa 6</b><span class="badge b-done" style="width:fit-content">Livre</span></div>
+          </div>
+          <div class="card pad col gap12" style="flex:1;border-color:var(--green-600);border-width:2px">
+            <div class="row" style="justify-content:space-between;align-items:center"><h3 style="font-size:18px">Mesa 4</h3><span class="badge b-prep"><span class="dot"></span>Activo</span></div>
+            <div class="tbl"><table>
+              <tr><th>Pedido</th><th>Estado</th><th class="r">Total</th></tr>
+              <tr><td>0142</td><td><span class="badge b-prep">Em preparação</span></td><td class="r price">11.400 Kz</td></tr>
+              <tr><td>0136</td><td><span class="badge b-done">Concluído</span></td><td class="r price">4.200 Kz</td></tr>
+            </table></div>
+            <div class="row gap12" style="align-items:center"><svg class="qr" viewBox="0 0 21 21" shape-rendering="crispEdges"><g fill="#24272A"><path d="M0 0h7v7H0zM1 1v5h5V1zM2 2h3v3H2z" fill-rule="evenodd"/><path d="M14 0h7v7h-7zM15 1v5h5V1zM16 2h3v3h-3z" fill-rule="evenodd"/><path d="M0 14h7v7H0zM1 15v5h5v-5zM2 16h3v3H2z" fill-rule="evenodd"/><path d="M8 0h2v2H8zM11 1h1v3h-1zM8 4h3v1H8zM9 6h1v2H9zM12 6h2v2h-2zM8 9h2v2H8zM11 9h3v1h-3zM15 9h2v2h-2zM18 9h3v2h-3zM0 8h2v2H0zM3 8h3v1H3zM2 10h2v2H2zM5 11h2v2H5zM8 12h2v3H8zM11 12h2v2h-2zM14 12h3v1h-3zM18 12h2v3h-2zM15 14h2v2h-2zM9 16h3v2H9zM13 16h1v4h-1zM15 18h3v2h-3zM19 17h2v3h-2zM9 19h3v2H9z"/></g></svg><div class="col gap8"><b>QR Code da mesa</b><span class="sub">Cada mesa tem um código próprio.</span><button class="btn btn-secondary btn-sm">Imprimir QR Code</button></div></div>
+            <div style="margin-top:auto" class="col gap8"><div class="alert a-err" style="padding:8px 12px"><svg class="i"><use href="#warn"/></svg><div>Ao encerrar, os novos pedidos desta mesa abrem um atendimento diferente.</div></div><button class="btn btn-danger btn-block">Encerrar atendimento</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Kami Design System</span><span>11</span></div>
+</section>
+
+<!-- ===================== 12. EDITOR DE PRODUTO ===================== -->
+<section class="page page-wide">
+  <div class="head"><h2>Back-office: produto</h2><p>Nome, preço e categoria são obrigatórios. Descrição e fotografias são opcionais, com um aviso que incentiva mas não bloqueia a publicação.</p></div>
+  <div style="min-height:0">
+    <div class="desk">
+      <div class="top"><div class="logo"><i>K</i>Restaurante Quilamba</div><div class="row gap16" style="align-items:center"><svg class="i"><use href="#bell"/></svg></div></div>
+      <div class="side">
+        <div class="nav"><svg class="i"><use href="#list"/></svg>Pedidos</div>
+        <div class="nav"><svg class="i"><use href="#table"/></svg>Mesas</div>
+        <div class="nav on"><svg class="i"><use href="#box"/></svg>Produtos</div>
+        <div class="nav"><svg class="i"><use href="#map"/></svg>Zonas de entrega</div>
+        <div class="nav"><svg class="i"><use href="#sliders"/></svg>Definições</div>
+      </div>
+      <div class="content">
+        <div class="row" style="justify-content:space-between;align-items:center"><h3 style="font-size:20px">Novo produto</h3><div class="inline" style="font-size:13px">Disponível no menu <span class="toggle on"></span></div></div>
+        <div class="row gap16" style="flex:1;min-height:0">
+          <div class="card pad col gap12" style="flex:1.2">
+            <div class="field"><label>Nome do produto</label><div class="input">Calulu de peixe</div></div>
+            <div class="row gap12">
+              <div class="field" style="flex:1"><label>Categoria</label><div class="input">Pratos principais <svg class="i"><use href="#chev"/></svg></div></div>
+              <div class="field" style="flex:1"><label>Preço em Kz</label><div class="input is-focus">5.200</div></div>
+            </div>
+            <div class="field"><label>Descrição <span class="opt">(opcional)</span></label><div class="input textarea ph-text">Peixe seco com folhas e quiabo.</div></div>
+            <div class="field" style="width:50%"><label>Tempo de preparação</label><div class="input">20 minutos <svg class="i"><use href="#chev"/></svg></div></div>
+            <div class="alert a-info"><svg class="i"><use href="#info"/></svg><div><b>Mudança de preço</b>O novo preço só se aplica a pedidos feitos a partir de agora. Os pedidos anteriores mantêm o preço original.</div></div>
+          </div>
+          <div class="card pad col gap12" style="flex:1">
+            <div class="row" style="justify-content:space-between;align-items:baseline"><div class="label">Fotografias</div><span class="sub">2 de 5</span></div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+              <div class="ph" style="height:92px;position:relative"><svg class="i"><use href="#image"/></svg></div>
+              <div class="ph" style="height:92px"><svg class="i"><use href="#image"/></svg></div>
+              <div class="ph-dash" style="height:92px"><svg class="i i-lg"><use href="#plus"/></svg>Adicionar</div>
+              <div class="ph-dash" style="height:92px;border-color:var(--line);color:var(--line-strong)"></div>
+              <div class="ph-dash" style="height:92px;border-color:var(--line);color:var(--line-strong)"></div>
+            </div>
+            <div class="alert a-warn"><svg class="i"><use href="#image"/></svg><div><b>Mais fotografias, mais atractivo</b>Pode publicar já e adicionar fotografias depois.</div></div>
+            <div class="row gap8" style="justify-content:flex-end;margin-top:auto"><button class="btn btn-secondary">Cancelar</button><button class="btn btn-primary">Guardar produto</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Kami Design System</span><span>12</span></div>
+</section>
+
+<!-- ===================== 13. ACESSIBILIDADE E REGRAS ===================== -->
+<section class="page">
+  <div class="rail">
+    <h2>Acessibilidade e regras de uso</h2>
+    <p>Os pares de cores abaixo foram verificados contra o mínimo de 4,5 para 1 em texto normal.</p>
+    <div class="note">Cor nunca é o único sinal: os estados têm sempre texto e, quando faz sentido, ícone.</div>
+  </div>
+  <div class="main col gap16">
+    <div class="tbl"><table class="spec" id="contrast">
+      <tr><th>Texto</th><th>Fundo</th><th>Contraste</th><th>Uso</th></tr>
+      <tr><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#24272A;vertical-align:-1px;border-radius:2px"></span> #24272A</td><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#FFFFFF;vertical-align:-1px;border-radius:2px"></span> #FFFFFF</td><td class="ok">15.0 para 1</td><td>Texto principal</td></tr>
+<tr><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#5B6166;vertical-align:-1px;border-radius:2px"></span> #5B6166</td><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#FFFFFF;vertical-align:-1px;border-radius:2px"></span> #FFFFFF</td><td class="ok">6.3 para 1</td><td>Texto secundário</td></tr>
+<tr><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#5B6166;vertical-align:-1px;border-radius:2px"></span> #5B6166</td><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#F5F6F6;vertical-align:-1px;border-radius:2px"></span> #F5F6F6</td><td class="ok">5.8 para 1</td><td>Texto secundário sobre fundo</td></tr>
+<tr><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#FFFFFF;vertical-align:-1px;border-radius:2px"></span> #FFFFFF</td><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#1B6B4A;vertical-align:-1px;border-radius:2px"></span> #1B6B4A</td><td class="ok">6.5 para 1</td><td>Botão principal</td></tr>
+<tr><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#FFFFFF;vertical-align:-1px;border-radius:2px"></span> #FFFFFF</td><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#124A33;vertical-align:-1px;border-radius:2px"></span> #124A33</td><td class="ok">10.2 para 1</td><td>Botão principal em hover</td></tr>
+<tr><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#1B6B4A;vertical-align:-1px;border-radius:2px"></span> #1B6B4A</td><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#FFFFFF;vertical-align:-1px;border-radius:2px"></span> #FFFFFF</td><td class="ok">6.5 para 1</td><td>Ligações e botão fantasma</td></tr>
+<tr><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#124A33;vertical-align:-1px;border-radius:2px"></span> #124A33</td><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#E3F1EA;vertical-align:-1px;border-radius:2px"></span> #E3F1EA</td><td class="ok">8.8 para 1</td><td>Navegação activa</td></tr>
+<tr><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#6E4C00;vertical-align:-1px;border-radius:2px"></span> #6E4C00</td><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#FFF3D1;vertical-align:-1px;border-radius:2px"></span> #FFF3D1</td><td class="ok">7.0 para 1</td><td>Etiqueta Novo</td></tr>
+<tr><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#1F5FA8;vertical-align:-1px;border-radius:2px"></span> #1F5FA8</td><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#E3EEF9;vertical-align:-1px;border-radius:2px"></span> #E3EEF9</td><td class="ok">5.5 para 1</td><td>Etiqueta Em preparação</td></tr>
+<tr><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#1B6B4A;vertical-align:-1px;border-radius:2px"></span> #1B6B4A</td><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#E3F1EA;vertical-align:-1px;border-radius:2px"></span> #E3F1EA</td><td class="ok">5.6 para 1</td><td>Etiqueta Pronto</td></tr>
+<tr><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#B42318;vertical-align:-1px;border-radius:2px"></span> #B42318</td><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#FCE8E6;vertical-align:-1px;border-radius:2px"></span> #FCE8E6</td><td class="ok">5.6 para 1</td><td>Etiqueta Cancelado, erro</td></tr>
+<tr><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#B42318;vertical-align:-1px;border-radius:2px"></span> #B42318</td><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#FFFFFF;vertical-align:-1px;border-radius:2px"></span> #FFFFFF</td><td class="ok">6.6 para 1</td><td>Texto de erro</td></tr>
+<tr><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#24272A;vertical-align:-1px;border-radius:2px"></span> #24272A</td><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#F2B01E;vertical-align:-1px;border-radius:2px"></span> #F2B01E</td><td class="ok">7.9 para 1</td><td>Texto sobre açafrão</td></tr>
+
+    </table></div>
+    <div class="grid2">
+      <div class="dd do"><h4><svg class="i"><use href="#check"/></svg>Fazer</h4><ul>
+        <li>Verbo + objecto nos botões: "Aceitar pedido", "Guardar produto".</li>
+        <li>Manter o nome da acção até ao aviso: "Aceitar pedido" leva a "Pedido aceite".</li>
+        <li>Erros que dizem o que fazer: "Indique um número com 9 dígitos."</li>
+        <li>Mostrar o foco com o anel verde em todos os elementos.</li>
+        <li>Um botão verde por ecrã, o resto em contorno.</li>
+      </ul></div>
+      <div class="dd dont"><h4><svg class="i"><use href="#x"/></svg>Evitar</h4><ul>
+        <li>Pedir desculpa em erros ou usar "Ocorreu um erro".</li>
+        <li>Texto de botão como "Submeter" ou "OK".</li>
+        <li>Vermelho fora de erros, recusas e cancelamentos.</li>
+        <li>Sombras em cartões, gradientes e fundos decorativos.</li>
+        <li>Elementos clicáveis com menos de 40 px de altura.</li>
+      </ul></div>
+    </div>
+    <div class="grid3">
+      <div class="card pad-sm"><b>Alertas sonoros</b><p class="sub" style="margin-top:4px">O navegador só deixa tocar som depois de um toque do utilizador. O back-office deve ter um botão "Iniciar turno" que o activa.</p></div>
+      <div class="card pad-sm"><b>Movimento</b><p class="sub" style="margin-top:4px">Sem animações de entrada. Só há movimento como resposta a uma acção, e é desligado com a preferência de movimento reduzido.</p></div>
+      <div class="card pad-sm"><b>Ecrãs pequenos</b><p class="sub" style="margin-top:4px">Desenhar primeiro para 360 px de largura. O back-office funciona de 768 px para cima, ideal em tablet no balcão.</p></div>
+    </div>
+  </div>
+  <div class="foot"><span>Kami Design System</span><span>13</span></div>
+</section>
+
+</body>
+</html>
