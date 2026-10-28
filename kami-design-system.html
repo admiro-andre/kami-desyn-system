@@ -4,39 +4,35 @@
 <meta charset="utf-8">
 <title>Kami — Design System</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="kami-theme.css">
 <style>
-:root{
-  --ink:#24272A; --muted:#5B6166; --line:#C9CDD1; --line-strong:#8F969C; --bg:#F5F6F6; --white:#fff;
-  --green-700:#124A33; --green-600:#1B6B4A; --green-100:#E3F1EA;
-  --saffron-500:#F2B01E; --saffron-100:#FFF3D1; --saffron-800:#6E4C00;
-  --blue-600:#1F5FA8; --blue-100:#E3EEF9;
-  --red-600:#B42318; --red-100:#FCE8E6;
-  --r-badge:4px; --r-ctl:6px; --r-card:10px; --r-phone:28px;
-}
 @page{size:A4 landscape;margin:0}
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
-body{font-family:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;color:var(--ink);font-size:14px;line-height:1.45;-webkit-print-color-adjust:exact;print-color-adjust:exact;font-variant-numeric:tabular-nums}
-h1,h2,h3,h4,p{margin:0}
+body{font-family:var(--evo-font-sans);color:var(--evo-color-on-surface);font-size:var(--evo-font-size-md);line-height:1.45;-webkit-print-color-adjust:exact;print-color-adjust:exact;font-variant-numeric:tabular-nums;background:var(--evo-color-surface)}
+@layer evo.base{h1,h2,h3,h4,p{margin:0}}
+code{font-family:inherit;font-weight:700}
 .sprite{position:absolute;width:0;height:0;overflow:hidden}
-.i{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.i{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
 .i-lg{width:24px;height:24px}
 
+@layer evo.components{
 /* ---------- Página ---------- */
-.page{width:297mm;height:209.5mm;padding:38px 48px 52px;position:relative;overflow:hidden;background:#fff;display:grid;grid-template-columns:240px 1fr;column-gap:40px;break-after:page}
+.page{width:297mm;height:209.5mm;padding:38px 48px 52px;position:relative;overflow:hidden;background:var(--evo-color-surface);display:grid;grid-template-columns:240px 1fr;column-gap:40px;break-after:page}
 .page:last-child{break-after:auto}
 .page-wide{grid-template-columns:1fr;grid-template-rows:auto 1fr;row-gap:18px}
-.rail h2{font-size:26px;line-height:32px;font-weight:700;letter-spacing:-.01em;margin-bottom:12px}
-.rail p{color:var(--muted);font-size:14px;margin-bottom:10px}
-.rail .note{border:1px solid var(--line);border-radius:var(--r-ctl);padding:10px 12px;font-size:13px;color:var(--ink);background:var(--bg);margin-top:16px}
+.page-phones{grid-template-columns:210px 1fr;column-gap:32px}
+.rail h2{font-size:28px;line-height:34px;font-weight:800;letter-spacing:-.01em;margin-bottom:12px}
+.rail p{color:var(--evo-color-on-surface-muted);font-size:14px;margin-bottom:10px}
+.rail .note{background:var(--evo-color-warning-soft);border-radius:var(--evo-radius-md);padding:12px 14px;font-size:13px;color:var(--evo-color-on-surface);margin-top:16px}
 .head{display:grid;grid-template-columns:240px 1fr;column-gap:40px;align-items:end}
-.head h2{font-size:26px;line-height:32px;font-weight:700;letter-spacing:-.01em}
-.head p{color:var(--muted);font-size:14px;max-width:70ch}
-.foot{position:absolute;left:48px;right:48px;bottom:20px;display:flex;justify-content:space-between;font-size:11px;color:var(--muted);border-top:1px solid var(--line);padding-top:8px}
+.head h2{font-size:28px;line-height:34px;font-weight:800;letter-spacing:-.01em}
+.head p{color:var(--evo-color-on-surface-muted);font-size:14px;max-width:70ch}
+.foot{position:absolute;left:48px;right:48px;bottom:20px;display:flex;justify-content:space-between;font-size:11px;color:var(--evo-color-on-surface-muted);border-top:1px solid var(--evo-color-border);padding-top:8px}
 .main{min-width:0}
-.h3{font-size:16px;font-weight:600;margin-bottom:10px}
-.sub{font-size:13px;color:var(--muted)}
+.h3{font-size:16px;font-weight:800;margin-bottom:10px}
+.sub{font-size:13px;color:var(--evo-color-on-surface-muted)}
 .row{display:flex;gap:16px}
 .wrap{flex-wrap:wrap}
 .col{display:flex;flex-direction:column}
@@ -44,192 +40,244 @@ h1,h2,h3,h4,p{margin:0}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.sec{margin-bottom:22px}
-.mono{font-feature-settings:"tnum";}
 
 /* ---------- Cartão base ---------- */
-.card{border:1px solid var(--line);border-radius:var(--r-card);background:#fff}
-.pad{padding:16px}
-.pad-sm{padding:12px}
+.card{border:1px solid var(--evo-color-border);border-radius:var(--evo-radius-lg);background:var(--evo-color-surface-raised)}
+.card-tint{background:var(--evo-color-surface-sunken);border-color:transparent}
+.pad{padding:18px}
+.pad-sm{padding:14px}
 
-/* ---------- Botões ---------- */
-.btn{height:40px;padding:0 16px;border:1.5px solid transparent;border-radius:var(--r-ctl);font:600 14px/1 inherit;font-family:inherit;display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#fff;color:var(--ink);white-space:nowrap}
-.btn-primary{background:var(--green-600);border-color:var(--green-600);color:#fff}
-.btn-secondary{background:#fff;border-color:var(--line-strong);color:var(--ink)}
-.btn-ghost{color:var(--green-600);border-color:transparent;background:transparent}
-.btn-danger{background:#fff;border-color:var(--red-600);color:var(--red-600)}
-.btn-sm{height:32px;padding:0 12px;font-size:13px}
-.btn-lg{height:48px;padding:0 20px;font-size:15px}
+/* ---------- Botões: formas em pílula, sem contorno ---------- */
+.btn{height:40px;padding:0 20px;border:0;border-radius:var(--evo-radius-md);font:800 14px/1 var(--evo-font-sans);display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--evo-color-primary-soft);color:var(--evo-color-primary-hover);white-space:nowrap}
+.btn-primary{background:var(--evo-color-primary);color:var(--evo-color-on-primary)}
+.btn-secondary{background:var(--evo-color-primary-soft);color:var(--evo-color-primary-hover)}
+.btn-ghost{background:transparent;color:var(--evo-color-primary-hover)}
+.btn-danger{background:var(--evo-color-danger-soft);color:var(--evo-color-danger)}
+.btn-sm{height:32px;padding:0 14px;font-size:13px}
+.btn-lg{height:52px;padding:0 24px;font-size:16px}
 .btn-block{width:100%}
-.btn-primary.is-hover{background:var(--green-700);border-color:var(--green-700)}
-.btn-secondary.is-hover{background:var(--bg);border-color:var(--ink)}
-.is-focus{outline:2px solid var(--green-600);outline-offset:2px}
-.btn.is-disabled{background:var(--bg);border-color:var(--line);color:#8A9096}
-.icon-btn{width:36px;height:36px;padding:0}
+.btn-primary.is-hover{background:var(--evo-color-primary-hover)}
+.btn-secondary.is-hover{background:color-mix(in srgb,var(--evo-color-primary) 18%,var(--evo-color-primary-soft))}
+.is-focus{outline:3px solid var(--evo-focus-ring-color);outline-offset:var(--evo-focus-ring-offset)}
+.btn.is-disabled{background:var(--evo-color-border);color:var(--evo-color-on-surface-muted)}
+.icon-btn{width:40px;height:40px;padding:0}
 
-/* ---------- Campos ---------- */
+/* ---------- Campos: contorno de controlo fino, 1 px ---------- */
 .field{display:flex;flex-direction:column;gap:6px}
-.field label,.label{font-size:13px;font-weight:600}
-.opt{font-weight:400;color:var(--muted)}
-.input{height:40px;border:1.5px solid var(--line-strong);border-radius:var(--r-ctl);padding:0 12px;display:flex;align-items:center;justify-content:space-between;background:#fff;font-size:14px;color:var(--ink)}
-.input.ph-text{color:#6D747A}
-.input.is-focus{border-color:var(--green-600)}
-.input.is-error{border-color:var(--red-600)}
-.input.is-disabled{background:var(--bg);border-color:var(--line);color:#8A9096}
-.textarea{height:64px;align-items:flex-start;padding-top:10px}
-.hint{font-size:12px;color:var(--muted)}
-.err{font-size:12px;color:var(--red-600);font-weight:500}
-.check{width:20px;height:20px;border:1.5px solid var(--line-strong);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;background:#fff;flex:none}
-.check.on{background:var(--green-600);border-color:var(--green-600);color:#fff}
-.check .i{width:14px;height:14px;stroke-width:2.5}
-.radio{width:20px;height:20px;border:1.5px solid var(--line-strong);border-radius:50%;background:#fff;display:inline-flex;align-items:center;justify-content:center;flex:none}
-.radio.on{border-color:var(--green-600)}
-.radio.on::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--green-600)}
-.toggle{width:40px;height:22px;border:1.5px solid var(--line-strong);border-radius:11px;background:#fff;position:relative;flex:none}
-.toggle::after{content:"";position:absolute;top:2.5px;left:3px;width:14px;height:14px;border-radius:50%;background:var(--line-strong)}
-.toggle.on{background:var(--green-600);border-color:var(--green-600)}
-.toggle.on::after{left:21px;background:#fff}
+.field label,.label{font-size:13px;font-weight:800}
+.opt{font-weight:400;color:var(--evo-color-on-surface-muted)}
+.input{height:42px;border:1px solid var(--evo-color-border-strong);border-radius:var(--evo-radius-md);padding:0 14px;display:flex;align-items:center;justify-content:space-between;background:var(--evo-color-surface);font-size:14px;color:var(--evo-color-on-surface)}
+.input.ph-text{color:var(--evo-color-on-surface-muted)}
+.input.is-focus{outline:0;border-color:var(--evo-color-primary);box-shadow:0 0 0 3px var(--evo-color-primary-soft)}
+.input.is-error{border-color:var(--evo-color-danger);background:var(--evo-color-danger-soft)}
+.input.is-disabled{background:var(--evo-color-surface-sunken);border-color:var(--evo-color-border);color:var(--evo-color-on-surface-muted)}
+.textarea{height:58px;align-items:flex-start;padding-top:12px}
+.hint{font-size:12px;color:var(--evo-color-on-surface-muted)}
+.err{font-size:12px;color:var(--evo-color-danger);font-weight:700}
+.check{width:22px;height:22px;border:1px solid var(--evo-color-border-strong);border-radius:var(--evo-radius-sm);display:inline-flex;align-items:center;justify-content:center;background:var(--evo-color-surface);flex:none}
+.check.on{background:var(--evo-color-primary);border-color:var(--evo-color-primary);color:var(--evo-color-on-primary)}
+.check .i{width:14px;height:14px;stroke-width:3}
+.radio{width:22px;height:22px;border:1px solid var(--evo-color-border-strong);border-radius:50%;background:var(--evo-color-surface);display:inline-flex;align-items:center;justify-content:center;flex:none}
+.radio.on{border:2px solid var(--evo-color-primary)}
+.radio.on::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--evo-color-primary)}
+.toggle{width:44px;height:24px;border:1px solid var(--evo-color-border-strong);border-radius:var(--evo-radius-full);background:var(--evo-color-surface);position:relative;flex:none}
+.toggle::after{content:"";position:absolute;top:4px;left:4px;width:14px;height:14px;border-radius:50%;background:var(--evo-color-border-strong)}
+.toggle.on{background:var(--evo-color-primary);border-color:var(--evo-color-primary)}
+.toggle.on::after{left:24px;background:var(--evo-color-on-primary)}
 .inline{display:flex;align-items:center;gap:10px;font-size:14px}
-.stepper{display:inline-flex;align-items:center;border:1.5px solid var(--line-strong);border-radius:var(--r-ctl);height:36px;background:#fff}
-.stepper button{all:unset;width:34px;height:100%;display:flex;align-items:center;justify-content:center;color:var(--ink)}
-.stepper span{min-width:26px;text-align:center;font-weight:600;border-left:1.5px solid var(--line);border-right:1.5px solid var(--line);height:100%;display:flex;align-items:center;justify-content:center}
-.seg{display:flex;border:1.5px solid var(--line-strong);border-radius:var(--r-ctl);overflow:hidden;height:40px;background:#fff}
-.seg div{flex:1;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:14px}
-.seg div+div{border-left:1.5px solid var(--line-strong)}
-.seg .on{background:var(--green-600);color:#fff}
+.stepper{display:inline-flex;align-items:center;border-radius:var(--evo-radius-md);height:36px;background:var(--evo-color-primary-soft);color:var(--evo-color-primary-hover)}
+.stepper button{all:unset;width:36px;height:100%;display:flex;align-items:center;justify-content:center}
+.stepper span{min-width:22px;text-align:center;font-weight:800;color:var(--evo-color-on-surface)}
+.seg{display:flex;border-radius:var(--evo-radius-md);padding:4px;height:46px;background:var(--evo-color-primary-soft);gap:4px}
+.seg div{flex:1;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;border-radius:var(--evo-radius-md);color:var(--evo-color-primary-hover)}
+.seg .on{background:var(--evo-color-primary);color:var(--evo-color-on-primary)}
 
-/* ---------- Badges / alertas / tabs ---------- */
-.badge{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 8px;border:1px solid;border-radius:var(--r-badge);font-size:12px;font-weight:600;white-space:nowrap}
-.b-new{background:var(--saffron-100);border-color:#D9A100;color:var(--saffron-800)}
-.b-prep{background:var(--blue-100);border-color:#8DB3DE;color:var(--blue-600)}
-.b-ready{background:var(--green-100);border-color:#8FC4A9;color:var(--green-600)}
-.b-done{background:var(--bg);border-color:var(--line-strong);color:var(--muted)}
-.b-cancel{background:var(--red-100);border-color:#E3A29B;color:var(--red-600)}
-.dot{width:8px;height:8px;border-radius:50%;background:currentColor}
-.alert{border:1.5px solid;border-radius:8px;padding:10px 12px;display:flex;gap:10px;align-items:flex-start;font-size:13px}
+/* ---------- Etiquetas / avisos / separadores ---------- */
+.badge{--dot:var(--evo-color-border-strong);display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:var(--evo-radius-sm);font-size:12px;font-weight:800;white-space:nowrap;background:var(--evo-color-surface-sunken);color:var(--evo-color-on-surface)}
+.b-new{--dot:var(--evo-color-warning);background:var(--evo-color-warning-soft)}
+.b-prep{--dot:var(--evo-color-primary);background:var(--evo-color-primary-soft)}
+.b-ready{--dot:var(--evo-color-success);background:var(--evo-color-success-soft)}
+.b-done{--dot:var(--evo-color-border-strong);background:var(--evo-color-surface-sunken)}
+.b-cancel{--dot:var(--evo-color-danger);background:var(--evo-color-danger-soft)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--dot)}
+.alert{--c:var(--evo-color-primary);border:1px solid color-mix(in srgb,var(--c) 35%,transparent);border-radius:var(--evo-radius-md);padding:12px 14px;display:flex;gap:10px;align-items:flex-start;font-size:13px;background:var(--evo-color-primary-soft)}
+.alert .i{color:var(--c)}
 .alert b{display:block;font-size:14px;margin-bottom:2px}
-.a-info{background:var(--blue-100);border-color:var(--blue-600)}
-.a-info .i{color:var(--blue-600)}
-.a-warn{background:var(--saffron-100);border-color:#D9A100}
-.a-warn .i{color:var(--saffron-800)}
-.a-ok{background:var(--green-100);border-color:var(--green-600)}
-.a-ok .i{color:var(--green-600)}
-.a-err{background:var(--red-100);border-color:var(--red-600)}
-.a-err .i{color:var(--red-600)}
-.tabs{display:flex;border-bottom:1.5px solid var(--line)}
-.tab{padding:10px 14px;font-weight:600;font-size:14px;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-1.5px;display:flex;gap:8px;align-items:center}
-.tab.on{color:var(--green-600);border-bottom-color:var(--green-600)}
-.chip{height:32px;padding:0 12px;border:1.5px solid var(--line-strong);border-radius:16px;display:inline-flex;align-items:center;font-size:13px;font-weight:600;background:#fff;white-space:nowrap}
-.chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.a-info{--c:var(--evo-color-primary-hover)}
+.a-warn{--c:var(--evo-color-warning);background:var(--evo-color-warning-soft)}
+.a-warn .i{color:var(--evo-color-on-warning)}
+.a-ok{--c:var(--evo-color-success);background:var(--evo-color-success-soft)}
+.a-err{--c:var(--evo-color-danger);background:var(--evo-color-danger-soft)}
+.tabs{display:flex;border-bottom:1px solid var(--evo-color-border)}
+.tab{padding:10px 16px;font-weight:800;font-size:14px;color:var(--evo-color-on-surface-muted);border-bottom:3px solid transparent;margin-bottom:-1px;display:flex;gap:8px;align-items:center}
+.tab.on{color:var(--evo-color-primary-hover);border-bottom-color:var(--evo-color-primary)}
+.chip{height:36px;padding:0 16px;border-radius:var(--evo-radius-md);display:inline-flex;align-items:center;font-size:13px;font-weight:800;background:var(--evo-color-surface);border:1px solid var(--evo-color-border);color:var(--evo-color-on-surface);white-space:nowrap}
+.chip.on{background:var(--evo-color-primary);border-color:var(--evo-color-primary);color:var(--evo-color-on-primary)}
 
-/* ---------- Imagem placeholder ---------- */
-.ph{background:repeating-linear-gradient(135deg,#E6E9EB 0 8px,#F1F3F4 8px 16px);border:1px solid var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:11px}
-.ph-dash{border:1.5px dashed var(--line-strong);background:#fff;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--green-600);font-weight:600;font-size:12px}
+/* ---------- Imagem de produto (placeholder) ---------- */
+.ph{background:var(--evo-color-warning-soft);border-radius:var(--evo-radius-lg);display:flex;align-items:center;justify-content:center;color:var(--evo-color-primary-hover);font-size:11px}
+.ph-dash{border:2px dashed color-mix(in srgb,var(--evo-color-primary) 40%,transparent);background:var(--evo-color-primary-soft);border-radius:var(--evo-radius-lg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--evo-color-primary-hover);font-weight:800;font-size:12px}
+.ph-empty{border:1px dashed var(--evo-color-border-strong);background:transparent;border-radius:var(--evo-radius-lg)}
 
 /* ---------- Talão (assinatura) ---------- */
-.ticket{border:1px solid var(--line-strong);border-left:6px solid var(--saffron-500);border-radius:var(--r-card);background:#fff;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
-.ticket.t-prep{border-left-color:var(--blue-600)}
-.ticket.t-ready{border-left-color:var(--green-600)}
+.ticket{border:1px solid var(--evo-color-border);border-left:8px solid var(--evo-color-warning);border-radius:var(--evo-radius-lg);background:var(--evo-color-surface-raised);padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.ticket.t-prep{border-left-color:var(--evo-color-primary)}
+.ticket.t-ready{border-left-color:var(--evo-color-success)}
 .ticket-h{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
-.ticket-h b{font-size:16px}
-.ticket-h small{display:block;color:var(--muted);font-size:12px}
-.ticket ul{list-style:none;margin:0;padding:0;border-top:1px dashed var(--line-strong);border-bottom:1px dashed var(--line-strong)}
+.ticket-h b{font-size:16px;font-weight:800}
+.ticket-h small{display:block;color:var(--evo-color-on-surface-muted);font-size:12px}
+.ticket ul{list-style:none;margin:0;padding:0;border-top:1px dashed color-mix(in srgb,var(--evo-color-border-strong) 60%,transparent);border-bottom:1px dashed color-mix(in srgb,var(--evo-color-border-strong) 60%,transparent)}
 .ticket li{display:flex;gap:10px;padding:6px 0;font-size:13px}
-.ticket li b{min-width:22px}
-.ticket li i{color:var(--muted);font-style:normal;display:block;font-size:12px}
+.ticket li b{min-width:22px;font-weight:800}
+.ticket li i{color:var(--evo-color-on-surface-muted);font-style:normal;display:block;font-size:12px}
 .ticket-f{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.price{font-weight:700}
+.price{font-weight:800}
 
 /* ---------- Tabela ---------- */
-.tbl{border:1px solid var(--line);border-radius:var(--r-card);overflow:hidden;background:#fff}
+.tbl{flex:none;border:1px solid var(--evo-color-border);border-radius:var(--evo-radius-lg);overflow:hidden;background:var(--evo-color-surface-raised)}
 .tbl table{width:100%;border-collapse:collapse;font-size:13px}
-.tbl th{background:var(--bg);text-align:left;font-weight:600;padding:9px 12px;border-bottom:1px solid var(--line)}
-.tbl td{padding:9px 12px;border-bottom:1px solid var(--line)}
+.tbl th{background:var(--evo-color-surface-sunken);text-align:left;font-weight:800;padding:10px 14px;border-bottom:1px solid var(--evo-color-border)}
+.tbl td{padding:10px 14px;border-bottom:1px solid var(--evo-color-border)}
 .tbl tr:last-child td{border-bottom:0}
 .tbl .r{text-align:right}
 
-/* ---------- Telemóvel ---------- */
-.phones{display:flex;gap:22px;justify-content:flex-start}
-.phone-wrap{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
-.phone-cap{font-size:13px;font-weight:600}
-.phone-cap span{display:block;font-weight:400;color:var(--muted);font-size:12px}
-.phone{width:360px;height:740px;border:2px solid var(--ink);border-radius:var(--r-phone);overflow:hidden;background:#fff;display:flex;flex-direction:column;zoom:.66}
-.appbar{height:56px;padding:0 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--line);flex:none;margin-top:10px}
-.appbar b{font-size:17px}
-.appbar small{display:block;color:var(--muted);font-size:12px;font-weight:400}
-.screen{flex:1;overflow:hidden;padding:14px 16px;display:flex;flex-direction:column;gap:12px}
-.bottom{flex:none;border-top:1px solid var(--line);padding:12px 16px 20px;background:#fff}
-.prod{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+/* ---------- Telemóvel: ecrã branco sobre fundo amarelo ---------- */
+.stage{background:var(--kami-sun);border-radius:17px;padding:22px 18px 18px;align-self:start}
+.phones{display:flex;gap:20px;justify-content:flex-start}
+.phone-wrap{display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.phone-cap{font-size:13px;font-weight:800}
+.phone-cap span{display:block;font-weight:400;color:var(--evo-color-on-surface);font-size:12px;max-width:226px}
+.phone{width:360px;height:740px;border-radius:var(--kami-radius-phone);overflow:hidden;background:var(--evo-color-surface);display:flex;flex-direction:column;zoom:.64}
+.appbar{height:72px;padding:6px 18px 0;display:flex;align-items:center;gap:12px;flex:none;background:var(--kami-sun);border-bottom-left-radius:14px;border-bottom-right-radius:14px}
+.appbar b{font-size:18px;font-weight:800}
+.appbar small{display:block;color:var(--evo-color-on-surface);font-size:12px;font-weight:400}
+.screen{flex:1;overflow:hidden;padding:16px 18px;display:flex;flex-direction:column;gap:14px}
+.bottom{flex:none;padding:12px 18px 22px;background:var(--evo-color-surface)}
+.prod{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--evo-color-border)}
 .prod:last-child{border-bottom:0}
-.prod .ph{width:84px;height:84px;flex:none}
-.prod h4{font-size:15px;font-weight:600}
-.prod p{font-size:13px;color:var(--muted);line-height:1.35;margin:2px 0 6px}
+.prod .ph{width:88px;height:88px;flex:none}
+.prod h4{font-size:15px;font-weight:800}
+.prod p{font-size:13px;color:var(--evo-color-on-surface-muted);line-height:1.35;margin:2px 0 6px}
 .prod .meta{display:flex;justify-content:space-between;align-items:center}
-.addbtn{width:36px;height:36px;border:1.5px solid var(--green-600);border-radius:var(--r-ctl);color:var(--green-600);display:flex;align-items:center;justify-content:center;background:#fff}
-.cartline{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}
-.cartline h4{font-size:15px;font-weight:600}
-.cartline small{display:block;color:var(--muted);font-size:12px}
+.addbtn{width:36px;height:36px;border-radius:50%;color:var(--evo-color-on-primary);display:flex;align-items:center;justify-content:center;background:var(--evo-color-primary)}
+.cartline{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid var(--evo-color-border)}
+.cartline h4{font-size:15px;font-weight:800}
+.cartline small{display:block;color:var(--evo-color-on-surface-muted);font-size:12px}
 .sumrow{display:flex;justify-content:space-between;font-size:14px;padding:3px 0}
-.sumrow.tot{font-weight:700;font-size:17px;border-top:1.5px solid var(--ink);margin-top:6px;padding-top:10px}
-.map{height:130px;border:1.5px solid var(--line-strong);border-radius:8px;background:
- linear-gradient(var(--line) 1px,transparent 1px) 0 0/26px 26px,linear-gradient(90deg,var(--line) 1px,transparent 1px) 0 0/26px 26px,#F1F3F4;position:relative;overflow:hidden}
-.map .zone{position:absolute;inset:18px 30px;border:2px dashed var(--green-600);border-radius:50%;background:rgba(27,107,74,.08)}
-.map .pin{position:absolute;left:50%;top:50%;transform:translate(-50%,-70%);color:var(--red-600)}
-.map .pin .i{width:30px;height:30px;fill:#fff}
+.sumrow.tot{font-weight:800;font-size:18px;border-top:1px solid var(--evo-color-border);margin-top:6px;padding-top:10px}
+.map{height:130px;border-radius:var(--evo-radius-lg);background:
+ linear-gradient(var(--evo-color-border) 1px,transparent 1px) 0 0/26px 26px,linear-gradient(90deg,var(--evo-color-border) 1px,transparent 1px) 0 0/26px 26px,var(--evo-color-surface-sunken);position:relative;overflow:hidden}
+.map .zone{position:absolute;inset:18px 30px;border:2px dashed var(--evo-color-primary);border-radius:50%;background:color-mix(in srgb,var(--evo-color-primary) 10%,transparent)}
+.map .pin{position:absolute;left:50%;top:50%;transform:translate(-50%,-70%);color:var(--evo-color-primary)}
+.map .pin .i{width:32px;height:32px;fill:var(--evo-color-surface)}
 .timeline{list-style:none;margin:0;padding:0}
 .timeline li{position:relative;padding:0 0 18px 34px;font-size:14px}
-.timeline li::before{content:"";position:absolute;left:8px;top:22px;bottom:0;width:2px;background:var(--line)}
+.timeline li::before{content:"";position:absolute;left:8px;top:22px;bottom:0;width:2px;background:var(--evo-color-border)}
 .timeline li:last-child::before{display:none}
-.timeline li .mk{position:absolute;left:0;top:0;width:18px;height:18px;border-radius:50%;border:2px solid var(--line-strong);background:#fff;display:flex;align-items:center;justify-content:center;color:#fff}
-.timeline li.done .mk{background:var(--green-600);border-color:var(--green-600)}
-.timeline li.done::before{background:var(--green-600)}
-.timeline li.now .mk{border-color:var(--blue-600);box-shadow:inset 0 0 0 4px #fff;background:var(--blue-600)}
-.timeline li b{display:block}
-.timeline li small{color:var(--muted);font-size:12px}
-.timeline li.wait{color:var(--muted)}
-.timeline .mk .i{width:12px;height:12px;stroke-width:3}
-.estimate{border:1.5px solid var(--ink);border-radius:var(--r-card);padding:14px}
-.estimate .big{font-size:28px;font-weight:700;line-height:1.1}
+.timeline li .mk{position:absolute;left:0;top:0;width:18px;height:18px;border-radius:50%;border:2px solid var(--evo-color-border-strong);background:var(--evo-color-surface);display:flex;align-items:center;justify-content:center;color:var(--evo-color-on-primary)}
+.timeline li.done .mk{background:var(--evo-color-primary);border-color:var(--evo-color-primary)}
+.timeline li.done::before{background:var(--evo-color-primary)}
+.timeline li.now .mk{border-color:var(--evo-color-primary);box-shadow:inset 0 0 0 3px var(--evo-color-surface);background:var(--evo-color-primary)}
+.timeline li b{display:block;font-weight:800}
+.timeline li small{color:var(--evo-color-on-surface-muted);font-size:12px}
+.timeline li.wait{color:var(--evo-color-on-surface-muted)}
+.timeline .mk .i{width:12px;height:12px;stroke-width:3.5}
+.estimate{background:var(--kami-sun);border-radius:var(--evo-radius-lg);padding:16px 18px}
+.estimate .big{font-size:30px;font-weight:800;line-height:1.1}
+.estimate .sub{color:var(--evo-color-on-surface)}
 
 /* ---------- Back-office ---------- */
-.desk{width:100%;height:100%;border:1.5px solid var(--ink);border-radius:var(--r-card);overflow:hidden;display:grid;grid-template-columns:196px 1fr;grid-template-rows:52px 1fr;background:var(--bg);position:relative}
-.desk .top{grid-column:1/3;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 16px}
-.desk .side{background:#fff;border-right:1px solid var(--line);padding:12px;display:flex;flex-direction:column;gap:4px}
-.nav{height:38px;padding:0 10px;border-radius:var(--r-ctl);display:flex;align-items:center;gap:10px;font-weight:500;font-size:14px;color:var(--ink);border:1px solid transparent}
-.nav.on{background:var(--green-100);border-color:#8FC4A9;color:var(--green-700);font-weight:600}
+.desk{width:100%;height:100%;border:1px solid var(--evo-color-border);border-radius:var(--evo-radius-lg);overflow:hidden;display:grid;grid-template-columns:200px 1fr;grid-template-rows:56px 1fr;background:var(--evo-color-surface-sunken);position:relative}
+.desk .top{grid-column:1/3;background:var(--kami-sun);display:flex;align-items:center;justify-content:space-between;padding:0 18px}
+.desk .side{background:var(--evo-color-surface);padding:14px;display:flex;flex-direction:column;gap:4px}
+.nav{height:40px;padding:0 12px;border-radius:var(--evo-radius-md);display:flex;align-items:center;gap:10px;font-weight:700;font-size:14px;color:var(--evo-color-on-surface)}
+.nav.on{background:var(--evo-color-primary-soft);color:var(--evo-color-primary-hover);font-weight:800}
 .nav .badge{margin-left:auto}
-.desk .content{padding:14px 16px;overflow:hidden;display:flex;flex-direction:column;gap:12px;min-width:0}
-.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px}
-.logo i{width:26px;height:26px;border-radius:6px;background:var(--green-600);color:#fff;font-style:normal;display:flex;align-items:center;justify-content:center;font-size:15px}
-.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;flex:1;min-height:0}
-.colhead{display:flex;align-items:center;justify-content:space-between;font-weight:600;font-size:14px;margin-bottom:8px}
-.count{min-width:22px;height:22px;border-radius:11px;background:#fff;border:1px solid var(--line-strong);display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:600}
-.scrim{position:absolute;inset:0;background:rgba(36,39,42,.45);display:flex;align-items:center;justify-content:center}
-.modal{width:380px;background:#fff;border:1.5px solid var(--ink);border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,.22);padding:18px;display:flex;flex-direction:column;gap:12px}
-.modal h3{font-size:18px}
-.mesa{border:1.5px solid var(--line-strong);border-radius:var(--r-card);background:#fff;padding:12px;display:flex;flex-direction:column;gap:8px;min-height:110px}
-.mesa b{font-size:16px}
-.mesa.act{border-color:var(--blue-600);border-width:2px}
-.mesa.sel{border-color:var(--green-600);border-width:2px;background:var(--green-100)}
-.mesa.free{border-style:dashed;color:var(--muted)}
-.swatch{height:84px;border-radius:8px 8px 0 0;border-bottom:1px solid rgba(0,0,0,.12)}
-.sw-card{border:1px solid var(--line);border-radius:var(--r-card);overflow:hidden;background:#fff}
-.sw-card .t{padding:8px 10px}
-.sw-card b{display:block;font-size:13px}
-.sw-card span{font-size:12px;color:var(--muted)}
-.sw-card code{font-family:inherit;font-weight:600;font-size:12px}
+.desk .content{padding:16px 18px;overflow:hidden;display:flex;flex-direction:column;gap:12px;min-width:0}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:15px}
+.logo i{width:28px;height:28px;border-radius:var(--evo-radius-md);background:var(--evo-color-primary);color:var(--evo-color-on-primary);font-style:normal;display:flex;align-items:center;justify-content:center;font-size:15px}
+.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;flex:1;min-height:0}
+.colhead{display:flex;align-items:center;justify-content:space-between;font-weight:800;font-size:14px;margin-bottom:8px}
+.count{min-width:22px;height:22px;border-radius:var(--evo-radius-sm);background:var(--evo-color-surface);display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;padding:0 6px}
+.scrim{position:absolute;inset:0;background:color-mix(in srgb,var(--evo-color-on-surface) 50%,transparent);display:flex;align-items:center;justify-content:center}
+.modal{width:380px;background:var(--evo-color-surface);border-radius:14px;box-shadow:var(--kami-shadow-modal);padding:20px;display:flex;flex-direction:column;gap:12px}
+.modal h3{font-size:19px;font-weight:800}
+.mesa{border:1px solid var(--evo-color-border);border-radius:var(--evo-radius-lg);background:var(--evo-color-surface);padding:14px;display:flex;flex-direction:column;gap:8px;min-height:110px}
+.mesa b{font-size:16px;font-weight:800}
+.mesa.act{border:2px solid var(--evo-color-warning)}
+.mesa.sel{border:2px solid var(--evo-color-primary);background:var(--evo-color-primary-soft)}
+.mesa.free{border:1px dashed var(--evo-color-border-strong);background:transparent;color:var(--evo-color-on-surface-muted)}
+.swatch{height:84px}
+.sw-card{border:1px solid var(--evo-color-border);border-radius:var(--evo-radius-lg);overflow:hidden;background:var(--evo-color-surface)}
+.sw-card .t{padding:10px 12px}
+.sw-card b{display:block;font-size:13px;font-weight:800}
+.sw-card span{font-size:12px;color:var(--evo-color-on-surface-muted)}
 .spec{width:100%;border-collapse:collapse;font-size:13px}
-.spec td,.spec th{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
-.spec th{font-weight:600;background:var(--bg)}
-.ok{color:var(--green-600);font-weight:700}
-.dd{border:1.5px solid;border-radius:var(--r-card);padding:12px 14px;font-size:13px}
-.dd.do{border-color:var(--green-600)}
-.dd.dont{border-color:var(--red-600)}
-.dd h4{font-size:14px;margin-bottom:6px;display:flex;gap:8px;align-items:center}
-.dd.do h4{color:var(--green-600)}.dd.dont h4{color:var(--red-600)}
+.spec td,.spec th{border-bottom:1px solid var(--evo-color-border);padding:5px 10px;text-align:left;vertical-align:top}
+.spec th{font-weight:800;background:var(--evo-color-surface-sunken)}
+.ok{color:var(--evo-color-success);font-weight:800}
+.dd{border-radius:var(--evo-radius-lg);padding:14px 16px;font-size:13px}
+.dd.do{background:var(--evo-color-success-soft)}
+.dd.dont{background:var(--evo-color-danger-soft)}
+.dd h4{font-size:14px;margin-bottom:6px;display:flex;gap:8px;align-items:center;font-weight:800}
+.dd.do h4{color:var(--evo-color-success)}.dd.dont h4{color:var(--evo-color-danger)}
 .dd ul{margin:0;padding-left:18px}
 .dd li{margin:3px 0}
-.qr{width:120px;height:120px;border:1.5px solid var(--ink);border-radius:8px;padding:8px;background:#fff}
+.qr{width:120px;height:120px;border-radius:var(--evo-radius-md);padding:8px;background:var(--evo-color-surface);border:1px solid var(--evo-color-border)}
+.cover{background:var(--kami-sun)}
+.sunball{position:absolute;border-radius:50%}
+pre.code{margin:0;background:var(--evo-color-on-surface);color:#fff4e6;border-radius:var(--evo-radius-lg);padding:14px 16px;font:500 11.5px/1.5 Consolas,'Cascadia Mono',monospace;white-space:pre}
+pre.code em{font-style:normal;color:#ffd35c}
+pre.code i{font-style:normal;color:#b9a89c}
+
+/* ---------- Back-office: sóbrio, denso, neutro ----------
+   Moldura clara (topo + lateral brancos), área de trabalho cinzenta muito suave, brancos para dados,
+   pesos 600/700 em vez de 800, botões de 32 px e contornos de 1 px. */
+.desk{border-radius:var(--evo-radius-md);background:var(--kami-canvas);grid-template-columns:208px 1fr;grid-template-rows:52px 1fr;font-size:13px}
+.desk b,.desk h3,.desk .price,.desk .colhead,.desk .label,.desk .field label{font-weight:700}
+.desk .top{background:var(--evo-color-surface);color:var(--evo-color-on-surface);padding:0 16px;border-bottom:1px solid var(--evo-color-border)}
+.desk .side{background:var(--evo-color-surface);border-right:1px solid var(--evo-color-border);padding:12px 10px;gap:2px}
+.desk .nav{height:36px;padding:0 10px;border-radius:var(--evo-radius-sm);font-weight:600;font-size:13px;color:var(--evo-color-on-surface-muted);position:relative}
+.desk .nav.on{background:var(--evo-color-primary-soft);color:var(--evo-color-primary-hover);font-weight:700}
+.desk .nav.on::before{content:"";position:absolute;left:-10px;top:8px;bottom:8px;width:3px;border-radius:0 2px 2px 0;background:var(--kami-sun)}
+.desk .logo{font-size:14px;font-weight:700}
+.desk .logo i{width:26px;height:26px;border-radius:var(--evo-radius-sm);font-size:14px}
+.desk .content{padding:16px 20px;gap:12px}
+.desk .content>.row:first-child h3{font-size:18px;line-height:1.2}
+.desk .tabs{border-bottom:1px solid var(--evo-color-border)}
+.desk .tab{padding:8px 14px;font-size:13px;font-weight:600;border-bottom-width:2px}
+.desk .tab.on{color:var(--evo-color-on-surface);font-weight:700}
+.desk .count{height:20px;min-width:20px;font-size:11px;font-weight:700;background:var(--evo-color-surface);border:1px solid var(--evo-color-border);color:var(--evo-color-on-surface-muted)}
+.desk .btn{height:34px;padding:0 14px;font-size:13px;font-weight:700;border-radius:var(--evo-radius-md)}
+.desk .btn-sm{height:30px;padding:0 12px;font-size:12px}
+.desk .btn-secondary{background:var(--evo-color-surface);color:var(--evo-color-on-surface);border:1px solid var(--evo-color-border-strong)}
+.desk .btn-danger{background:var(--evo-color-danger);color:var(--evo-color-on-danger)}
+.desk .badge{height:22px;padding:0 8px;font-size:11.5px;font-weight:700;border-radius:var(--evo-radius-sm)}
+.desk .input{height:36px;font-size:13px;border-radius:var(--evo-radius-md)}
+.desk .textarea{height:56px}
+.desk .alert{border-radius:var(--evo-radius-md);border-left-width:3px;border-left-color:var(--c)}
+.desk .alert b{font-size:13px}
+.desk .card{border-radius:var(--evo-radius-md);box-shadow:0 1px 2px color-mix(in srgb,var(--evo-color-on-surface) 6%,transparent)}
+.desk .cols>div{background:color-mix(in srgb,var(--evo-color-on-surface) 4%,var(--kami-canvas));border:1px solid var(--evo-color-border);border-radius:var(--evo-radius-md);padding:10px}
+.desk .colhead{font-size:12px;color:var(--evo-color-on-surface-muted);letter-spacing:.01em}
+.desk .ticket{border-radius:var(--evo-radius-sm);border-left-width:4px;padding:10px 12px;gap:8px;box-shadow:0 1px 2px color-mix(in srgb,var(--evo-color-on-surface) 6%,transparent)}
+.desk .ticket-h b{font-size:14px}
+.desk .ticket li{padding:4px 0}
+.desk .mesa{border-radius:var(--evo-radius-md);padding:12px;min-height:96px;box-shadow:0 1px 2px color-mix(in srgb,var(--evo-color-on-surface) 6%,transparent)}
+.desk .mesa b{font-size:14px}
+.desk .mesa.act{border:1px solid var(--evo-color-border);border-left:4px solid var(--evo-color-warning)}
+.desk .mesa.sel{border:1px solid var(--evo-color-primary);border-left:4px solid var(--evo-color-primary);background:var(--evo-color-surface)}
+.desk .mesa.free{border:1px dashed var(--evo-color-border-strong);background:transparent;box-shadow:none}
+.desk .tbl{border-radius:var(--evo-radius-sm)}
+.desk .tbl th{font-size:12px;font-weight:700;color:var(--evo-color-on-surface-muted);padding:8px 12px}
+.desk .tbl td{padding:8px 12px}
+.desk .ph,.desk .ph-dash{border-radius:var(--evo-radius-md)}
+.desk .ph-dash{border-width:1px;font-weight:700}
+.desk .scrim{background:color-mix(in srgb,var(--evo-color-on-surface) 32%,transparent)}
+.desk .modal{border-radius:var(--evo-radius-lg);padding:18px;width:400px}
+.desk .modal h3{font-size:16px}
+.desk .modal .ticket{background:var(--kami-canvas);border-color:var(--evo-color-border)}
+}
 </style>
 </head>
 <body>
@@ -258,36 +306,33 @@ h1,h2,h3,h4,p{margin:0}
 </svg>
 
 <!-- ===================== 1. CAPA ===================== -->
-<section class="page" style="grid-template-columns:1fr 430px;column-gap:56px;padding-top:56px">
-  <div class="col" style="justify-content:space-between">
+<section class="page cover" style="grid-template-columns:1fr 430px;column-gap:56px;padding-top:56px">
+  <div class="sunball" style="width:560px;height:560px;background:var(--kami-sun-soft);right:-170px;top:-230px"></div>
+  <div class="sunball" style="width:96px;height:96px;background:var(--evo-color-primary);right:330px;top:64px"></div>
+  <div class="sunball" style="width:44px;height:44px;background:var(--evo-color-surface);right:470px;top:150px"></div>
+  <div class="col" style="justify-content:space-between;position:relative">
     <div>
-      <div class="logo" style="font-size:20px;margin-bottom:56px"><i style="width:34px;height:34px;font-size:20px">K</i>Kami</div>
-      <h1 style="font-size:52px;line-height:56px;font-weight:700;letter-spacing:-.02em;max-width:11ch">Design system</h1>
-      <p style="font-size:18px;line-height:28px;color:var(--muted);max-width:40ch;margin-top:18px">Cores, tipografia, componentes e ecrãs-tipo para a plataforma de gestão de restaurantes: página pública, pedidos por QR Code e back-office.</p>
+      <div class="logo" style="font-size:22px;margin-bottom:56px"><i style="width:38px;height:38px;font-size:22px;border-radius:8px">K</i>Kami</div>
+      <h1 style="font-size:60px;line-height:62px;font-weight:800;letter-spacing:-.02em;max-width:9ch">Design system</h1>
+      <p style="font-size:18px;line-height:28px;max-width:40ch;margin-top:18px">Cores, variáveis CSS, tipografia, componentes e ecrãs-tipo para a plataforma de gestão de restaurantes: página pública, pedidos por QR Code e back-office.</p>
     </div>
-    <div class="col gap8" style="font-size:13px;color:var(--muted)">
-      <div class="row gap8">
-        <span style="width:44px;height:14px;background:var(--green-600);border-radius:3px"></span>
-        <span style="width:44px;height:14px;background:var(--saffron-500);border-radius:3px"></span>
-        <span style="width:44px;height:14px;background:var(--ink);border-radius:3px"></span>
-        <span style="width:44px;height:14px;background:var(--blue-600);border-radius:3px"></span>
-        <span style="width:44px;height:14px;background:var(--red-600);border-radius:3px"></span>
-      </div>
-      <div>Versão 0.1, 28 de Outubro de 2026. Baseado no documento de requisitos README-KAMI.</div>
+    <div class="col gap12" style="font-size:13px">
+      <div class="row gap8"><span style="width:30px;height:30px;border-radius:50%;background:#FFD35C;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18)"></span><span style="width:30px;height:30px;border-radius:50%;background:#D43E12;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18)"></span><span style="width:30px;height:30px;border-radius:50%;background:#FAB902;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18)"></span><span style="width:30px;height:30px;border-radius:50%;background:#15803D;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18)"></span><span style="width:30px;height:30px;border-radius:50%;background:#3B1F14;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18)"></span></div>
+      <div>Versão 0.2, 28 de Outubro de 2026. Baseado no documento de requisitos README-KAMI e nos tokens da toolkit Evolium.</div>
       <div>Kami é um nome de trabalho, retirado do nome do ficheiro de requisitos.</div>
     </div>
   </div>
-  <div class="col gap16" style="justify-content:center">
-    <div class="ticket" style="padding:16px 18px;gap:12px">
+  <div class="col gap16" style="justify-content:center;position:relative">
+    <div class="ticket" style="padding:18px 20px;gap:12px">
       <div class="ticket-h"><div><b style="font-size:20px">Mesa 4</b><small>Pedido 0142, há 2 min</small></div><span class="badge b-new"><span class="dot"></span>Novo</span></div>
       <ul>
         <li><b>2x</b><div>Muamba de galinha<i>Sem gindungo</i></div></li>
         <li><b>1x</b><div>Mufete de cacusso</div></li>
         <li><b>3x</b><div>Cuca 33 cl</div></li>
       </ul>
-      <div class="ticket-f"><span class="price" style="font-size:18px">17.200 Kz</span><div class="row gap8"><button class="btn btn-secondary btn-sm">Recusar</button><button class="btn btn-primary btn-sm">Aceitar pedido</button></div></div>
+      <div class="ticket-f"><span class="price" style="font-size:20px">17.200 Kz</span><div class="row gap8"><button class="btn btn-secondary btn-sm">Recusar</button><button class="btn btn-primary btn-sm">Aceitar pedido</button></div></div>
     </div>
-    <p class="sub" style="max-width:44ch">O talão de pedido é o elemento central do sistema: um cartão com contorno definido e uma barra lateral que muda de cor com o estado.</p>
+    <p style="max-width:44ch;font-size:13px">O talão de pedido é o elemento central: um cartão com barra lateral que muda de cor com o estado.</p>
   </div>
   <div class="foot"><span>Kami Design System</span><span>1</span></div>
 </section>
@@ -296,26 +341,26 @@ h1,h2,h3,h4,p{margin:0}
 <section class="page">
   <div class="rail">
     <h2>Princípios</h2>
-    <p>O estilo é simples e funcional. Em vez de sombras e gradientes, a hierarquia vem de contornos, espaço e peso do texto.</p>
+    <p>Um estilo vivo e amigável, inspirado em apps de comida e entregas: cor quente em áreas grandes, formas redondas e estrutura calma.</p>
     <div class="note">Quem usa o back-office está a trabalhar, de pé, muitas vezes com pressa. A interface deve ser lida num relance.</div>
   </div>
   <div class="main col gap16">
     <div class="grid2">
-      <div class="card pad"><h3 class="h3">Contornos definem o que é interactivo</h3><p class="sub" style="font-size:14px;color:var(--ink)">Botões, campos, cartões e selectores têm sempre contorno visível, de 1 a 2 px. Um elemento nunca depende só da cor de fundo para se distinguir.</p></div>
-      <div class="card pad"><h3 class="h3">A cor tem significado</h3><p class="sub" style="font-size:14px;color:var(--ink)">Verde é a marca e o estado pronto. Açafrão pede atenção a um pedido novo. Azul indica trabalho em curso. Vermelho aparece só em erros e cancelamentos.</p></div>
-      <div class="card pad"><h3 class="h3">Feito para mãos ocupadas</h3><p class="sub" style="font-size:14px;color:var(--ink)">Alvos de toque de pelo menos 40 px, texto de corpo a 14 px ou mais, e uma só acção principal por ecrã.</p></div>
-      <div class="card pad"><h3 class="h3">Sem decoração</h3><p class="sub" style="font-size:14px;color:var(--ink)">Sem gradientes, sem sombras em cartões e sem animações de entrada. A única sombra do sistema é a do modal, para o separar do fundo.</p></div>
+      <div class="card pad card-tint"><h3 class="h3">Cor viva, estrutura calma</h3><p style="font-size:14px">Laranja e amarelo ocupam as áreas grandes (barras de topo, destaques, botão principal). A estrutura é feita de cremes e castanho escuro, nunca de cinzento frio.</p></div>
+      <div class="card pad card-tint"><h3 class="h3">Contornos suaves</h3><p style="font-size:14px">Cartões e tabelas têm um contorno de 1 px num cinzento quente muito claro. O contorno forte fica só em campos e controlos, onde é preciso para o contraste.</p></div>
+      <div class="card pad card-tint"><h3 class="h3">Formas redondas</h3><p style="font-size:14px">Botões, selectores e etiquetas em pílula; cartões com cantos de 20 px. Cada nível tem o seu raio, para um botão não parecer um cartão.</p></div>
+      <div class="card pad card-tint"><h3 class="h3">Feito para mãos ocupadas</h3><p style="font-size:14px">Alvos de toque de pelo menos 40 px, texto a 14 px ou mais e uma só acção principal por ecrã.</p></div>
     </div>
     <div>
       <h3 class="h3">Fundamentos num relance</h3>
       <div class="tbl"><table>
-        <tr><th style="width:180px">Fundamento</th><th>Valor</th><th>Onde se aplica</th></tr>
-        <tr><td>Contorno base</td><td>1 px, Contorno <code>#C9CDD1</code></td><td>Cartões, tabelas, separadores</td></tr>
-        <tr><td>Contorno de controlo</td><td>1,5 px, <code>#8F969C</code></td><td>Campos, botões secundários, selectores</td></tr>
-        <tr><td>Foco</td><td>Anel de 2 px a verde, afastado 2 px</td><td>Todos os elementos interactivos</td></tr>
-        <tr><td>Raios</td><td>4 / 6 / 10 / 28 px</td><td>Etiquetas / controlos / cartões / ecrã de telemóvel</td></tr>
-        <tr><td>Sombra</td><td>Nenhuma, excepto no modal</td><td>Modal de novo pedido</td></tr>
-        <tr><td>Tipo</td><td>IBM Plex Sans, 400 a 700</td><td>Toda a interface, com algarismos tabulares nos preços</td></tr>
+        <tr><th style="width:190px">Fundamento</th><th>Valor</th><th>Token</th></tr>
+        <tr><td>Contorno decorativo</td><td>1 px, <code>#EBE3D8</code></td><td><code>--evo-color-border</code></td></tr>
+        <tr><td>Contorno de controlo</td><td>1 px, <code>#948B81</code> (só campos)</td><td><code>--evo-color-border-strong</code></td></tr>
+        <tr><td>Foco</td><td>Anel de 3 px laranja, afastado 2 px</td><td><code>--evo-focus-ring-*</code></td></tr>
+        <tr><td>Raios</td><td>5 / 7 / 12 px</td><td><code>--evo-radius-*</code></td></tr>
+        <tr><td>Sombra</td><td>Nenhuma, excepto no modal</td><td><code>--evo-elevation-1</code>, <code>--kami-shadow-modal</code></td></tr>
+        <tr><td>Tipo</td><td>Nunito, 400 a 800</td><td><code>--evo-font-sans</code></td></tr>
       </table></div>
     </div>
   </div>
@@ -323,135 +368,163 @@ h1,h2,h3,h4,p{margin:0}
 </section>
 
 <!-- ===================== 3. CORES ===================== -->
-<section class="page">
-  <div class="rail">
-    <h2>Cores</h2>
-    <p>Uma marca verde, um único acento e neutros frios para a estrutura. Os estados dos pedidos têm cores fixas em toda a plataforma.</p>
-    <p>Verde evoca frescura e confiança, e lê-se naturalmente como "pronto". O açafrão foi escolhido para o aviso de novo pedido porque se vê bem num balcão luminoso e não se confunde com erro.</p>
-    <div class="note">O vermelho não é cor de marca: fica reservado a erros, recusas e cancelamentos.</div>
-  </div>
-  <div class="main col gap16">
-    <div>
-      <div class="h3">Marca e acento</div>
-      <div class="grid4">
-        <div class="sw-card"><div class="swatch" style="background:#1B6B4A"></div><div class="t"><b>Verde Mandioca</b><code>#1B6B4A</code><br><span>Acção principal, ligações, foco</span></div></div>
-        <div class="sw-card"><div class="swatch" style="background:#124A33"></div><div class="t"><b>Verde Profundo</b><code>#124A33</code><br><span>Estado hover, texto sobre verde claro</span></div></div>
-        <div class="sw-card"><div class="swatch" style="background:#E3F1EA"></div><div class="t"><b>Verde Claro</b><code>#E3F1EA</code><br><span>Selecção, navegação activa</span></div></div>
-        <div class="sw-card"><div class="swatch" style="background:#F2B01E"></div><div class="t"><b>Açafrão</b><code>#F2B01E</code><br><span>Barra de novo pedido, alertas</span></div></div>
-      </div>
+<section class="page page-wide" style="row-gap:14px">
+  <div class="head"><h2>Cores</h2><p>A paleta foi extraída de duas referências (apps de entregas e de histórias infantis) e ajustada para cumprir os contrastes do contrato de tokens: texto 4,5 para 1 e controlos 3 para 1.</p></div>
+  <div class="col gap16" style="min-height:0">
+    <div class="grid2" style="gap:20px">
+      <div class="row gap16" style="align-items:center"><img src="pallete-1.jpg" alt="Referência 1" style="width:230px;height:172px;object-fit:cover;border-radius:20px;flex:none"><div class="col gap8"><div class="label">Referência 1</div><div class="inline" style="font-size:12px"><span style="display:inline-block;width:22px;height:22px;border-radius:50%;background:#FFD35C;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span><span><b style="font-weight:800">#FFD35C</b><br><span class="sub" style="font-size:11px">Amarelo-ouro de fundo</span></span></div><div class="inline" style="font-size:12px"><span style="display:inline-block;width:22px;height:22px;border-radius:50%;background:#FEF1BD;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span><span><b style="font-weight:800">#FEF1BD</b><br><span class="sub" style="font-size:11px">Creme amarelado</span></span></div><div class="inline" style="font-size:12px"><span style="display:inline-block;width:22px;height:22px;border-radius:50%;background:#F25623;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span><span><b style="font-weight:800">#F25623</b><br><span class="sub" style="font-size:11px">Laranja-tomate</span></span></div><div class="inline" style="font-size:12px"><span style="display:inline-block;width:22px;height:22px;border-radius:50%;background:#FCCA58;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span><span><b style="font-weight:800">#FCCA58</b><br><span class="sub" style="font-size:11px">Amarelo de apoio</span></span></div></div></div><div class="row gap16" style="align-items:center"><img src="pallete-2.jpg" alt="Referência 2" style="width:230px;height:172px;object-fit:cover;border-radius:20px;flex:none"><div class="col gap8"><div class="label">Referência 2</div><div class="inline" style="font-size:12px"><span style="display:inline-block;width:22px;height:22px;border-radius:50%;background:#FAB902;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span><span><b style="font-weight:800">#FAB902</b><br><span class="sub" style="font-size:11px">Âmbar</span></span></div><div class="inline" style="font-size:12px"><span style="display:inline-block;width:22px;height:22px;border-radius:50%;background:#FFF2DD;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span><span><b style="font-weight:800">#FFF2DD</b><br><span class="sub" style="font-size:11px">Creme quente</span></span></div><div class="inline" style="font-size:12px"><span style="display:inline-block;width:22px;height:22px;border-radius:50%;background:#FC6440;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span><span><b style="font-weight:800">#FC6440</b><br><span class="sub" style="font-size:11px">Coral do botão</span></span></div><div class="inline" style="font-size:12px"><span style="display:inline-block;width:22px;height:22px;border-radius:50%;background:#E4E2DF;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span><span><b style="font-weight:800">#E4E2DF</b><br><span class="sub" style="font-size:11px">Cinzento claro</span></span></div></div></div>
     </div>
     <div>
-      <div class="h3">Neutros</div>
-      <div class="grid4" style="grid-template-columns:repeat(5,1fr)">
-        <div class="sw-card"><div class="swatch" style="background:#24272A"></div><div class="t"><b>Carvão</b><code>#24272A</code><br><span>Texto</span></div></div>
-        <div class="sw-card"><div class="swatch" style="background:#5B6166"></div><div class="t"><b>Pedra</b><code>#5B6166</code><br><span>Texto secundário</span></div></div>
-        <div class="sw-card"><div class="swatch" style="background:#8F969C"></div><div class="t"><b>Contorno forte</b><code>#8F969C</code><br><span>Campos e controlos</span></div></div>
-        <div class="sw-card"><div class="swatch" style="background:#C9CDD1"></div><div class="t"><b>Contorno</b><code>#C9CDD1</code><br><span>Cartões e divisórias</span></div></div>
-        <div class="sw-card"><div class="swatch" style="background:#F5F6F6"></div><div class="t"><b>Fundo</b><code>#F5F6F6</code><br><span>Fundo do back-office</span></div></div>
+      <div class="h3">Paleta Kami e variáveis que a aplicam</div>
+      <div class="grid4" style="grid-template-columns:repeat(8,1fr);gap:10px">
+      <div class="sw-card"><div class="swatch" style="height:34px;background:#D43E12;"></div><div class="t" style="padding:8px 9px"><b style="font-size:11px">primary</b><span style="font-size:11px"><b style="font-weight:800;color:var(--evo-color-on-surface)">#D43E12</b> Botão principal, foco</span></div></div><div class="sw-card"><div class="swatch" style="height:34px;background:#B5300B;"></div><div class="t" style="padding:8px 9px"><b style="font-size:11px">primary-hover</b><span style="font-size:11px"><b style="font-weight:800;color:var(--evo-color-on-surface)">#B5300B</b> Hover, texto sobre soft</span></div></div><div class="sw-card"><div class="swatch" style="height:34px;background:#FFE8DC;"></div><div class="t" style="padding:8px 9px"><b style="font-size:11px">primary-soft</b><span style="font-size:11px"><b style="font-weight:800;color:var(--evo-color-on-surface)">#FFE8DC</b> Botão secundário</span></div></div><div class="sw-card"><div class="swatch" style="height:34px;background:#FFFFFF;"></div><div class="t" style="padding:8px 9px"><b style="font-size:11px">on-primary</b><span style="font-size:11px"><b style="font-weight:800;color:var(--evo-color-on-surface)">#FFFFFF</b> Texto sobre laranja</span></div></div><div class="sw-card"><div class="swatch" style="height:34px;background:#FAB902;"></div><div class="t" style="padding:8px 9px"><b style="font-size:11px">warning</b><span style="font-size:11px"><b style="font-weight:800;color:var(--evo-color-on-surface)">#FAB902</b> Novo pedido</span></div></div><div class="sw-card"><div class="swatch" style="height:34px;background:#FFF0C2;"></div><div class="t" style="padding:8px 9px"><b style="font-size:11px">warning-soft</b><span style="font-size:11px"><b style="font-weight:800;color:var(--evo-color-on-surface)">#FFF0C2</b> Fundo de aviso</span></div></div><div class="sw-card"><div class="swatch" style="height:34px;background:#3B2300;"></div><div class="t" style="padding:8px 9px"><b style="font-size:11px">on-warning</b><span style="font-size:11px"><b style="font-weight:800;color:var(--evo-color-on-surface)">#3B2300</b> Texto sobre âmbar</span></div></div><div class="sw-card"><div class="swatch" style="height:34px;background:#FFD35C;"></div><div class="t" style="padding:8px 9px"><b style="font-size:11px">kami-sun</b><span style="font-size:11px"><b style="font-weight:800;color:var(--evo-color-on-surface)">#FFD35C</b> Barras de topo</span></div></div><div class="sw-card"><div class="swatch" style="height:34px;background:#FFFFFF;"></div><div class="t" style="padding:8px 9px"><b style="font-size:11px">surface</b><span style="font-size:11px"><b style="font-weight:800;color:var(--evo-color-on-surface)">#FFFFFF</b> Fundo base</span></div></div><div class="sw-card"><div class="swatch" style="height:34px;background:#FFF6E5;"></div><div class="t" style="padding:8px 9px"><b style="font-size:11px">surface-sunken</b><span style="font-size:11px"><b style="font-weight:800;color:var(--evo-color-on-surface)">#FFF6E5</b> Fundo do back-office</span></div></div><div class="sw-card"><div class="swatch" style="height:34px;background:#3B1F14;"></div><div class="t" style="padding:8px 9px"><b style="font-size:11px">on-surface</b><span style="font-size:11px"><b style="font-weight:800;color:var(--evo-color-on-surface)">#3B1F14</b> Texto principal</span></div></div><div class="sw-card"><div class="swatch" style="height:34px;background:#7A5645;"></div><div class="t" style="padding:8px 9px"><b style="font-size:11px">on-surface-muted</b><span style="font-size:11px"><b style="font-weight:800;color:var(--evo-color-on-surface)">#7A5645</b> Texto secundário</span></div></div><div class="sw-card"><div class="swatch" style="height:34px;background:#EBE3D8;"></div><div class="t" style="padding:8px 9px"><b style="font-size:11px">border</b><span style="font-size:11px"><b style="font-weight:800;color:var(--evo-color-on-surface)">#EBE3D8</b> Contorno suave</span></div></div><div class="sw-card"><div class="swatch" style="height:34px;background:#948B81;"></div><div class="t" style="padding:8px 9px"><b style="font-size:11px">border-strong</b><span style="font-size:11px"><b style="font-weight:800;color:var(--evo-color-on-surface)">#948B81</b> Campos e controlos</span></div></div><div class="sw-card"><div class="swatch" style="height:34px;background:#15803D;"></div><div class="t" style="padding:8px 9px"><b style="font-size:11px">success</b><span style="font-size:11px"><b style="font-weight:800;color:var(--evo-color-on-surface)">#15803D</b> Pronto</span></div></div><div class="sw-card"><div class="swatch" style="height:34px;background:#BE123C;"></div><div class="t" style="padding:8px 9px"><b style="font-size:11px">danger</b><span style="font-size:11px"><b style="font-weight:800;color:var(--evo-color-on-surface)">#BE123C</b> Erro, cancelado</span></div></div>
       </div>
     </div>
-    <div>
-      <div class="h3">Estados do pedido</div>
-      <div class="grid4" style="grid-template-columns:repeat(5,1fr)">
-        <div class="card pad-sm col gap8"><span class="badge b-new"><span class="dot"></span>Novo</span><span class="sub">Fundo <code>#FFF3D1</code><br>Texto <code>#6E4C00</code></span></div>
-        <div class="card pad-sm col gap8"><span class="badge b-prep"><span class="dot"></span>Em preparação</span><span class="sub">Fundo <code>#E3EEF9</code><br>Texto <code>#1F5FA8</code></span></div>
-        <div class="card pad-sm col gap8"><span class="badge b-ready"><span class="dot"></span>Pronto</span><span class="sub">Fundo <code>#E3F1EA</code><br>Texto <code>#1B6B4A</code></span></div>
-        <div class="card pad-sm col gap8"><span class="badge b-done"><span class="dot"></span>Concluído</span><span class="sub">Fundo <code>#F5F6F6</code><br>Texto <code>#5B6166</code></span></div>
-        <div class="card pad-sm col gap8"><span class="badge b-cancel"><span class="dot"></span>Cancelado</span><span class="sub">Fundo <code>#FCE8E6</code><br>Texto <code>#B42318</code></span></div>
-      </div>
-    </div>
-    <p class="sub">Os estados do pedido ainda não estão fechados nos requisitos (secção 16 do README). As cinco etiquetas acima são uma proposta a validar.</p>
+    <p class="sub">Estados do pedido: Novo usa o âmbar, Em preparação o laranja, Pronto o verde, Concluído o neutro e Cancelado o rosa-escuro. É uma proposta a validar, porque o README ainda não fecha os estados.</p>
   </div>
   <div class="foot"><span>Kami Design System</span><span>3</span></div>
+</section>
+
+<!-- ===================== 3b. VARIÁVEIS COR ===================== -->
+<section class="page page-wide" style="row-gap:12px">
+  <div class="head"><h2>Variáveis CSS: cor</h2><p>Os 20 tokens semânticos de cor exigidos pela toolkit (<code>variable-tokens.md</code>), com o valor Kami e a omissão da toolkit. Os componentes usam só estes nomes, nunca os primitivos.</p></div>
+  <div class="row gap16" style="min-height:0;align-items:flex-start">
+    <div class="tbl" style="flex:1.4"><table style="font-size:11.5px">
+      <tr><th style="padding:6px 10px">Token <span style="font-weight:400">(--evo-color-…)</span></th><th style="padding:6px 10px">Kami</th><th style="padding:6px 10px">Omissão</th><th style="padding:6px 10px">Uso</th></tr>
+      <tr><td style="padding:3px 10px"><code>surface</code></td><td style="padding:3px 10px"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#FFFFFF;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #FFFFFF</td><td style="padding:3px 10px;color:var(--evo-color-on-surface-muted)"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#FFFFFF;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #FFFFFF</td><td style="padding:3px 10px">Fundo base</td></tr><tr><td style="padding:3px 10px"><code>surface-sunken</code></td><td style="padding:3px 10px"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#FFF6E5;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #FFF6E5</td><td style="padding:3px 10px;color:var(--evo-color-on-surface-muted)"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#F8FAFC;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #F8FAFC</td><td style="padding:3px 10px">Fundo do back-office</td></tr><tr><td style="padding:3px 10px"><code>surface-raised</code></td><td style="padding:3px 10px"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#FFFFFF;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #FFFFFF</td><td style="padding:3px 10px;color:var(--evo-color-on-surface-muted)"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#FFFFFF;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #FFFFFF</td><td style="padding:3px 10px">Cartões e menus</td></tr><tr><td style="padding:3px 10px"><code>on-surface</code></td><td style="padding:3px 10px"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#3B1F14;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #3B1F14</td><td style="padding:3px 10px;color:var(--evo-color-on-surface-muted)"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#0F172A;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #0F172A</td><td style="padding:3px 10px">Texto principal</td></tr><tr><td style="padding:3px 10px"><code>on-surface-muted</code></td><td style="padding:3px 10px"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#7A5645;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #7A5645</td><td style="padding:3px 10px;color:var(--evo-color-on-surface-muted)"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#64748B;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #64748B</td><td style="padding:3px 10px">Texto secundário</td></tr><tr><td style="padding:3px 10px"><code>border</code></td><td style="padding:3px 10px"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#EBE3D8;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #EBE3D8</td><td style="padding:3px 10px;color:var(--evo-color-on-surface-muted)"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#E2E8F0;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #E2E8F0</td><td style="padding:3px 10px">Contorno decorativo</td></tr><tr><td style="padding:3px 10px"><code>border-strong</code></td><td style="padding:3px 10px"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#948B81;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #948B81</td><td style="padding:3px 10px;color:var(--evo-color-on-surface-muted)"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#64748B;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #64748B</td><td style="padding:3px 10px">Controlos (3:1)</td></tr><tr><td style="padding:3px 10px"><code>primary</code></td><td style="padding:3px 10px"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#D43E12;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #D43E12</td><td style="padding:3px 10px;color:var(--evo-color-on-surface-muted)"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#2563EB;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #2563EB</td><td style="padding:3px 10px">Acção principal</td></tr><tr><td style="padding:3px 10px"><code>primary-hover</code></td><td style="padding:3px 10px"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#B5300B;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #B5300B</td><td style="padding:3px 10px;color:var(--evo-color-on-surface-muted)"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#1D4ED8;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #1D4ED8</td><td style="padding:3px 10px">Hover</td></tr><tr><td style="padding:3px 10px"><code>primary-soft</code></td><td style="padding:3px 10px"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#FFE8DC;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #FFE8DC</td><td style="padding:3px 10px;color:var(--evo-color-on-surface-muted)"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#EFF6FF;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #EFF6FF</td><td style="padding:3px 10px">Fundo suave</td></tr><tr><td style="padding:3px 10px"><code>on-primary</code></td><td style="padding:3px 10px"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#FFFFFF;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #FFFFFF</td><td style="padding:3px 10px;color:var(--evo-color-on-surface-muted)"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#FFFFFF;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #FFFFFF</td><td style="padding:3px 10px">Texto sobre primary</td></tr><tr><td style="padding:3px 10px"><code>success</code></td><td style="padding:3px 10px"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#15803D;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #15803D</td><td style="padding:3px 10px;color:var(--evo-color-on-surface-muted)"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#15803D;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #15803D</td><td style="padding:3px 10px">Pronto</td></tr><tr><td style="padding:3px 10px"><code>success-soft</code></td><td style="padding:3px 10px"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#DDF2DC;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #DDF2DC</td><td style="padding:3px 10px;color:var(--evo-color-on-surface-muted)"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#DCFCE7;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #DCFCE7</td><td style="padding:3px 10px">Fundo suave</td></tr><tr><td style="padding:3px 10px"><code>on-success</code></td><td style="padding:3px 10px"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#FFFFFF;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #FFFFFF</td><td style="padding:3px 10px;color:var(--evo-color-on-surface-muted)"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#FFFFFF;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #FFFFFF</td><td style="padding:3px 10px">Texto sobre success</td></tr><tr><td style="padding:3px 10px"><code>warning</code></td><td style="padding:3px 10px"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#FAB902;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #FAB902</td><td style="padding:3px 10px;color:var(--evo-color-on-surface-muted)"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#B45309;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #B45309</td><td style="padding:3px 10px">Novo pedido</td></tr><tr><td style="padding:3px 10px"><code>warning-soft</code></td><td style="padding:3px 10px"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#FFF0C2;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #FFF0C2</td><td style="padding:3px 10px;color:var(--evo-color-on-surface-muted)"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#FEF3C7;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #FEF3C7</td><td style="padding:3px 10px">Fundo suave</td></tr><tr><td style="padding:3px 10px"><code>on-warning</code></td><td style="padding:3px 10px"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#3B2300;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #3B2300</td><td style="padding:3px 10px;color:var(--evo-color-on-surface-muted)"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#FFFFFF;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #FFFFFF</td><td style="padding:3px 10px">Texto sobre warning</td></tr><tr><td style="padding:3px 10px"><code>danger</code></td><td style="padding:3px 10px"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#BE123C;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #BE123C</td><td style="padding:3px 10px;color:var(--evo-color-on-surface-muted)"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#DC2626;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #DC2626</td><td style="padding:3px 10px">Erro, cancelado</td></tr><tr><td style="padding:3px 10px"><code>danger-soft</code></td><td style="padding:3px 10px"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#FDE4EA;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #FDE4EA</td><td style="padding:3px 10px;color:var(--evo-color-on-surface-muted)"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#FEE2E2;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #FEE2E2</td><td style="padding:3px 10px">Fundo suave</td></tr><tr><td style="padding:3px 10px"><code>on-danger</code></td><td style="padding:3px 10px"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#FFFFFF;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #FFFFFF</td><td style="padding:3px 10px;color:var(--evo-color-on-surface-muted)"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#FFFFFF;box-shadow:inset 0 0 0 1px rgba(59,31,20,.18);vertical-align:-2px"></span> #FFFFFF</td><td style="padding:3px 10px">Texto sobre danger</td></tr>
+    </table></div>
+    <div class="col gap12" style="flex:1">
+<pre class="code"><i>/* styles.css, fora de camada */</i>
+<em>:root</em> {
+  --evo-color-primary: #d43e12;
+  --evo-color-primary-hover: #b5300b;
+  --evo-color-primary-soft: #ffe8dc;
+  --evo-color-warning: #fab902;
+  --evo-color-on-warning: #3b2300;
+  --evo-color-on-surface: #3b1f14;
+  --evo-color-border: #ebe3d8;
+  --evo-color-border-strong: #948b81;
+  <i>/* … os 20 estão em kami-theme.css */</i>
+}</pre>
+      <div class="card card-tint pad-sm" style="font-size:13px"><b>Com <code>provideEvoTheme()</code></b><br>as cores são reescritas pelo <code>EvoThemeStore</code>. Para elas, usar <code>theme.setToken('color-primary', '#d43e12')</code> ou o ficheiro exportado do Theme Studio.</div>
+      <div class="card card-tint pad-sm" style="font-size:13px"><b>Regra de contraste</b><br>Texto sobre fundo 4,5 para 1. Bordas e ícones de controlos 3 para 1. O âmbar não serve de texto sobre branco, por isso <code>on-warning</code> é escuro.</div>
+    </div>
+  </div>
+  <div class="foot"><span>Kami Design System</span><span>4</span></div>
+</section>
+
+<!-- ===================== 3c. VARIÁVEIS FORMA ===================== -->
+<section class="page page-wide" style="row-gap:14px">
+  <div class="head"><h2>Variáveis CSS: forma, tipo e movimento</h2><p>Os restantes tokens do contrato. Só raios e tipo de letra mudam face às omissões; o resto da toolkit fica como veio.</p></div>
+  <div class="row gap16" style="min-height:0;align-items:flex-start">
+    <div class="tbl" style="flex:1.3"><table style="font-size:12px">
+      <tr><th>Token</th><th>Kami</th><th>Omissão</th></tr>
+      <tr><td><code>--evo-radius-sm</code></td><td><b>5px</b></td><td class="sub">4px</td></tr>
+      <tr><td><code>--evo-radius-md</code></td><td><b>7px</b></td><td class="sub">6px</td></tr>
+      <tr><td><code>--evo-radius-lg</code></td><td><b>12px</b></td><td class="sub">10px</td></tr>
+      <tr><td><code>--evo-radius-full</code></td><td>9999px</td><td class="sub">9999px</td></tr>
+      <tr><td><code>--evo-space-xs … xl</code></td><td>0,25 / 0,5 / 1 / 1,5 / 2 rem</td><td class="sub">igual</td></tr>
+      <tr><td><code>--evo-border-width</code></td><td>1px</td><td class="sub">1px</td></tr>
+      <tr><td><code>--evo-focus-ring-color / -width / -offset</code></td><td>primary / 0 / 2px (o componente desenha 3px)</td><td class="sub">igual</td></tr>
+      <tr><td><code>--evo-elevation-1 / -2</code></td><td>none / sombra leve</td><td class="sub">igual</td></tr>
+      <tr><td><code>--evo-font-sans</code></td><td><b>Nunito</b>, Segoe UI, system-ui</td><td class="sub">system-ui</td></tr>
+      <tr><td><code>--evo-font-size-sm / -md / -lg</code></td><td>13 / 14 / 16 px</td><td class="sub">igual</td></tr>
+      <tr><td><code>--evo-duration-fast / --evo-easing</code></td><td>120ms / cubic-bezier(.2,0,0,1)</td><td class="sub">igual</td></tr>
+    </table></div>
+    <div class="col gap12" style="flex:1">
+      <div class="h3" style="margin:0">Tokens próprios do projecto</div>
+      <div class="tbl"><table style="font-size:12px">
+        <tr><td><code>--kami-sun</code></td><td>#FFD35C</td></tr>
+        <tr><td><code>--kami-sun-soft</code></td><td>#FEF1BD</td></tr>
+        <tr><td><code>--kami-radius-phone</code></td><td>22px</td></tr>
+        <tr><td><code>--kami-shadow-modal</code></td><td>0 16px 40px, castanho a 28%</td></tr>
+      </table></div>
+      <p class="sub">Prefixo <code>--kami-</code>, para não colidir com a toolkit. Os componentes referem estes tokens, nunca os declaram.</p>
+      <div class="card card-tint pad-sm" style="font-size:13px"><b>Pré-requisito</b><br>O <code>@layer …</code> é a primeira regra do <code>styles.css</code> e o <code>evolium-theme.css</code> é importado antes dos outros. O ficheiro <code>kami-theme.css</code>, junto a este PDF, cumpre ambos.</div>
+      <div class="card card-tint pad-sm" style="font-size:13px"><b>Ainda por mapear</b><br>O ficheiro <code>index-components.md</code> não estava na pasta. Quando o tiver, troco as classes deste documento pelos componentes reais da toolkit.</div>
+    </div>
+  </div>
+  <div class="foot"><span>Kami Design System</span><span>5</span></div>
 </section>
 
 <!-- ===================== 4. TIPOGRAFIA ===================== -->
 <section class="page">
   <div class="rail">
     <h2>Tipografia</h2>
-    <p>Uma só família, IBM Plex Sans. As formas técnicas e regulares combinam com os contornos definidos e lêem-se bem em ecrãs pequenos.</p>
-    <p>Os preços usam algarismos tabulares, para que valores em coluna fiquem alinhados. Em português, escreve-se em minúsculas, com maiúscula só no início da frase.</p>
-    <div class="note">Fallback: Segoe UI, depois a fonte de sistema.</div>
+    <p>Uma só família, Nunito. As terminações arredondadas dão calor e combinam com as formas em pílula, e lê-se bem em ecrãs pequenos.</p>
+    <p>Os preços usam algarismos tabulares, para que valores em coluna fiquem alinhados. Em português escreve-se em minúsculas, com maiúscula só no início da frase.</p>
+    <div class="note">Token <code>--evo-font-sans</code>. Fallback: Segoe UI, depois a fonte de sistema.</div>
   </div>
   <div class="main col gap16">
-    <div class="card pad row" style="gap:32px;align-items:center">
-      <div style="font-size:88px;line-height:88px;font-weight:600;letter-spacing:-.02em">Aa</div>
+    <div class="card card-tint pad row" style="gap:32px;align-items:center">
+      <div style="font-size:92px;line-height:92px;font-weight:800;letter-spacing:-.02em;color:var(--evo-color-primary)">Aa</div>
       <div class="col gap8">
-        <div style="font-size:22px;font-weight:600">IBM Plex Sans</div>
-        <div style="font-size:15px;color:var(--muted)">ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>abcdefghijklmnopqrstuvwxyz ç ã õ é ê á<br>0123456789 Kz 4.500</div>
-        <div class="row gap16" style="font-size:15px"><span style="font-weight:400">Normal 400</span><span style="font-weight:500">Médio 500</span><span style="font-weight:600">Semi-negrito 600</span><span style="font-weight:700">Negrito 700</span></div>
+        <div style="font-size:22px;font-weight:800">Nunito</div>
+        <div style="font-size:15px;color:var(--evo-color-on-surface-muted)">ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>abcdefghijklmnopqrstuvwxyz ç ã õ é ê á<br>0123456789 Kz 4.500</div>
+        <div class="row gap16" style="font-size:15px"><span style="font-weight:400">Normal 400</span><span style="font-weight:600">Semi-negrito 600</span><span style="font-weight:700">Negrito 700</span><span style="font-weight:800">Extra-negrito 800</span></div>
       </div>
     </div>
     <div class="tbl"><table>
       <tr><th style="width:130px">Estilo</th><th style="width:170px">Tamanho / linha / peso</th><th>Amostra</th></tr>
-      <tr><td>Título de página</td><td>28 / 34 / 700</td><td style="font-size:28px;line-height:34px;font-weight:700;letter-spacing:-.01em">Pedidos de hoje</td></tr>
-      <tr><td>Título de secção</td><td>20 / 28 / 600</td><td style="font-size:20px;line-height:28px;font-weight:600">Mesa 4, atendimento activo</td></tr>
-      <tr><td>Título de cartão</td><td>16 / 22 / 600</td><td style="font-size:16px;line-height:22px;font-weight:600">Muamba de galinha</td></tr>
+      <tr><td>Título de página</td><td>28 / 34 / 800</td><td style="font-size:28px;line-height:34px;font-weight:800;letter-spacing:-.01em">Pedidos de hoje</td></tr>
+      <tr><td>Título de secção</td><td>20 / 28 / 800</td><td style="font-size:20px;line-height:28px;font-weight:800">Mesa 4, atendimento activo</td></tr>
+      <tr><td>Título de cartão</td><td>16 / 22 / 800</td><td style="font-size:16px;line-height:22px;font-weight:800">Muamba de galinha</td></tr>
       <tr><td>Corpo</td><td>14 / 20 / 400</td><td style="font-size:14px;line-height:20px">Frango cozinhado em óleo de palma, com quiabo, servido com funge.</td></tr>
-      <tr><td>Corpo pequeno</td><td>13 / 18 / 400</td><td style="font-size:13px;line-height:18px;color:var(--muted)">Pedido recebido às 13:05 por Mesa 4</td></tr>
-      <tr><td>Etiqueta</td><td>12 / 16 / 600</td><td style="font-size:12px;line-height:16px;font-weight:600">Em preparação</td></tr>
-      <tr><td>Preço</td><td>16 / 22 / 700, tabular</td><td style="font-size:16px;line-height:22px;font-weight:700">4.500 Kz &nbsp;&nbsp; 12.800 Kz &nbsp;&nbsp; 130.000 Kz</td></tr>
+      <tr><td>Corpo pequeno</td><td>13 / 18 / 400</td><td style="font-size:13px;line-height:18px;color:var(--evo-color-on-surface-muted)">Pedido recebido às 13:05 por Mesa 4</td></tr>
+      <tr><td>Etiqueta</td><td>12 / 16 / 800</td><td style="font-size:12px;line-height:16px;font-weight:800">Em preparação</td></tr>
+      <tr><td>Preço</td><td>16 / 22 / 800, tabular</td><td style="font-size:16px;line-height:22px;font-weight:800">4.500 Kz &nbsp;&nbsp; 12.800 Kz &nbsp;&nbsp; 130.000 Kz</td></tr>
     </table></div>
-    <p class="sub">Linhas de texto com menos de 70 caracteres. Texto de botão em semi-negrito (600), sempre em frase: "Aceitar pedido", nunca "ACEITAR".</p>
+    <p class="sub">Linhas de texto com menos de 70 caracteres. Texto de botão em extra-negrito, sempre em frase: "Aceitar pedido", nunca "ACEITAR".</p>
   </div>
-  <div class="foot"><span>Kami Design System</span><span>4</span></div>
+  <div class="foot"><span>Kami Design System</span><span>6</span></div>
 </section>
 
 <!-- ===================== 5. FORMA E ESPAÇO ===================== -->
 <section class="page">
   <div class="rail">
     <h2>Forma e espaço</h2>
-    <p>Contornos nítidos e cantos pouco arredondados. Cada nível de elemento tem o seu raio, de modo que um botão e um cartão não parecem a mesma coisa.</p>
-    <p>O espaço segue uma escala de 4 px. Num ecrã de telemóvel a margem lateral é 16 px; no back-office, a barra lateral tem 196 px.</p>
+    <p>Contornos finos e suaves, cantos bem redondos. Cada nível de elemento tem o seu raio, de modo que um botão e um cartão não parecem a mesma coisa.</p>
+    <p>O espaço segue uma escala de 4 px, exposta nos tokens <code>--evo-space-*</code>. Num ecrã de telemóvel a margem lateral é 18 px; no back-office, a barra lateral tem 200 px.</p>
   </div>
   <div class="main col gap16">
     <div class="grid2">
       <div>
         <div class="h3">Contornos</div>
         <div class="col gap12">
-          <div class="card pad-sm row" style="align-items:center;gap:14px"><div style="width:90px;height:44px;border:1px solid var(--line);border-radius:10px"></div><div><b>1 px, Contorno</b><div class="sub">Cartões, tabelas e divisórias</div></div></div>
-          <div class="card pad-sm row" style="align-items:center;gap:14px"><div style="width:90px;height:44px;border:1.5px solid var(--line-strong);border-radius:6px"></div><div><b>1,5 px, Contorno forte</b><div class="sub">Campos, botões secundários, selectores</div></div></div>
-          <div class="card pad-sm row" style="align-items:center;gap:14px"><div style="width:90px;height:44px;border:2px solid var(--green-600);border-radius:6px"></div><div><b>2 px, Verde</b><div class="sub">Foco, selecção activa (mesa seleccionada)</div></div></div>
-          <div class="card pad-sm row" style="align-items:center;gap:14px"><div style="width:90px;height:44px;border:1.5px dashed var(--line-strong);border-radius:8px"></div><div><b>1,5 px tracejado</b><div class="sub">Zonas de acção vazias (adicionar fotografia, mesa livre)</div></div></div>
+          <div class="card pad-sm row" style="align-items:center;gap:14px"><div style="width:90px;height:44px;border:1px solid var(--evo-color-border);border-radius:var(--evo-radius-lg)"></div><div><b>1 px, suave</b><div class="sub">Cartões, tabelas e divisórias</div></div></div>
+          <div class="card pad-sm row" style="align-items:center;gap:14px"><div style="width:90px;height:44px;border:1px solid var(--evo-color-border-strong);border-radius:var(--evo-radius-md)"></div><div><b>1 px, forte</b><div class="sub">Só campos, caixas de selecção e interruptores</div></div></div>
+          <div class="card pad-sm row" style="align-items:center;gap:14px"><div style="width:90px;height:44px;border:1px solid var(--evo-color-primary);border-radius:var(--evo-radius-md);box-shadow:0 0 0 3px var(--evo-color-primary-soft)"></div><div><b>Foco e selecção</b><div class="sub">Contorno laranja com halo suave de 3 px</div></div></div>
+          <div class="card pad-sm row" style="align-items:center;gap:14px"><div style="width:90px;height:44px;border:1px dashed var(--evo-color-border-strong);border-radius:var(--evo-radius-lg)"></div><div><b>1 px, tracejado</b><div class="sub">Zonas vazias (mesa livre, adicionar fotografia)</div></div></div>
         </div>
       </div>
       <div>
         <div class="h3">Raios</div>
         <div class="row gap12 wrap" style="align-items:flex-end">
-          <div class="col gap8" style="align-items:center"><div style="width:64px;height:64px;border:1.5px solid var(--ink);border-radius:4px"></div><span class="sub">4, etiquetas</span></div>
-          <div class="col gap8" style="align-items:center"><div style="width:64px;height:64px;border:1.5px solid var(--ink);border-radius:6px"></div><span class="sub">6, controlos</span></div>
-          <div class="col gap8" style="align-items:center"><div style="width:64px;height:64px;border:1.5px solid var(--ink);border-radius:10px"></div><span class="sub">10, cartões</span></div>
-          <div class="col gap8" style="align-items:center"><div style="width:64px;height:64px;border:1.5px solid var(--ink);border-radius:28px"></div><span class="sub">28, telemóvel</span></div>
+          <div class="col gap8" style="align-items:center"><div style="width:64px;height:64px;background:var(--evo-color-primary-soft);border-radius:8px;"></div><span class="sub">8, etiquetas</span></div><div class="col gap8" style="align-items:center"><div style="width:64px;height:64px;background:var(--evo-color-primary-soft);border-radius:12px;"></div><span class="sub">12, campos</span></div><div class="col gap8" style="align-items:center"><div style="width:64px;height:64px;background:var(--evo-color-primary-soft);border-radius:20px;"></div><span class="sub">20, cartões</span></div><div class="col gap8" style="align-items:center"><div style="width:64px;height:64px;background:var(--evo-color-primary-soft);border-radius:9999px;"></div><span class="sub">pílula, botões</span></div><div class="col gap8" style="align-items:center"><div style="width:64px;height:64px;background:var(--evo-color-primary-soft);border-radius:36px;"></div><span class="sub">36, telemóvel</span></div>
         </div>
         <div class="h3" style="margin-top:22px">Elevação</div>
         <div class="row gap12" style="align-items:center">
-          <div style="width:120px;height:64px;border:1px solid var(--line);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--muted)">Cartão, sem sombra</div>
-          <div style="width:120px;height:64px;border:1.5px solid var(--ink);border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,.22);display:flex;align-items:center;justify-content:center;font-size:12px">Modal</div>
+          <div class="card" style="width:130px;height:64px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--evo-color-on-surface-muted)">Cartão, sem sombra</div>
+          <div style="width:130px;height:64px;background:var(--evo-color-surface);border-radius:14px;box-shadow:var(--kami-shadow-modal);display:flex;align-items:center;justify-content:center;font-size:12px">Modal</div>
         </div>
       </div>
     </div>
     <div>
       <div class="h3">Escala de espaço</div>
       <div class="row gap16" style="align-items:flex-end">
-        <div class="col gap8" style="align-items:center"><div style="width:4px;height:4px;background:var(--green-600)"></div><span class="sub">4</span></div>
-        <div class="col gap8" style="align-items:center"><div style="width:8px;height:8px;background:var(--green-600)"></div><span class="sub">8</span></div>
-        <div class="col gap8" style="align-items:center"><div style="width:12px;height:12px;background:var(--green-600)"></div><span class="sub">12</span></div>
-        <div class="col gap8" style="align-items:center"><div style="width:16px;height:16px;background:var(--green-600)"></div><span class="sub">16</span></div>
-        <div class="col gap8" style="align-items:center"><div style="width:24px;height:24px;background:var(--green-600)"></div><span class="sub">24</span></div>
-        <div class="col gap8" style="align-items:center"><div style="width:32px;height:32px;background:var(--green-600)"></div><span class="sub">32</span></div>
-        <div class="col gap8" style="align-items:center"><div style="width:48px;height:48px;background:var(--green-600)"></div><span class="sub">48</span></div>
-        <div style="margin-left:24px;font-size:13px;color:var(--muted);max-width:46ch">Espaço dentro de um cartão: 12 ou 16. Entre cartões: 12. Entre secções: 24.</div>
+        <div class="col gap8" style="align-items:center"><div style="width:4px;height:4px;background:var(--evo-color-primary);border-radius:3px"></div><span class="sub">4, xs</span></div><div class="col gap8" style="align-items:center"><div style="width:8px;height:8px;background:var(--evo-color-primary);border-radius:3px"></div><span class="sub">8, sm</span></div><div class="col gap8" style="align-items:center"><div style="width:16px;height:16px;background:var(--evo-color-primary);border-radius:3px"></div><span class="sub">16, md</span></div><div class="col gap8" style="align-items:center"><div style="width:24px;height:24px;background:var(--evo-color-primary);border-radius:3px"></div><span class="sub">24, lg</span></div><div class="col gap8" style="align-items:center"><div style="width:32px;height:32px;background:var(--evo-color-primary);border-radius:3px"></div><span class="sub">32, xl</span></div>
+        <div style="margin-left:24px;font-size:13px;color:var(--evo-color-on-surface-muted);max-width:46ch">Dentro de um cartão: md ou lg. Entre cartões: 12 a 14. Entre secções: lg.</div>
       </div>
     </div>
     <div>
       <div class="h3">Ícones</div>
       <div class="row gap16" style="align-items:center">
         <svg class="i i-lg"><use href="#cart"/></svg><svg class="i i-lg"><use href="#pin"/></svg><svg class="i i-lg"><use href="#clock"/></svg><svg class="i i-lg"><use href="#bell"/></svg><svg class="i i-lg"><use href="#table"/></svg><svg class="i i-lg"><use href="#list"/></svg><svg class="i i-lg"><use href="#box"/></svg><svg class="i i-lg"><use href="#map"/></svg><svg class="i i-lg"><use href="#image"/></svg><svg class="i i-lg"><use href="#check"/></svg>
-        <span class="sub" style="margin-left:12px">Traço de 1,75 px, cantos arredondados, 18 px no texto e 24 px sozinhos. Herdam a cor do texto.</span>
+        <span class="sub" style="margin-left:12px">Traço de 2 px, cantos arredondados, 18 px no texto e 24 px sozinhos. Herdam a cor do texto.</span>
       </div>
     </div>
   </div>
-  <div class="foot"><span>Kami Design System</span><span>5</span></div>
+  <div class="foot"><span>Kami Design System</span><span>7</span></div>
 </section>
 
 <!-- ===================== 6. COMPONENTES I ===================== -->
@@ -464,10 +537,10 @@ h1,h2,h3,h4,p{margin:0}
         <div class="col gap12">
           <div class="row gap8 wrap"><button class="btn btn-primary">Aceitar pedido</button><button class="btn btn-secondary">Recusar</button><button class="btn btn-ghost">Corrigir</button><button class="btn btn-danger">Encerrar</button></div>
           <div class="row gap8 wrap"><button class="btn btn-primary is-hover">Hover</button><button class="btn btn-primary is-focus">Foco</button><button class="btn is-disabled">Desactivado</button></div>
-          <div class="row gap8 wrap" style="align-items:center"><button class="btn btn-primary btn-lg">Grande, 48</button><button class="btn btn-primary">Normal, 40</button><button class="btn btn-primary btn-sm">Pequeno, 32</button></div>
+          <div class="row gap8 wrap" style="align-items:center"><button class="btn btn-primary btn-lg">Grande, 52</button><button class="btn btn-primary">Normal, 40</button><button class="btn btn-primary btn-sm">Pequeno, 32</button></div>
           <div class="row gap8"><button class="btn btn-secondary icon-btn"><svg class="i"><use href="#plus"/></svg></button><button class="btn btn-secondary icon-btn"><svg class="i"><use href="#minus"/></svg></button><span class="sub" style="align-self:center">Só ícone, 36 px</span></div>
         </div>
-        <div class="sub" style="margin-top:10px">Uma acção principal (verde) por ecrã. Acções destrutivas em contorno vermelho, nunca preenchidas.</div>
+        <div class="sub" style="margin-top:10px">Uma acção principal (laranja) por ecrã. A acção destrutiva usa o rosa suave com texto rosa-escuro.</div>
       </div>
       <div class="card pad">
         <div class="h3">Quantidade e selector de canal</div>
@@ -478,7 +551,7 @@ h1,h2,h3,h4,p{margin:0}
     <div class="card pad col gap12">
       <div class="h3" style="margin:0">Campos</div>
       <div class="field"><label>Nome do produto</label><div class="input">Muamba de galinha</div></div>
-      <div class="field"><label>Preço em Kz</label><div class="input is-focus">4.500</div><span class="hint">Foco: contorno e anel verdes.</span></div>
+      <div class="field"><label>Preço em Kz</label><div class="input is-focus">4.500</div><span class="hint">Foco: contorno laranja e halo suave.</span></div>
       <div class="field"><label>Telefone</label><div class="input is-error">923 45</div><span class="err">Indique um número com 9 dígitos.</span></div>
       <div class="field"><label>Descrição <span class="opt">(opcional)</span></label><div class="input textarea ph-text">Ingredientes e acompanhamento</div></div>
       <div class="field"><label>Categoria</label><div class="input">Pratos principais <svg class="i"><use href="#chev"/></svg></div></div>
@@ -495,7 +568,7 @@ h1,h2,h3,h4,p{margin:0}
       <div class="sub" style="margin-top:6px">Alvos de toque com pelo menos 40 px de altura, incluindo a etiqueta ao lado.</div>
     </div>
   </div>
-  <div class="foot"><span>Kami Design System</span><span>6</span></div>
+  <div class="foot"><span>Kami Design System</span><span>8</span></div>
 </section>
 
 <!-- ===================== 7. COMPONENTES II ===================== -->
@@ -515,9 +588,8 @@ h1,h2,h3,h4,p{margin:0}
       <div class="card pad col gap12">
         <div class="h3" style="margin:0">Avisos</div>
         <div class="alert a-warn"><svg class="i"><use href="#warn"/></svg><div><b>Mesa 4 já tem um atendimento activo</b>Peça a um funcionário para o encerrar.</div></div>
-        <div class="alert a-ok"><svg class="i"><use href="#check"/></svg><div><b>Localização dentro da zona de entrega</b></div></div>
         <div class="alert a-err"><svg class="i"><use href="#x"/></svg><div><b>Não foi possível enviar o pedido</b>Verifique a ligação e tente outra vez.</div></div>
-        <div class="alert a-info"><svg class="i"><use href="#info"/></svg><div><b>Sem fotografia</b>Adicione uma para o produto se destacar no menu.</div></div>
+        
       </div>
     </div>
     <div class="col gap12">
@@ -550,21 +622,21 @@ h1,h2,h3,h4,p{margin:0}
       <div class="h3" style="margin:6px 0 0">Item de menu</div>
       <div class="card pad-sm"><div class="prod" style="padding:0;border:0"><div class="ph" style="width:76px;height:76px"><svg class="i"><use href="#image"/></svg></div><div style="flex:1"><h4>Mufete de cacusso</h4><p>Peixe grelhado, feijão de óleo de palma e banana.</p><div class="meta"><span class="price">6.800 Kz</span><span class="addbtn"><svg class="i"><use href="#plus"/></svg></span></div></div></div></div>
       <div class="h3" style="margin:6px 0 0">Aviso de sistema</div>
-      <div class="card pad-sm row" style="align-items:center;gap:10px;border-color:var(--ink);border-width:1.5px"><svg class="i" style="color:var(--green-600)"><use href="#check"/></svg><div style="flex:1;font-weight:600">Pedido aceite</div><button class="btn btn-ghost btn-sm">Desfazer</button></div>
+      <div class="pad-sm row" style="align-items:center;gap:10px;background:var(--evo-color-on-surface);color:var(--evo-color-surface);border-radius:var(--evo-radius-md)"><svg class="i" style="color:var(--kami-sun)"><use href="#check"/></svg><div style="flex:1;font-weight:800">Pedido aceite</div><button class="btn btn-ghost btn-sm" style="color:var(--kami-sun)">Desfazer</button></div>
     </div>
   </div>
-  <div class="foot"><span>Kami Design System</span><span>7</span></div>
+  <div class="foot"><span>Kami Design System</span><span>9</span></div>
 </section>
 
 <!-- ===================== 8. ECRÃS ONLINE ===================== -->
-<section class="page">
+<section class="page page-phones">
   <div class="rail">
     <h2>Ecrãs: pedido online</h2>
     <p>O cliente abre o endereço partilhado no WhatsApp, escolhe produtos e decide entre levantamento e entrega.</p>
     <p>O botão de carrinho fica sempre fixo na base do ecrã. Um produto pode não ter fotografia e continua a ter o mesmo tamanho de linha.</p>
     <div class="note">No fluxo de entrega, a localização é recolhida automaticamente e o cliente confirma ou corrige antes de enviar, como definido no ponto 10.1 dos requisitos.</div>
   </div>
-  <div class="main phones">
+  <div class="main"><div class="stage phones">
     <div class="phone-wrap">
       <div class="phone">
         <div class="appbar"><div><b>Restaurante Quilamba</b><small>Aberto até às 22:00, Talatona</small></div></div>
@@ -617,26 +689,26 @@ h1,h2,h3,h4,p{margin:0}
       </div>
       <div class="phone-cap">Entrega<span>Localização recolhida e confirmada pelo cliente</span></div>
     </div>
-  </div>
-  <div class="foot"><span>Kami Design System</span><span>8</span></div>
+  </div></div>
+  <div class="foot"><span>Kami Design System</span><span>10</span></div>
 </section>
 
 <!-- ===================== 9. ECRÃS QR ===================== -->
-<section class="page">
+<section class="page page-phones">
   <div class="rail">
     <h2>Ecrãs: pedido na mesa</h2>
     <p>O cliente lê o QR Code da mesa. O menu abre já com a mesa identificada e, depois de enviar, acompanha o pedido.</p>
     <p>A estimativa de tempo só aparece depois de o restaurante aceitar o pedido. Os passos do estado formam uma sequência real, por isso usam linha temporal.</p>
     <div class="note">Para validar: o ecrã de sessão activa mostra "Ver o menu" em modo de consulta. Os requisitos ainda não definem como atender um cliente novo numa sessão antiga.</div>
   </div>
-  <div class="main phones">
+  <div class="main"><div class="stage phones">
     <div class="phone-wrap">
       <div class="phone">
         <div class="appbar"><b>Restaurante Quilamba</b></div>
         <div class="screen" style="justify-content:center;gap:16px">
-          <div style="width:56px;height:56px;border:2px solid #D9A100;background:var(--saffron-100);border-radius:var(--r-card);display:flex;align-items:center;justify-content:center;color:var(--saffron-800)"><svg class="i i-lg"><use href="#warn"/></svg></div>
+          <div style="width:56px;height:56px;background:var(--evo-color-warning);border-radius:var(--evo-radius-lg);display:flex;align-items:center;justify-content:center;color:var(--evo-color-on-surface)"><svg class="i i-lg"><use href="#warn"/></svg></div>
           <h3 style="font-size:22px;line-height:28px">A Mesa 4 já tem um atendimento activo</h3>
-          <p style="color:var(--muted);font-size:14px;line-height:21px">Para fazer um pedido, fale com um funcionário do restaurante. Ele encerra o atendimento anterior e pode começar de novo.</p>
+          <p style="color:var(--evo-color-on-surface-muted);font-size:14px;line-height:21px">Para fazer um pedido, fale com um funcionário do restaurante. Ele encerra o atendimento anterior e pode começar de novo.</p>
           <div class="alert a-warn"><svg class="i"><use href="#clock"/></svg><div>Atendimento iniciado às 13:05</div></div>
         </div>
         <div class="bottom col gap8"><button class="btn btn-primary btn-lg btn-block">Tentar outra vez</button><button class="btn btn-secondary btn-lg btn-block">Ver o menu</button></div>
@@ -646,7 +718,7 @@ h1,h2,h3,h4,p{margin:0}
 
     <div class="phone-wrap">
       <div class="phone">
-        <div class="appbar"><div><b>Restaurante Quilamba</b><small>Atendimento iniciado às 13:05</small></div><span class="badge b-done" style="margin-left:auto;height:28px;font-size:13px;border-color:var(--ink);color:var(--ink);background:#fff">Mesa 4</span></div>
+        <div class="appbar"><div><b>Restaurante Quilamba</b><small>Atendimento iniciado às 13:05</small></div><span class="badge b-done" style="margin-left:auto;height:30px;font-size:13px;background:var(--evo-color-surface)">Mesa 4</span></div>
         <div class="screen">
           <div class="row gap8"><span class="chip">Pratos</span><span class="chip on">Bebidas</span><span class="chip">Sobremesas</span></div>
           <div>
@@ -681,13 +753,13 @@ h1,h2,h3,h4,p{margin:0}
       </div>
       <div class="phone-cap">Acompanhamento<span>Estimativa depois de aceite (RT-01)</span></div>
     </div>
-  </div>
-  <div class="foot"><span>Kami Design System</span><span>9</span></div>
+  </div></div>
+  <div class="foot"><span>Kami Design System</span><span>11</span></div>
 </section>
 
 <!-- ===================== 10. BACK-OFFICE PEDIDOS ===================== -->
 <section class="page page-wide">
-  <div class="head"><h2>Back-office: pedidos</h2><p>Quadro em três colunas. Um pedido novo abre um modal com som e fica a repetir o aviso até alguém o tratar. O talão novo tem a barra de açafrão.</p></div>
+  <div class="head"><h2>Back-office: pedidos</h2><p>Quadro em três colunas. Um pedido novo abre um modal com som e fica a repetir o aviso até alguém o tratar. O talão novo tem a barra de âmbar.</p></div>
   <div style="min-height:0">
     <div class="desk">
       <div class="top"><div class="logo"><i>K</i>Restaurante Quilamba</div><div class="row gap16" style="align-items:center"><div class="inline" style="font-size:13px"><svg class="i"><use href="#vol"/></svg>Som activado <span class="toggle on"></span></div><div class="inline" style="font-size:13px"><span class="toggle on"></span>Aberto</div><svg class="i"><use href="#bell"/></svg></div></div>
@@ -734,7 +806,7 @@ h1,h2,h3,h4,p{margin:0}
       </div>
     </div>
   </div>
-  <div class="foot"><span>Kami Design System</span><span>10</span></div>
+  <div class="foot"><span>Kami Design System</span><span>12</span></div>
 </section>
 
 <!-- ===================== 11. MESAS ===================== -->
@@ -753,29 +825,29 @@ h1,h2,h3,h4,p{margin:0}
       <div class="content">
         <div class="row" style="justify-content:space-between;align-items:center"><h3 style="font-size:20px">Mesas</h3><button class="btn btn-secondary btn-sm"><svg class="i"><use href="#plus"/></svg>Adicionar mesa</button></div>
         <div class="row gap16" style="flex:1;min-height:0">
-          <div style="flex:1.5;display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:min-content;gap:12px;align-content:start">
+          <div style="flex:1.5;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:min-content;gap:12px;align-content:start">
             <div class="mesa free"><b>Mesa 1</b><span class="badge b-done" style="width:fit-content">Livre</span></div>
             <div class="mesa free"><b>Mesa 2</b><span class="badge b-done" style="width:fit-content">Livre</span></div>
             <div class="mesa free"><b>Mesa 3</b><span class="badge b-done" style="width:fit-content">Livre</span></div>
-            <div class="mesa sel"><b>Mesa 4</b><span class="badge b-prep" style="width:fit-content"><span class="dot"></span>Atendimento activo</span><span class="sub">Desde as 13:05, 2 pedidos</span></div>
+            <div class="mesa sel"><b>Mesa 4</b><span class="badge b-prep" style="width:fit-content"><span class="dot"></span>Activo</span><span class="sub">Desde as 13:05, 2 pedidos</span></div>
             <div class="mesa act"><b>Mesa 5</b><span class="badge b-new" style="width:fit-content"><span class="dot"></span>1 pedido novo</span><span class="sub">Desde as 13:18</span></div>
             <div class="mesa free"><b>Mesa 6</b><span class="badge b-done" style="width:fit-content">Livre</span></div>
           </div>
-          <div class="card pad col gap12" style="flex:1;border-color:var(--green-600);border-width:2px">
+          <div class="card pad col gap12" style="flex:1;border-top:3px solid var(--evo-color-primary)">
             <div class="row" style="justify-content:space-between;align-items:center"><h3 style="font-size:18px">Mesa 4</h3><span class="badge b-prep"><span class="dot"></span>Activo</span></div>
             <div class="tbl"><table>
               <tr><th>Pedido</th><th>Estado</th><th class="r">Total</th></tr>
               <tr><td>0142</td><td><span class="badge b-prep">Em preparação</span></td><td class="r price">11.400 Kz</td></tr>
               <tr><td>0136</td><td><span class="badge b-done">Concluído</span></td><td class="r price">4.200 Kz</td></tr>
             </table></div>
-            <div class="row gap12" style="align-items:center"><svg class="qr" viewBox="0 0 21 21" shape-rendering="crispEdges"><g fill="#24272A"><path d="M0 0h7v7H0zM1 1v5h5V1zM2 2h3v3H2z" fill-rule="evenodd"/><path d="M14 0h7v7h-7zM15 1v5h5V1zM16 2h3v3h-3z" fill-rule="evenodd"/><path d="M0 14h7v7H0zM1 15v5h5v-5zM2 16h3v3H2z" fill-rule="evenodd"/><path d="M8 0h2v2H8zM11 1h1v3h-1zM8 4h3v1H8zM9 6h1v2H9zM12 6h2v2h-2zM8 9h2v2H8zM11 9h3v1h-3zM15 9h2v2h-2zM18 9h3v2h-3zM0 8h2v2H0zM3 8h3v1H3zM2 10h2v2H2zM5 11h2v2H5zM8 12h2v3H8zM11 12h2v2h-2zM14 12h3v1h-3zM18 12h2v3h-2zM15 14h2v2h-2zM9 16h3v2H9zM13 16h1v4h-1zM15 18h3v2h-3zM19 17h2v3h-2zM9 19h3v2H9z"/></g></svg><div class="col gap8"><b>QR Code da mesa</b><span class="sub">Cada mesa tem um código próprio.</span><button class="btn btn-secondary btn-sm">Imprimir QR Code</button></div></div>
+            <div class="row gap12" style="align-items:center"><svg class="qr" viewBox="0 0 21 21" shape-rendering="crispEdges"><g fill="#3B1F14"><path d="M0 0h7v7H0zM1 1v5h5V1zM2 2h3v3H2z" fill-rule="evenodd"/><path d="M14 0h7v7h-7zM15 1v5h5V1zM16 2h3v3h-3z" fill-rule="evenodd"/><path d="M0 14h7v7H0zM1 15v5h5v-5zM2 16h3v3H2z" fill-rule="evenodd"/><path d="M8 0h2v2H8zM11 1h1v3h-1zM8 4h3v1H8zM9 6h1v2H9zM12 6h2v2h-2zM8 9h2v2H8zM11 9h3v1h-3zM15 9h2v2h-2zM18 9h3v2h-3zM0 8h2v2H0zM3 8h3v1H3zM2 10h2v2H2zM5 11h2v2H5zM8 12h2v3H8zM11 12h2v2h-2zM14 12h3v1h-3zM18 12h2v3h-2zM15 14h2v2h-2zM9 16h3v2H9zM13 16h1v4h-1zM15 18h3v2h-3zM19 17h2v3h-2zM9 19h3v2H9z"/></g></svg><div class="col gap8"><b>QR Code da mesa</b><button class="btn btn-secondary btn-sm">Imprimir QR Code</button></div></div>
             <div style="margin-top:auto" class="col gap8"><div class="alert a-err" style="padding:8px 12px"><svg class="i"><use href="#warn"/></svg><div>Ao encerrar, os novos pedidos desta mesa abrem um atendimento diferente.</div></div><button class="btn btn-danger btn-block">Encerrar atendimento</button></div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="foot"><span>Kami Design System</span><span>11</span></div>
+  <div class="foot"><span>Kami Design System</span><span>13</span></div>
 </section>
 
 <!-- ===================== 12. EDITOR DE PRODUTO ===================== -->
@@ -810,8 +882,8 @@ h1,h2,h3,h4,p{margin:0}
               <div class="ph" style="height:92px;position:relative"><svg class="i"><use href="#image"/></svg></div>
               <div class="ph" style="height:92px"><svg class="i"><use href="#image"/></svg></div>
               <div class="ph-dash" style="height:92px"><svg class="i i-lg"><use href="#plus"/></svg>Adicionar</div>
-              <div class="ph-dash" style="height:92px;border-color:var(--line);color:var(--line-strong)"></div>
-              <div class="ph-dash" style="height:92px;border-color:var(--line);color:var(--line-strong)"></div>
+              <div class="ph-dash" style="height:92px;border:1px dashed var(--evo-color-border-strong);background:transparent"></div>
+              <div class="ph-dash" style="height:92px;border:1px dashed var(--evo-color-border-strong);background:transparent"></div>
             </div>
             <div class="alert a-warn"><svg class="i"><use href="#image"/></svg><div><b>Mais fotografias, mais atractivo</b>Pode publicar já e adicionar fotografias depois.</div></div>
             <div class="row gap8" style="justify-content:flex-end;margin-top:auto"><button class="btn btn-secondary">Cancelar</button><button class="btn btn-primary">Guardar produto</button></div>
@@ -820,57 +892,55 @@ h1,h2,h3,h4,p{margin:0}
       </div>
     </div>
   </div>
-  <div class="foot"><span>Kami Design System</span><span>12</span></div>
+  <div class="foot"><span>Kami Design System</span><span>14</span></div>
 </section>
 
 <!-- ===================== 13. ACESSIBILIDADE E REGRAS ===================== -->
 <section class="page">
   <div class="rail">
     <h2>Acessibilidade e regras de uso</h2>
-    <p>Os pares de cores abaixo foram verificados contra o mínimo de 4,5 para 1 em texto normal.</p>
+    <p>Os pares de cores abaixo foram verificados contra o mínimo de 4,5 para 1 em texto e 3 para 1 em contornos de controlos.</p>
+    <div class="col gap8" style="margin-top:16px">      <div class="card card-tint pad-sm"><b>Alertas sonoros</b><p class="sub" style="margin-top:2px;font-size:12px">O navegador só deixa tocar som depois de um toque do utilizador. O back-office deve ter um botão "Iniciar turno" que o activa.</p></div>
+      <div class="card card-tint pad-sm"><b>Movimento</b><p class="sub" style="margin-top:2px;font-size:12px">Sem animações de entrada. Só há movimento como resposta a uma acção, e é desligado com a preferência de movimento reduzido.</p></div>
+      <div class="card card-tint pad-sm"><b>Ecrãs pequenos</b><p class="sub" style="margin-top:2px;font-size:12px">Desenhar primeiro para 360 px de largura. O back-office funciona de 768 px para cima, ideal em tablet no balcão.</p></div>
+</div>
     <div class="note">Cor nunca é o único sinal: os estados têm sempre texto e, quando faz sentido, ícone.</div>
   </div>
   <div class="main col gap16">
     <div class="tbl"><table class="spec" id="contrast">
-      <tr><th>Texto</th><th>Fundo</th><th>Contraste</th><th>Uso</th></tr>
-      <tr><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#24272A;vertical-align:-1px;border-radius:2px"></span> #24272A</td><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#FFFFFF;vertical-align:-1px;border-radius:2px"></span> #FFFFFF</td><td class="ok">15.0 para 1</td><td>Texto principal</td></tr>
-<tr><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#5B6166;vertical-align:-1px;border-radius:2px"></span> #5B6166</td><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#FFFFFF;vertical-align:-1px;border-radius:2px"></span> #FFFFFF</td><td class="ok">6.3 para 1</td><td>Texto secundário</td></tr>
-<tr><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#5B6166;vertical-align:-1px;border-radius:2px"></span> #5B6166</td><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#F5F6F6;vertical-align:-1px;border-radius:2px"></span> #F5F6F6</td><td class="ok">5.8 para 1</td><td>Texto secundário sobre fundo</td></tr>
-<tr><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#FFFFFF;vertical-align:-1px;border-radius:2px"></span> #FFFFFF</td><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#1B6B4A;vertical-align:-1px;border-radius:2px"></span> #1B6B4A</td><td class="ok">6.5 para 1</td><td>Botão principal</td></tr>
-<tr><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#FFFFFF;vertical-align:-1px;border-radius:2px"></span> #FFFFFF</td><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#124A33;vertical-align:-1px;border-radius:2px"></span> #124A33</td><td class="ok">10.2 para 1</td><td>Botão principal em hover</td></tr>
-<tr><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#1B6B4A;vertical-align:-1px;border-radius:2px"></span> #1B6B4A</td><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#FFFFFF;vertical-align:-1px;border-radius:2px"></span> #FFFFFF</td><td class="ok">6.5 para 1</td><td>Ligações e botão fantasma</td></tr>
-<tr><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#124A33;vertical-align:-1px;border-radius:2px"></span> #124A33</td><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#E3F1EA;vertical-align:-1px;border-radius:2px"></span> #E3F1EA</td><td class="ok">8.8 para 1</td><td>Navegação activa</td></tr>
-<tr><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#6E4C00;vertical-align:-1px;border-radius:2px"></span> #6E4C00</td><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#FFF3D1;vertical-align:-1px;border-radius:2px"></span> #FFF3D1</td><td class="ok">7.0 para 1</td><td>Etiqueta Novo</td></tr>
-<tr><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#1F5FA8;vertical-align:-1px;border-radius:2px"></span> #1F5FA8</td><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#E3EEF9;vertical-align:-1px;border-radius:2px"></span> #E3EEF9</td><td class="ok">5.5 para 1</td><td>Etiqueta Em preparação</td></tr>
-<tr><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#1B6B4A;vertical-align:-1px;border-radius:2px"></span> #1B6B4A</td><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#E3F1EA;vertical-align:-1px;border-radius:2px"></span> #E3F1EA</td><td class="ok">5.6 para 1</td><td>Etiqueta Pronto</td></tr>
-<tr><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#B42318;vertical-align:-1px;border-radius:2px"></span> #B42318</td><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#FCE8E6;vertical-align:-1px;border-radius:2px"></span> #FCE8E6</td><td class="ok">5.6 para 1</td><td>Etiqueta Cancelado, erro</td></tr>
-<tr><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#B42318;vertical-align:-1px;border-radius:2px"></span> #B42318</td><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#FFFFFF;vertical-align:-1px;border-radius:2px"></span> #FFFFFF</td><td class="ok">6.6 para 1</td><td>Texto de erro</td></tr>
-<tr><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#24272A;vertical-align:-1px;border-radius:2px"></span> #24272A</td><td><span style="display:inline-block;width:12px;height:12px;border:1px solid #8F969C;background:#F2B01E;vertical-align:-1px;border-radius:2px"></span> #F2B01E</td><td class="ok">7.9 para 1</td><td>Texto sobre açafrão</td></tr>
-
-    </table></div>
+<tr><th>Texto / elemento</th><th>Fundo</th><th>Contraste</th><th>Uso</th></tr>
+<tr><td><span style="display:inline-block;width:12px;height:12px;background:#3B1F14;vertical-align:-1px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(59,31,20,.25)"></span> #3B1F14</td><td><span style="display:inline-block;width:12px;height:12px;background:#FFFFFF;vertical-align:-1px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(59,31,20,.25)"></span> #FFFFFF</td><td class="ok">15.1 para 1</td><td>Texto principal</td></tr>
+<tr><td><span style="display:inline-block;width:12px;height:12px;background:#7A5645;vertical-align:-1px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(59,31,20,.25)"></span> #7A5645</td><td><span style="display:inline-block;width:12px;height:12px;background:#FFFFFF;vertical-align:-1px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(59,31,20,.25)"></span> #FFFFFF</td><td class="ok">6.5 para 1</td><td>Texto secundário</td></tr>
+<tr><td><span style="display:inline-block;width:12px;height:12px;background:#7A5645;vertical-align:-1px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(59,31,20,.25)"></span> #7A5645</td><td><span style="display:inline-block;width:12px;height:12px;background:#FFF6E5;vertical-align:-1px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(59,31,20,.25)"></span> #FFF6E5</td><td class="ok">6.0 para 1</td><td>Texto secundário sobre creme</td></tr>
+<tr><td><span style="display:inline-block;width:12px;height:12px;background:#FFFFFF;vertical-align:-1px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(59,31,20,.25)"></span> #FFFFFF</td><td><span style="display:inline-block;width:12px;height:12px;background:#D43E12;vertical-align:-1px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(59,31,20,.25)"></span> #D43E12</td><td class="ok">4.7 para 1</td><td>Botão principal</td></tr>
+<tr><td><span style="display:inline-block;width:12px;height:12px;background:#FFFFFF;vertical-align:-1px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(59,31,20,.25)"></span> #FFFFFF</td><td><span style="display:inline-block;width:12px;height:12px;background:#B5300B;vertical-align:-1px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(59,31,20,.25)"></span> #B5300B</td><td class="ok">6.2 para 1</td><td>Botão principal em hover</td></tr>
+<tr><td><span style="display:inline-block;width:12px;height:12px;background:#B5300B;vertical-align:-1px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(59,31,20,.25)"></span> #B5300B</td><td><span style="display:inline-block;width:12px;height:12px;background:#FFE8DC;vertical-align:-1px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(59,31,20,.25)"></span> #FFE8DC</td><td class="ok">5.3 para 1</td><td>Botão secundário e navegação activa</td></tr>
+<tr><td><span style="display:inline-block;width:12px;height:12px;background:#3B1F14;vertical-align:-1px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(59,31,20,.25)"></span> #3B1F14</td><td><span style="display:inline-block;width:12px;height:12px;background:#FFF0C2;vertical-align:-1px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(59,31,20,.25)"></span> #FFF0C2</td><td class="ok">13.3 para 1</td><td>Etiqueta Novo, aviso</td></tr>
+<tr><td><span style="display:inline-block;width:12px;height:12px;background:#3B2300;vertical-align:-1px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(59,31,20,.25)"></span> #3B2300</td><td><span style="display:inline-block;width:12px;height:12px;background:#FAB902;vertical-align:-1px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(59,31,20,.25)"></span> #FAB902</td><td class="ok">8.4 para 1</td><td>Texto sobre âmbar</td></tr>
+<tr><td><span style="display:inline-block;width:12px;height:12px;background:#3B1F14;vertical-align:-1px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(59,31,20,.25)"></span> #3B1F14</td><td><span style="display:inline-block;width:12px;height:12px;background:#FFD35C;vertical-align:-1px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(59,31,20,.25)"></span> #FFD35C</td><td class="ok">10.6 para 1</td><td>Barras de topo e estimativa</td></tr>
+<tr><td><span style="display:inline-block;width:12px;height:12px;background:#3B1F14;vertical-align:-1px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(59,31,20,.25)"></span> #3B1F14</td><td><span style="display:inline-block;width:12px;height:12px;background:#FFE8DC;vertical-align:-1px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(59,31,20,.25)"></span> #FFE8DC</td><td class="ok">12.8 para 1</td><td>Etiqueta Em preparação</td></tr>
+<tr><td><span style="display:inline-block;width:12px;height:12px;background:#3B1F14;vertical-align:-1px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(59,31,20,.25)"></span> #3B1F14</td><td><span style="display:inline-block;width:12px;height:12px;background:#DDF2DC;vertical-align:-1px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(59,31,20,.25)"></span> #DDF2DC</td><td class="ok">12.8 para 1</td><td>Etiqueta Pronto</td></tr>
+<tr><td><span style="display:inline-block;width:12px;height:12px;background:#BE123C;vertical-align:-1px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(59,31,20,.25)"></span> #BE123C</td><td><span style="display:inline-block;width:12px;height:12px;background:#FDE4EA;vertical-align:-1px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(59,31,20,.25)"></span> #FDE4EA</td><td class="ok">5.2 para 1</td><td>Botão destrutivo</td></tr>
+<tr><td><span style="display:inline-block;width:12px;height:12px;background:#948B81;vertical-align:-1px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(59,31,20,.25)"></span> #948B81</td><td><span style="display:inline-block;width:12px;height:12px;background:#FFFFFF;vertical-align:-1px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(59,31,20,.25)"></span> #FFFFFF</td><td class="ok">3.3 para 1</td><td>Contorno de campo (mínimo 3:1)</td></tr>
+</table></div>
     <div class="grid2">
       <div class="dd do"><h4><svg class="i"><use href="#check"/></svg>Fazer</h4><ul>
         <li>Verbo + objecto nos botões: "Aceitar pedido", "Guardar produto".</li>
         <li>Manter o nome da acção até ao aviso: "Aceitar pedido" leva a "Pedido aceite".</li>
         <li>Erros que dizem o que fazer: "Indique um número com 9 dígitos."</li>
-        <li>Mostrar o foco com o anel verde em todos os elementos.</li>
-        <li>Um botão verde por ecrã, o resto em contorno.</li>
+        <li>Mostrar o foco com o anel laranja em todos os elementos.</li>
+        <li>Um botão laranja por ecrã, o resto em tom suave.</li>
       </ul></div>
       <div class="dd dont"><h4><svg class="i"><use href="#x"/></svg>Evitar</h4><ul>
         <li>Pedir desculpa em erros ou usar "Ocorreu um erro".</li>
         <li>Texto de botão como "Submeter" ou "OK".</li>
-        <li>Vermelho fora de erros, recusas e cancelamentos.</li>
-        <li>Sombras em cartões, gradientes e fundos decorativos.</li>
+        <li>Rosa-escuro fora de erros, recusas e cancelamentos.</li>
+        <li>Sombras em cartões, gradientes e contornos escuros.</li>
         <li>Elementos clicáveis com menos de 40 px de altura.</li>
       </ul></div>
     </div>
-    <div class="grid3">
-      <div class="card pad-sm"><b>Alertas sonoros</b><p class="sub" style="margin-top:4px">O navegador só deixa tocar som depois de um toque do utilizador. O back-office deve ter um botão "Iniciar turno" que o activa.</p></div>
-      <div class="card pad-sm"><b>Movimento</b><p class="sub" style="margin-top:4px">Sem animações de entrada. Só há movimento como resposta a uma acção, e é desligado com a preferência de movimento reduzido.</p></div>
-      <div class="card pad-sm"><b>Ecrãs pequenos</b><p class="sub" style="margin-top:4px">Desenhar primeiro para 360 px de largura. O back-office funciona de 768 px para cima, ideal em tablet no balcão.</p></div>
-    </div>
   </div>
-  <div class="foot"><span>Kami Design System</span><span>13</span></div>
+  <div class="foot"><span>Kami Design System</span><span>15</span></div>
 </section>
 
 </body>

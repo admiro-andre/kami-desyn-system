@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="pt-AO">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kami — Protótipo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="kami-theme.css">
+<link rel="stylesheet" href="kami-components.css">
+<style>
+/* Protótipo navegável. Só layout da aplicação; os componentes vêm de kami-components.css */
+html,body{height:100%}
+body{margin:0;background:var(--evo-color-surface-sunken);font-size:14px}
+button{font-family:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--evo-focus-ring-color);outline-offset:2px}
+input,select,textarea{font:inherit;color:inherit}
+a{color:inherit;text-decoration:none}
+.sprite{position:absolute;width:0;height:0}
+
+/* Barra de contexto (só do protótipo) */
+.ctx{position:sticky;top:0;z-index:50;height:48px;display:flex;align-items:center;gap:16px;padding:0 16px;background:var(--evo-color-surface);border-bottom:1px solid var(--evo-color-border)}
+.ctx .seg{height:34px;padding:3px;width:auto}
+.ctx .seg a{padding:0 14px;display:flex;align-items:center;font-weight:700;font-size:13px;border-radius:var(--evo-radius-sm);color:var(--evo-color-primary-hover)}
+.ctx .seg a.on{background:var(--evo-color-primary);color:var(--evo-color-on-primary)}
+.ctx small{color:var(--evo-color-on-surface-muted)}
+
+/* Cliente / mesa */
+.stage-app{min-height:calc(100vh - var(--ctxh));background:var(--kami-sun);display:flex;justify-content:center;padding:24px 16px}
+.app-phone{width:min(400px,100%);height:min(820px,calc(100vh - 96px));background:var(--evo-color-surface);border-radius:var(--kami-radius-phone);overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--kami-shadow-modal)}
+.app-phone .screen{overflow:auto;gap:12px}
+.app-phone .appbar{height:auto;min-height:64px;padding:12px 16px}
+.appbar .back{all:unset;cursor:pointer;display:flex;padding:4px;border-radius:var(--evo-radius-sm)}
+.appbar .grow{flex:1;min-width:0}
+.pill-row{display:flex;gap:8px;overflow:auto}
+.pill-row button{border:1px solid var(--evo-color-border);cursor:pointer}
+.pill-row button.on{border-color:var(--evo-color-primary)}
+.seg button{all:unset;cursor:pointer;flex:1;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;border-radius:var(--evo-radius-md);color:var(--evo-color-primary-hover)}
+.seg button.on{background:var(--evo-color-primary);color:var(--evo-color-on-primary)}
+.stepper button{cursor:pointer}
+.addbtn{border:0;cursor:pointer}
+.prod .ph{border-radius:var(--evo-radius-md)}
+.prod.off{opacity:.55}
+.banner{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:var(--evo-radius-md);background:var(--evo-color-warning-soft);font-size:13px}
+.banner b{font-weight:800}
+.link{all:unset;cursor:pointer;color:var(--evo-color-primary-hover);font-weight:800;font-size:13px}
+.empty{text-align:center;padding:40px 16px;color:var(--evo-color-on-surface-muted)}
+.empty b{display:block;color:var(--evo-color-on-surface);font-size:16px;margin-bottom:4px}
+.field input,.field select,.field textarea{width:100%;border:1px solid var(--evo-color-border-strong);border-radius:var(--evo-radius-md);padding:0 12px;height:42px;background:var(--evo-color-surface);font-size:14px}
+.field textarea{height:72px;padding:10px 12px;resize:none}
+.field input:focus,.field select:focus,.field textarea:focus{outline:0;border-color:var(--evo-color-primary);box-shadow:0 0 0 3px var(--evo-color-primary-soft)}
+
+/* Back-office e plataforma */
+.desk.app{height:calc(100vh - var(--ctxh));border:0;border-radius:0}
+.desk .side .grow{flex:1}
+.desk .nav{cursor:pointer;border:0;background:transparent;width:100%;text-align:left;font-family:inherit}
+.desk .nav.on{background:var(--evo-color-primary-soft)}
+.desk .content{overflow:auto}
+.desk .top .right{display:flex;align-items:center;gap:16px;font-size:13px}
+.desk .top .toggle{cursor:pointer}
+.page-h{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.page-h h3{font-size:18px}
+.page-h p{margin:2px 0 0;color:var(--evo-color-on-surface-muted);font-size:13px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.kpi{padding:14px}
+.kpi small{color:var(--evo-color-on-surface-muted);font-size:12px}
+.kpi b{display:block;font-size:22px;margin-top:2px}
+.cols{align-items:start}
+.cols>div{min-height:200px}
+.split{display:grid;grid-template-columns:1.5fr 1fr;gap:16px;align-items:start}
+.mesas{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;align-content:start}
+.mesa{cursor:pointer;text-align:left;font-family:inherit;color:inherit}
+.tbl td .btn{vertical-align:middle}
+.tbl tr.row-click{cursor:pointer}
+.tbl tr.row-click:hover td{background:var(--evo-color-surface-sunken)}
+.plan{padding:18px;display:flex;flex-direction:column;gap:10px}
+.plan h4{font-size:16px}
+.plan .big{font-size:26px;font-weight:800}
+.plan ul{margin:0;padding-left:18px;color:var(--evo-color-on-surface-muted)}
+.plan.hl{border-top:3px solid var(--evo-color-primary)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--evo-color-on-surface);color:var(--evo-color-surface);padding:10px 16px;border-radius:var(--evo-radius-md);font-weight:700;z-index:100;box-shadow:var(--kami-shadow-modal)}
+.scrim{position:fixed;z-index:60}
+.mapbox{height:220px}
+@media (max-width:820px){
+  .desk.app{grid-template-columns:1fr;grid-template-rows:52px auto 1fr;height:auto;min-height:calc(100vh - var(--ctxh))}
+  .desk .top{grid-column:1}
+  .desk .side{flex-direction:row;overflow:auto;border-right:0;border-bottom:1px solid var(--evo-color-border)}
+  .desk .nav{width:auto;white-space:nowrap}
+  .desk .nav.on::before{display:none}
+  .kpis{grid-template-columns:1fr 1fr}.split{grid-template-columns:1fr}.cols{grid-template-columns:1fr}
+  .ctx small{display:none}
+}
+@media (prefers-reduced-motion:no-preference){.toast{animation:in .2s ease-out}@keyframes in{from{opacity:0;transform:translate(-50%,8px)}}}
+/* ---------- Telas extra: entrada, landing, modo frame ---------- */
+:root{--ctxh:48px}
+.frame{--ctxh:0px}
+.frame .ctx{display:none}
+.frame .stage-app{padding:0;background:transparent}
+.frame .app-phone{width:100%;height:100vh;border-radius:0;box-shadow:none}
+.ctx{overflow-x:auto}
+.ctx .seg,.ctx small{flex:none}.ctx .seg a{white-space:nowrap}
+.refbadge{font-weight:800;font-size:12px;background:var(--evo-color-on-surface);color:var(--evo-color-surface);padding:3px 8px;border-radius:var(--evo-radius-sm);flex:none}
+.link{display:inline-flex;align-items:center;gap:6px}
+hr{border:0;border-top:1px solid var(--evo-color-border);margin:4px 0;width:100%}
+.auth{min-height:calc(100vh - var(--ctxh));display:grid;grid-template-columns:minmax(320px,5fr) 6fr}
+.auth-side{background:var(--kami-sun);padding:32px 40px;display:flex;flex-direction:column;justify-content:space-between;gap:24px}
+.auth-side h2{font-size:32px;line-height:1.15;max-width:18ch}
+.auth-side p{max-width:38ch}
+.auth-main{display:flex;align-items:center;justify-content:center;padding:32px;background:var(--evo-color-surface)}
+.auth-card{width:min(420px,100%);display:flex;flex-direction:column;gap:14px}
+.auth-card h3{font-size:24px}
+.steps{display:flex;gap:6px}
+.steps span{flex:1;height:4px;border-radius:2px;background:var(--evo-color-border)}
+.steps .done,.steps .now{background:var(--evo-color-primary)}
+.okmark{width:56px;height:56px;border-radius:var(--evo-radius-lg);background:var(--evo-color-success-soft);color:var(--evo-color-success);display:flex;align-items:center;justify-content:center}
+.okmark.sm{width:40px;height:40px;background:var(--evo-color-primary-soft);color:var(--evo-color-primary-hover)}
+.empty .okmark{margin:0 auto 12px}
+.splash{min-height:calc(100vh - var(--ctxh));background:var(--kami-sun);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center}
+.loader{width:120px;height:4px;background:color-mix(in srgb,var(--evo-color-on-surface) 15%,transparent);border-radius:2px;overflow:hidden;margin-top:18px}
+.loader span{display:block;height:100%;width:40%;background:var(--evo-color-on-surface)}
+@media (prefers-reduced-motion:no-preference){.loader span{animation:ld 1.2s ease-in-out infinite}@keyframes ld{from{transform:translateX(-100%)}to{transform:translateX(300%)}}}
+.pub{background:var(--evo-color-surface);min-height:calc(100vh - var(--ctxh))}
+.pub-nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 40px;border-bottom:1px solid var(--evo-color-border)}
+.pub-nav nav{display:flex;gap:24px;font-weight:700}
+.hero{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:center;padding:64px 40px;background:var(--kami-sun-soft)}
+.hero h1,.rest-hero h1{font-size:44px;line-height:1.1;max-width:16ch}
+.hero p,.rest-hero p{font-size:17px;max-width:46ch}
+.hero-art{display:flex;flex-direction:column;gap:12px;max-width:380px}
+.sec{padding:48px 40px;display:flex;flex-direction:column;gap:20px}
+.sec h2{font-size:28px}
+.band{background:var(--evo-color-surface-sunken)}
+.step b{display:flex;width:32px;height:32px;border-radius:var(--evo-radius-md);background:var(--evo-color-primary);color:var(--evo-color-on-primary);align-items:center;justify-content:center;margin-bottom:8px}
+.pub-foot{display:flex;justify-content:space-between;align-items:center;padding:24px 40px;border-top:1px solid var(--evo-color-border)}
+.rest-hero{background:var(--kami-sun);padding:32px 40px 56px;display:flex;flex-direction:column;gap:48px}
+.bars{display:flex;align-items:flex-end;gap:12px;height:180px}
+.bars>div{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;gap:6px;align-items:center}
+.bars span{width:100%;background:var(--evo-color-primary);border-radius:var(--evo-radius-sm) var(--evo-radius-sm) 0 0;display:block}
+.bars small{color:var(--evo-color-on-surface-muted)}
+.prod h4[data-pv]{cursor:pointer}
+@media (max-width:820px){
+  .auth{grid-template-columns:1fr}.auth-side{padding:20px}.auth-side .ticket{display:none}.auth-side h2{font-size:24px}
+  .hero{grid-template-columns:1fr;padding:32px 20px}.hero h1,.rest-hero h1{font-size:30px}.sec,.pub-nav,.pub-foot,.rest-hero{padding-left:20px;padding-right:20px}.grid3,.grid2{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true">
+  <symbol id="cart" viewBox="0 0 24 24"><path d="M3 4h2l2.2 10.2a1 1 0 0 0 1 .8h8.6a1 1 0 0 0 1-.8L19 8H6"/><circle cx="9" cy="19" r="1.2"/><circle cx="17" cy="19" r="1.2"/></symbol>
+  <symbol id="plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+  <symbol id="pin" viewBox="0 0 24 24"><path d="M12 21s-6-5.6-6-11a6 6 0 1 1 12 0c0 5.4-6 11-6 11z"/><circle cx="12" cy="10" r="2"/></symbol>
+  <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="bell" viewBox="0 0 24 24"><path d="M6 16v-5a6 6 0 1 1 12 0v5l1.5 2h-15z"/><path d="M10 21h4"/></symbol>
+  <symbol id="back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+  <symbol id="info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+  <symbol id="warn" viewBox="0 0 24 24"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17h.01"/></symbol>
+  <symbol id="list" viewBox="0 0 24 24"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></symbol>
+  <symbol id="table" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/></symbol>
+  <symbol id="box" viewBox="0 0 24 24"><path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8"/></symbol>
+  <symbol id="map" viewBox="0 0 24 24"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></symbol>
+  <symbol id="sliders" viewBox="0 0 24 24"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></symbol>
+  <symbol id="image" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M21 16l-5-5-8 8"/></symbol>
+  <symbol id="search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M16 16l4 4"/></symbol>
+  <symbol id="chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="vol" viewBox="0 0 24 24"><path d="M4 10v4h4l5 4V6l-5 4z"/><path d="M16.5 9a4 4 0 0 1 0 6"/></symbol>
+  <symbol id="users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.4"/><path d="M17 14.5c2.5 0 4 1.8 4 4.5"/></symbol>
+  <symbol id="card" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></symbol>
+  <symbol id="chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
+  <symbol id="home" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7M5 10v10h14V10"/></symbol>
+  <symbol id="lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="tag" viewBox="0 0 24 24"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1"/></symbol>
+</svg>
+<div class="ctx" id="ctx"></div>
+<main id="app"></main>
+<div id="layer"></div>
+
+<script src="kami-screens.js"></script>
+<script>
+if (/[?&]frame/.test(location.search)) document.body.classList.add('frame');
+/* ---------- Dados ---------- */
+const REST = { nome: 'Restaurante Quilamba', zona: 'Talatona', fecha: '22:00' };
+const CATS = ['Pratos', 'Bebidas', 'Sobremesas'];
+let PRODUTOS = [
+  { id: 1, n: 'Muamba de galinha', d: 'Frango em óleo de palma com quiabo e funge.', p: 4500, c: 'Pratos', on: true, foto: true },
+  { id: 2, n: 'Mufete de cacusso', d: 'Peixe grelhado, feijão de óleo de palma e banana.', p: 6800, c: 'Pratos', on: true, foto: true },
+  { id: 3, n: 'Calulu de peixe', d: 'Peixe seco com folhas e quiabo.', p: 5200, c: 'Pratos', on: true, foto: false },
+  { id: 4, n: 'Feijão de óleo de palma', d: 'Com mandioca cozida.', p: 3000, c: 'Pratos', on: false, foto: true },
+  { id: 5, n: 'Cuca 33 cl', d: 'Cerveja angolana.', p: 800, c: 'Bebidas', on: true, foto: true },
+  { id: 6, n: 'Sumo de maracujá', d: 'Natural, sem açúcar adicionado.', p: 1200, c: 'Bebidas', on: true, foto: false },
+  { id: 7, n: 'Gelado de múcua', d: 'Duas bolas.', p: 1800, c: 'Sobremesas', on: true, foto: true },
+];
+const ESTADOS = {
+  novo: { t: 'Novo', b: 'b-new' }, prep: { t: 'Em preparação', b: 'b-prep' },
+  pronto: { t: 'Pronto', b: 'b-ready' }, concluido: { t: 'Concluído', b: 'b-done' }, cancelado: { t: 'Cancelado', b: 'b-cancel' },
+};
+const SEED = {
+  orders: [
+    { id: 140, tipo: 'mesa', quem: 'Mesa 2', mesa: 2, itens: [{ n: 'Mufete de cacusso', q: 2, p: 6800 }], estado: 'prep', min: 18, eta: 20 },
+    { id: 141, tipo: 'levantamento', quem: 'João Neto', itens: [{ n: 'Muamba de galinha', q: 1, p: 4500 }], estado: 'prep', min: 9, eta: 15 },
+    { id: 142, tipo: 'mesa', quem: 'Mesa 4', mesa: 4, itens: [{ n: 'Muamba de galinha', q: 2, p: 4500, o: 'Sem gindungo' }, { n: 'Cuca 33 cl', q: 3, p: 800 }], estado: 'novo', min: 2 },
+    { id: 143, tipo: 'entrega', quem: 'Maria Cardoso', itens: [{ n: 'Calulu de peixe', q: 1, p: 5200 }], estado: 'novo', min: 1 },
+    { id: 138, tipo: 'mesa', quem: 'Mesa 6', mesa: 6, itens: [{ n: 'Feijão de óleo de palma', q: 1, p: 3000 }], estado: 'pronto', min: 24 },
+  ],
+  mesasAtivas: [2, 4, 5, 6], next: 144, aberto: true, som: true,
+};
+const S = (() => { try { return JSON.parse(localStorage.getItem('kami-state')) || structuredClone(SEED); } catch { return structuredClone(SEED); } })();
+let cart = []; let modo = 'levantamento'; let cat = 'Pratos'; let lastId = null; let sel = { mesa: 4, prod: 3 }; let modal = null; let obs = '';
+const save = () => { try { localStorage.setItem('kami-state', JSON.stringify(S)); } catch {} };
+
+/* ---------- Utilitários ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const kz = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' Kz';
+const ic = (n, c = '') => `<svg class="i ${c}"><use href="#${n}"/></svg>`;
+const tot = its => its.reduce((s, i) => s + i.q * i.p, 0);
+const badge = e => `<span class="badge ${ESTADOS[e].b}"><span class="dot"></span>${ESTADOS[e].t}</span>`;
+const toast = m => { const t = document.createElement('div'); t.className = 'toast'; t.textContent = m; document.body.append(t); setTimeout(() => t.remove(), 2200); };
+const go = h => { location.hash = h; };
+const ctxo = h => (h.split('/')[1] || 'c');
+
+/* ---------- Barra de contexto ---------- */
+function renderCtx(area, sc) {
+  const tabs = [['a', 'Entrada', '#/a/splash'], ['l', 'Landing', '#/l/kami'], ['c', 'Cliente online', '#/c/menu'], ['m', 'Cliente na mesa', '#/m/scan'], ['b', 'Back-office', '#/b/pedidos'], ['p', 'Plataforma', '#/p/dashboard']];
+  $('#ctx').innerHTML = `<div class="logo"><i>K</i>Kami</div><div class="seg">${tabs.map(t => `<a href="${t[2]}" class="${t[0] === area ? 'on' : ''}">${t[1]}</a>`).join('')}</div>${sc ? `<span class="refbadge" title="Referência da tela (kami-screens.js, TELAS.md)">${sc.id}</span><small>${sc.nome}</small>` : ''}<span style="flex:1"></span><a class="btn btn-secondary btn-sm" href="kami-telas.html">Todas as telas</a><button class="btn btn-ghost btn-sm" data-act="reset">Repor dados</button>`;
+}
+
+/* ---------- Cliente: menu, carrinho, entrega, acompanhamento ---------- */
+const qtd = () => cart.reduce((s, i) => s + i.q, 0);
+function phone(inner, bottom = '') { return `<div class="stage-app"><div class="app-phone">${inner}${bottom ? `<div class="bottom">${bottom}</div>` : ''}</div></div>`; }
+function appbar(titulo, sub, back) {
+  return `<div class="appbar">${back ? `<button class="back" data-go="${back}" aria-label="Voltar">${ic('back')}</button>` : ''}<div class="grow"><b>${titulo}</b>${sub ? `<small>${sub}</small>` : ''}</div></div>`;
+}
+function viewMenu(mesa) {
+  if (!mesa && !S.aberto) return viewFechado();
+  const lista = PRODUTOS.filter(p => p.c === cat);
+  const topo = mesa
+    ? `<div class="appbar"><div class="grow"><b>${REST.nome}</b><small>Mesa 4, atendimento activo</small></div>${ic('table')}</div>`
+    : appbar(REST.nome, `Aberto até às ${REST.fecha}, ${REST.zona}`);
+  const itens = lista.map(p => `<div class="prod ${p.on ? '' : 'off'}">${p.foto ? `<div class="ph">${ic('image')}</div>` : ''}<div style="flex:1;min-width:0"><h4 data-pv="${p.id}">${p.n}</h4><p>${p.d}</p><div class="meta"><span class="price">${kz(p.p)}</span>${p.on ? `<button class="addbtn" data-add="${p.id}" aria-label="Adicionar ${p.n}">${ic('plus')}</button>` : '<span class="badge b-done">Indisponível</span>'}</div></div></div>`).join('');
+  const n = qtd();
+  const base = mesa ? 'm' : 'c';
+  return phone(`${topo}<div class="screen">
+    ${mesa ? '' : `<div class="seg"><button class="${modo === 'levantamento' ? 'on' : ''}" data-modo="levantamento">Levantamento</button><button class="${modo === 'entrega' ? 'on' : ''}" data-modo="entrega">Entrega</button></div>`}
+    ${mesa ? `<div class="banner">${ic('info')}<div>Pedidos desta mesa ficam no mesmo atendimento. <button class="link" data-go="#/m/session">Ver pedidos</button></div></div>` : ''}
+    <div class="pill-row">${CATS.map(c => `<button class="chip ${c === cat ? 'on' : ''}" data-cat="${c}">${c}</button>`).join('')}</div>
+    <div>${itens}</div></div>`,
+    n ? `<button class="btn btn-primary btn-lg btn-block" data-go="#/${base}/cart" style="justify-content:space-between">${ic('cart')}<span>Ver carrinho (${n})</span><span>${kz(tot(cart))}</span></button>` : '');
+}
+function viewCart(mesa) {
+  const base = mesa ? 'm' : 'c';
+  if (!cart.length) return phone(`${appbar('Carrinho', '', `#/${base}/menu`)}<div class="screen"><div class="empty"><b>O carrinho está vazio</b>Escolha produtos no menu para começar.</div></div>`, `<button class="btn btn-primary btn-lg btn-block" data-go="#/${base}/menu">Ver o menu</button>`);
+  const linhas = cart.map((i, k) => `<div class="cartline"><div><h4>${i.n}</h4><small>${kz(i.p)} cada</small><button class="link" data-rm="${k}" style="margin-top:6px">Remover</button></div><div class="stepper"><button data-dec="${k}" aria-label="Menos">${ic('minus')}</button><span>${i.q}</span><button data-inc="${k}" aria-label="Mais">${ic('plus')}</button></div></div>`).join('');
+  return phone(`${appbar('Carrinho', '', `#/${base}/menu`)}<div class="screen">${linhas}
+    <div class="field"><label>Observações <span class="opt">(opcional)</span></label><textarea id="obs" placeholder="Ex.: sem sal, bem passado">${obs}</textarea></div>
+    <div><div class="sumrow"><span>Produtos</span><span>${kz(tot(cart))}</span></div><div class="sumrow tot"><span>Total</span><span>${kz(tot(cart))}</span></div></div></div>`,
+    mesa ? `<button class="btn btn-primary btn-lg btn-block" data-act="enviar-mesa">Enviar pedido para a cozinha</button>` : `<button class="btn btn-primary btn-lg btn-block" data-go="#/c/checkout">Continuar</button>`);
+}
+function viewCheckout() {
+  const ent = modo === 'entrega';
+  return phone(`${appbar('Finalizar pedido', '', '#/c/cart')}<div class="screen">
+    <div class="seg"><button class="${!ent ? 'on' : ''}" data-modo="levantamento">Levantamento</button><button class="${ent ? 'on' : ''}" data-modo="entrega">Entrega</button></div>
+    ${ent ? `<div class="map mapbox"><div class="zone"></div><div class="pin">${ic('pin')}</div></div>
+      <div class="field"><label>Local de entrega</label><input id="local" value="Rua Direita de Talatona"></div>
+      <div class="alert a-ok">${ic('check')}<div>Dentro da zona de entrega. Taxa: 1.000 Kz.</div></div>` : `<div class="banner">${ic('clock')}<div>Levante no restaurante, em ${REST.zona}. Estimativa depois de aceite.</div></div>`}
+    <div class="field"><label for="nome">Nome</label><input id="nome" value="Maria Cardoso" autocomplete="name"></div>
+    <div class="field"><label for="tel">Telefone</label><input id="tel" value="923 456 789" inputmode="tel" autocomplete="tel"></div>
+    <div><div class="sumrow"><span>Produtos</span><span>${kz(tot(cart))}</span></div>${ent ? `<div class="sumrow"><span>Entrega</span><span>${kz(1000)}</span></div>` : ''}<div class="sumrow tot"><span>Total</span><span>${kz(tot(cart) + (ent ? 1000 : 0))}</span></div></div></div>`,
+    `<button class="btn btn-primary btn-lg btn-block" data-act="enviar-online">Enviar pedido</button>`);
+}
+function viewTrack() {
+  const o = S.orders.find(x => x.id === lastId);
+  if (!o) return phone(`${appbar('Acompanhamento', '', '#/c/menu')}<div class="screen"><div class="empty"><b>Ainda sem pedidos</b>Faça um pedido para o acompanhar aqui.</div></div>`, `<button class="btn btn-primary btn-lg btn-block" data-go="#/c/menu">Ver o menu</button>`);
+  const ordem = ['novo', 'prep', 'pronto', 'concluido']; const idx = ordem.indexOf(o.estado);
+  const nomes = ['Pedido enviado', 'Em preparação', o.tipo === 'entrega' ? 'A caminho' : 'Pronto para levantar', 'Concluído'];
+  const sub = ['O restaurante vai aceitar em breve', 'A cozinha está a preparar', 'Pode levantar ou aguardar a entrega', 'Bom proveito'];
+  const li = nomes.map((t, k) => `<li class="${k < idx ? 'done' : k === idx ? 'now' : 'wait'}"><span class="mk">${k <= idx ? ic('check') : ''}</span><b>${t}</b><small>${sub[k]}</small></li>`).join('');
+  return phone(`${appbar('Pedido ' + String(o.id).padStart(4, '0'), o.tipo === 'entrega' ? 'Entrega' : 'Levantamento', '#/c/menu')}<div class="screen">
+    <div class="estimate"><div class="sub">${o.estado === 'novo' ? 'Aguarda aceitação' : 'Estimativa'}</div><div class="big">${o.estado === 'novo' ? '—' : (o.eta || 20) + ' min'}</div></div>
+    <ul class="timeline">${li}</ul>
+    <div class="card pad-sm"><div class="sumrow tot" style="border:0;margin:0;padding:0"><span>Total</span><span>${kz(tot(o.itens) + (o.tipo === 'entrega' ? 1000 : 0))}</span></div></div></div>`,
+    `<button class="btn btn-secondary btn-block" data-act="avancar-demo">Simular avanço do restaurante</button>`);
+}
+function viewSession() {
+  const os = S.orders.filter(o => o.mesa === 4 && o.estado !== 'cancelado');
+  const cards = os.map(o => `<div class="ticket ${o.estado === 'prep' ? 't-prep' : o.estado === 'pronto' ? 't-ready' : ''}"><div class="ticket-h"><div><b>Pedido ${String(o.id).padStart(4, '0')}</b><small>há ${o.min} min</small></div>${badge(o.estado)}</div><ul>${o.itens.map(i => `<li><b>${i.q}x</b><div>${i.n}${i.o ? `<i>${i.o}</i>` : ''}</div></li>`).join('')}</ul><div class="ticket-f"><span class="sub">Subtotal</span><span class="price">${kz(tot(o.itens))}</span></div></div>`).join('');
+  return phone(`${appbar('Mesa 4', 'Atendimento activo desde as 13:05', '#/m/menu')}<div class="screen">${cards || '<div class="empty"><b>Sem pedidos</b>Os pedidos desta mesa aparecem aqui.</div>'}<div class="sumrow tot"><span>Total da mesa</span><span>${kz(os.reduce((s, o) => s + tot(o.itens), 0))}</span></div></div>`, `<button class="btn btn-primary btn-lg btn-block" data-go="#/m/menu">Fazer outro pedido</button>`);
+}
+
+/* ---------- Back-office ---------- */
+function frame(area, nav, sel, conteudo, extra = '') {
+  const top = area === 'b'
+    ? `<div class="logo"><i>K</i>${REST.nome}</div><div class="right"><span class="inline">${ic('vol')}Som <span class="toggle ${S.som ? 'on' : ''}" data-act="som" role="switch" aria-checked="${S.som}" tabindex="0"></span></span><span class="inline"><span class="toggle ${S.aberto ? 'on' : ''}" data-act="aberto" role="switch" aria-checked="${S.aberto}" tabindex="0"></span>${S.aberto ? 'Aberto' : 'Fechado'}</span>${ic('bell')}</div>`
+    : `<div class="logo"><i>K</i>Kami, gestão da plataforma</div><div class="right">admiro.andre@evolium.ao</div>`;
+  return `<div class="desk app"><div class="top">${top}</div><nav class="side">${nav.map(n => `<button class="nav ${n[0] === sel ? 'on' : ''}" data-go="#/${area}/${n[0]}">${ic(n[2])}${n[1]}${n[3] ? `<span class="badge b-new">${n[3]}</span>` : ''}</button>`).join('')}</nav><div class="content">${conteudo}</div>${extra}</div>`;
+}
+const NAV_B = () => [['pedidos', 'Pedidos', 'list', S.orders.filter(o => o.estado === 'novo').length || ''], ['historico', 'Histórico', 'clock'], ['mesas', 'Mesas', 'table'], ['produtos', 'Produtos', 'box'], ['categorias', 'Categorias', 'tag'], ['zonas', 'Zonas de entrega', 'map'], ['equipa', 'Equipa', 'users'], ['plano', 'Plano', 'card'], ['definicoes', 'Definições', 'sliders']];
+const tipoTxt = o => o.tipo === 'mesa' ? o.quem : (o.tipo === 'entrega' ? 'Entrega, ' : 'Levantamento, ') + o.quem;
+function ticket(o) {
+  const cls = o.estado === 'prep' ? 't-prep' : o.estado === 'pronto' ? 't-ready' : '';
+  const acao = { novo: ['Aceitar', 'btn-primary', 'accept'], prep: ['Marcar pronto', 'btn-secondary', 'next'], pronto: ['Concluir', 'btn-secondary', 'next'] }[o.estado];
+  return `<div class="ticket ${cls}"><div class="ticket-h"><div><b>${tipoTxt(o)}</b><small>Pedido ${String(o.id).padStart(4, '0')}, há ${o.min} min <button class="link" data-ov="${o.id}" style="font-size:12px">Detalhes</button></small></div>${badge(o.estado)}</div><ul>${o.itens.map(i => `<li><b>${i.q}x</b><div>${i.n}${i.o ? `<i>${i.o}</i>` : ''}</div></li>`).join('')}</ul><div class="ticket-f"><span class="price">${kz(tot(o.itens))}</span><span class="row gap8">${o.estado === 'novo' ? `<button class="btn btn-secondary btn-sm" data-act="recusar" data-id="${o.id}">Recusar</button>` : ''}<button class="btn ${acao[1]} btn-sm" data-act="${acao[2]}" data-id="${o.id}">${acao[0]}</button></span></div></div>`;
+}
+function viewPedidos() {
+  const ativos = S.orders.filter(o => !['concluido', 'cancelado'].includes(o.estado));
+  const col = (e, t) => { const l = ativos.filter(o => o.estado === e); return `<div><div class="colhead">${t} <span class="count">${l.length}</span></div><div class="col gap8">${l.map(ticket).join('') || '<div class="sub" style="padding:8px">Sem pedidos</div>'}</div></div>`; };
+  const novos = ativos.filter(o => o.estado === 'novo').length;
+  return frame('b', NAV_B(), 'pedidos', `
+    <div class="page-h"><div><h3>Pedidos</h3><p>Hoje, ${S.orders.length} pedidos</p></div><button class="btn btn-secondary" data-act="simular-novo">${ic('plus')}Simular pedido novo</button></div>
+    ${novos ? `<div class="alert a-warn">${ic('bell')}<div><b style="display:inline">Há ${novos} pedido${novos > 1 ? 's' : ''} por aceitar.</b> Aceite ou recuse para parar o aviso.</div></div>` : ''}
+    <div class="kpis"><div class="card kpi"><small>Novos</small><b>${novos}</b></div><div class="card kpi"><small>Em preparação</small><b>${ativos.filter(o => o.estado === 'prep').length}</b></div><div class="card kpi"><small>Prontos</small><b>${ativos.filter(o => o.estado === 'pronto').length}</b></div><div class="card kpi"><small>Vendas do dia</small><b>${kz(S.orders.filter(o => o.estado !== 'cancelado').reduce((s, o) => s + tot(o.itens), 0))}</b></div></div>
+    <div class="cols">${col('novo', 'Novos')}${col('prep', 'Em preparação')}${col('pronto', 'Prontos')}</div>`,
+    modal && modal.t === 'accept' ? acceptModal(modal.id) : '');
+}
+function acceptModal(id) {
+  const o = S.orders.find(x => x.id === id);
+  return `<div class="scrim" data-act="fechar"><div class="modal" role="dialog" aria-modal="true" aria-label="Novo pedido" onclick="event.stopPropagation()"><div class="row" style="justify-content:space-between;align-items:center"><h3>Novo pedido, ${tipoTxt(o)}</h3>${badge('novo')}</div><div class="ticket"><ul style="border:0">${o.itens.map(i => `<li><b>${i.q}x</b><div>${i.n}${i.o ? `<i>${i.o}</i>` : ''}</div></li>`).join('')}</ul></div><div class="field"><label for="eta">Tempo de preparação</label><select id="eta"><option>10</option><option selected>20</option><option>30</option><option>45</option></select></div><div class="row gap8" style="justify-content:flex-end"><button class="btn btn-secondary" data-act="fechar">Cancelar</button><button class="btn btn-primary" data-act="aceitar" data-id="${id}">Aceitar pedido</button></div></div></div>`;
+}
+function viewMesas() {
+  const todas = [1, 2, 3, 4, 5, 6, 7, 8];
+  const st = n => { const act = S.mesasAtivas.includes(n); const novos = S.orders.filter(o => o.mesa === n && o.estado === 'novo').length; return { act, novos }; };
+  const cards = todas.map(n => { const s = st(n); return `<button class="mesa ${n === sel.mesa ? 'sel' : s.novos ? 'act' : s.act ? '' : 'free'}" data-mesa="${n}"><b>Mesa ${n}</b>${s.act ? (s.novos ? `<span class="badge b-new"><span class="dot"></span>${s.novos} novo</span>` : '<span class="badge b-prep"><span class="dot"></span>Activo</span>') : '<span class="badge b-done">Livre</span>'}</button>`; }).join('');
+  const m = sel.mesa; const act = S.mesasAtivas.includes(m); const os = S.orders.filter(o => o.mesa === m);
+  return frame('b', NAV_B(), 'mesas', `
+    <div class="page-h"><div><h3>Mesas</h3><p>${S.mesasAtivas.length} com atendimento activo</p></div><button class="btn btn-secondary" data-act="add-mesa">${ic('plus')}Adicionar mesa</button></div>
+    <div class="split"><div class="mesas">${cards}</div>
+    <div class="card pad col gap12" style="border-top:3px solid var(--evo-color-primary)"><div class="row" style="justify-content:space-between;align-items:center"><h3 style="font-size:16px">Mesa ${m}</h3>${act ? '<span class="badge b-prep"><span class="dot"></span>Activo</span>' : '<span class="badge b-done">Livre</span>'}</div>
+      ${os.length ? `<div class="tbl"><table><tr><th>Pedido</th><th>Estado</th><th class="r">Total</th></tr>${os.map(o => `<tr><td>${String(o.id).padStart(4, '0')}</td><td>${badge(o.estado)}</td><td class="r price">${kz(tot(o.itens))}</td></tr>`).join('')}</table></div>` : '<div class="sub">Sem pedidos neste atendimento.</div>'}
+      <div class="row gap12" style="align-items:center"><div class="qr" style="display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--evo-color-on-surface-muted)">QR</div><div class="col gap8"><b>QR Code da mesa</b><button class="btn btn-secondary btn-sm" data-act="qr">Imprimir QR Code</button></div></div>
+      ${act ? `<div class="alert a-err">${ic('warn')}<div>Ao encerrar, os novos pedidos desta mesa abrem um atendimento diferente.</div></div><button class="btn btn-danger btn-block" data-act="encerrar">Encerrar atendimento</button>` : `<button class="btn btn-primary btn-block" data-act="abrir-mesa">Abrir atendimento</button>`}</div></div>`);
+}
+function viewProdutos() {
+  const p = PRODUTOS.find(x => x.id === sel.prod) || PRODUTOS[0];
+  const linhas = PRODUTOS.map(x => `<tr class="row-click" data-prod="${x.id}" style="${x.id === p.id ? 'background:var(--evo-color-primary-soft)' : ''}"><td><b>${x.n}</b></td><td>${x.c}</td><td class="r price">${kz(x.p)}</td><td>${x.on ? '<span class="badge b-ready">No menu</span>' : '<span class="badge b-done">Oculto</span>'}</td></tr>`).join('');
+  return frame('b', NAV_B(), 'produtos', `
+    <div class="page-h"><div><h3>Produtos</h3><p>${PRODUTOS.length} produtos, ${PRODUTOS.filter(x => x.on).length} no menu</p></div><button class="btn btn-primary" data-act="novo-prod">${ic('plus')}Novo produto</button></div>
+    <div class="split"><div class="tbl"><table><tr><th>Produto</th><th>Categoria</th><th class="r">Preço</th><th>Estado</th></tr>${linhas}</table></div>
+    <div class="card pad col gap12"><div class="row" style="justify-content:space-between;align-items:center"><h3 style="font-size:16px">${p.n || 'Novo produto'}</h3><span class="inline" style="font-size:13px">No menu <span class="toggle ${p.on ? 'on' : ''}" data-act="toggle-prod" role="switch" aria-checked="${p.on}" tabindex="0"></span></span></div>
+      <div class="field"><label for="pn">Nome do produto</label><input id="pn" value="${p.n}"></div>
+      <div class="row gap12"><div class="field" style="flex:1"><label for="pc">Categoria</label><select id="pc">${CATS.map(c => `<option ${c === p.c ? 'selected' : ''}>${c}</option>`).join('')}</select></div><div class="field" style="flex:1"><label for="pp">Preço em Kz</label><input id="pp" value="${p.p}" inputmode="numeric"></div></div>
+      <div class="field"><label for="pd">Descrição <span class="opt">(opcional)</span></label><textarea id="pd">${p.d}</textarea></div>
+      <div class="label">Fotografias <span class="opt">(${p.foto ? 1 : 0} de 5)</span></div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">${p.foto ? `<div class="ph" style="height:72px">${ic('image')}</div>` : ''}<div class="ph-dash" style="height:72px">${ic('plus')}Adicionar</div></div>
+      ${p.foto ? '' : `<div class="alert a-warn">${ic('image')}<div><b>Mais fotografias, mais atractivo</b>Pode publicar já e adicionar depois.</div></div>`}
+      <div class="alert a-info">${ic('info')}<div><b>Mudança de preço</b>O novo preço só se aplica a pedidos feitos a partir de agora.</div></div>
+      <div class="row gap8" style="justify-content:flex-end"><button class="btn btn-secondary" data-act="cancelar-prod">Cancelar</button><button class="btn btn-primary" data-act="guardar-prod">Guardar produto</button></div></div></div>`);
+}
+function viewZonas() {
+  return frame('b', NAV_B(), 'zonas', `
+    <div class="page-h"><div><h3>Zonas de entrega</h3><p>O cliente só pode pedir entrega dentro destas zonas.</p></div><button class="btn btn-primary" data-act="add-zona">${ic('plus')}Nova zona</button></div>
+    <div class="split"><div class="map" style="height:320px"><div class="zone"></div><div class="pin">${ic('pin')}</div></div>
+    <div class="tbl"><table><tr><th>Zona</th><th class="r">Taxa</th><th>Estado</th></tr><tr><td><b>Talatona</b></td><td class="r price">1.000 Kz</td><td><span class="badge b-ready">Activa</span></td></tr><tr><td><b>Belas</b></td><td class="r price">1.500 Kz</td><td><span class="badge b-ready">Activa</span></td></tr><tr><td><b>Maianga</b></td><td class="r price">2.000 Kz</td><td><span class="badge b-done">Inactiva</span></td></tr></table></div></div>`);
+}
+function viewDefinicoes() {
+  return frame('b', NAV_B(), 'definicoes', `
+    <div class="page-h"><div><h3>Definições</h3><p>Dados do restaurante e funcionamento.</p></div><button class="btn btn-primary" data-act="guardar-def">Guardar alterações</button></div>
+    <div class="split"><div class="card pad col gap12"><div class="field"><label for="rn">Nome do restaurante</label><input id="rn" value="${REST.nome}"></div><div class="row gap12"><div class="field" style="flex:1"><label for="ra">Abre às</label><input id="ra" value="10:00"></div><div class="field" style="flex:1"><label for="rf">Fecha às</label><input id="rf" value="${REST.fecha}"></div></div><div class="field"><label for="rt">Telefone</label><input id="rt" value="923 000 111"></div><div class="field"><label for="rl">Endereço público</label><input id="rl" value="kami.ao/quilamba"></div></div>
+    <div class="card pad col gap12"><b>Pedidos</b><label class="inline"><span class="check on">${ic('check')}</span>Pedidos online</label><label class="inline"><span class="check on">${ic('check')}</span>Pedidos presenciais por QR Code</label><label class="inline"><span class="check">${''}</span>Entrega</label><div class="alert a-info">${ic('info')}<div>Plano <b style="display:inline">Premium</b>. A entrega está incluída.</div></div></div></div>`);
+}
+
+/* ---------- Plataforma (SaaS) ---------- */
+const NAV_P = [['dashboard', 'Visão geral', 'chart'], ['restaurantes', 'Restaurantes', 'list'], ['planos', 'Planos', 'box']];
+const REST_LIST = [['Restaurante Quilamba', 'Premium', 'Activo', '12 jul 2026', '184'], ['Cantinho do Mufete', 'Start', 'Activo', '03 ago 2026', '97'], ['Sabores da Ilha', 'Premium', 'Em teste', '21 set 2026', '12'], ['Funge & Cia', 'Start', 'Suspenso', '15 mai 2026', '0']];
+function viewRestaurantes() {
+  const b = s => `<span class="badge ${s === 'Activo' ? 'b-ready' : s === 'Em teste' ? 'b-new' : 'b-cancel'}"><span class="dot"></span>${s}</span>`;
+  return frame('p', NAV_P, 'restaurantes', `
+    <div class="page-h"><div><h3>Restaurantes</h3><p>Todos os clientes da plataforma.</p></div><button class="btn btn-primary" data-act="novo-rest">${ic('plus')}Novo restaurante</button></div>
+    <div class="kpis"><div class="card kpi"><small>Restaurantes</small><b>4</b></div><div class="card kpi"><small>Activos</small><b>2</b></div><div class="card kpi"><small>Em teste</small><b>1</b></div><div class="card kpi"><small>Pedidos este mês</small><b>293</b></div></div>
+    <div class="tbl"><table><tr><th>Restaurante</th><th>Plano</th><th>Estado</th><th>Desde</th><th class="r">Pedidos</th></tr>${REST_LIST.map((r, k) => `<tr class="row-click" data-rest="${k}"><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${b(r[2])}</td><td>${r[3]}</td><td class="r">${r[4]}</td></tr>`).join('')}</table></div>`);
+}
+function viewPlanos() {
+  return frame('p', NAV_P, 'planos', `
+    <div class="page-h"><div><h3>Planos</h3><p>Valores e limites por plano. Ainda por definir no documento de requisitos.</p></div></div>
+    <div class="grid2"><div class="card plan"><h4>Start</h4><div class="big">Por definir</div><ul><li>Pedidos online</li><li>Catálogo com até 5 fotografias por produto</li><li>Gestão de pedidos</li></ul></div><div class="card plan hl"><h4>Premium</h4><div class="big">Por definir</div><ul><li>Tudo do Start</li><li>Pedidos presenciais por QR Code</li><li>Zonas e taxas de entrega</li></ul></div></div>`);
+}
+
+/* ---------- Estado extra ---------- */
+let pd = { id: 3, q: 1 }; let reg = { plano: 'Premium' }; let hfil = 'todos'; let sOrder = 142; let sRest = 0;
+let splashT = null;
+const HIST = [
+  { id: 137, tipo: 'entrega', quem: 'Ana Pires', itens: [{ n: 'Mufete de cacusso', q: 1, p: 6800 }], estado: 'concluido', d: 'Ontem, 20:41' },
+  { id: 136, tipo: 'mesa', quem: 'Mesa 4', itens: [{ n: 'Cuca 33 cl', q: 4, p: 800 }, { n: 'Gelado de múcua', q: 1, p: 1000 }], estado: 'concluido', d: 'Ontem, 19:10' },
+  { id: 135, tipo: 'levantamento', quem: 'Paulo Dias', itens: [{ n: 'Calulu de peixe', q: 2, p: 5200 }], estado: 'cancelado', d: 'Ontem, 18:32' },
+  { id: 134, tipo: 'mesa', quem: 'Mesa 1', itens: [{ n: 'Muamba de galinha', q: 2, p: 4500 }], estado: 'concluido', d: 'Ontem, 13:55' },
+];
+const todosPedidos = () => [...S.orders.map(o => ({ ...o, d: o.min === undefined ? '' : 'Hoje, há ' + o.min + ' min' })), ...HIST];
+const pid = o => String(o.id).padStart(4, '0');
+
+/* ---------- Auth e entrada ---------- */
+function authShell(inner, titulo = 'Os pedidos do seu restaurante, num só lugar', sub = 'Pedidos online, pedidos na mesa por QR Code e a cozinha sempre avisada.') {
+  return `<div class="auth"><aside class="auth-side"><div class="logo"><i>K</i>Kami</div><div class="col gap16"><h2>${titulo}</h2><p>${sub}</p>
+    <div class="ticket" style="max-width:300px"><div class="ticket-h"><div><b>Mesa 4</b><small>Pedido 0142, há 2 min</small></div><span class="badge b-new"><span class="dot"></span>Novo</span></div><ul><li><b>2x</b><div>Muamba de galinha</div></li><li><b>3x</b><div>Cuca 33 cl</div></li></ul><div class="ticket-f"><span class="price">11.400 Kz</span><span class="btn btn-primary btn-sm">Aceitar</span></div></div></div><small>Feito em Angola</small></aside>
+    <section class="auth-main"><div class="auth-card">${inner}</div></section></div>`;
+}
+function viewSplash() {
+  clearTimeout(splashT); if (!document.body.classList.contains('frame')) splashT = setTimeout(() => { if (location.hash === '#/a/splash') go('#/a/login'); }, 2200);
+  return `<div class="splash"><div class="logo" style="font-size:34px;gap:14px"><i style="width:64px;height:64px;font-size:34px;border-radius:14px">K</i>Kami</div><p>Pedidos de restaurante, sem complicação</p><div class="loader"><span></span></div></div>`;
+}
+function viewLogin() {
+  return authShell(`<h3>Entrar</h3><p class="sub">Aceda ao painel do seu restaurante.</p>
+    <div class="field"><label for="em">Email</label><input id="em" type="email" value="gerente@quilamba.ao" autocomplete="username"></div>
+    <div class="field"><label for="pw">Palavra-passe</label><input id="pw" type="password" value="12345678" autocomplete="current-password"></div>
+    <button class="link" data-go="#/a/recuperar" style="align-self:flex-start">Esqueci a palavra-passe</button>
+    <button class="btn btn-primary btn-lg btn-block" data-go="#/b/pedidos">Entrar</button>
+    <div class="sub" style="text-align:center">Ainda não tem conta? <button class="link" data-go="#/a/registo">Criar conta</button></div>
+    <hr><button class="btn btn-secondary btn-block" data-go="#/p/dashboard">Entrar como administrador da plataforma</button>`);
+}
+function viewRecuperar() {
+  return authShell(`<button class="link" data-go="#/a/login">${ic('back')}Voltar</button><h3>Recuperar palavra-passe</h3><p class="sub">Enviamos uma ligação para o seu email.</p>
+    <div class="field"><label for="em">Email</label><input id="em" type="email" value="gerente@quilamba.ao"></div>
+    <button class="btn btn-primary btn-lg btn-block" data-act="recuperar">Enviar ligação</button>`);
+}
+const passos = n => `<div class="steps" aria-label="Passo ${n} de 3">${[1, 2, 3].map(k => `<span class="${k < n ? 'done' : k === n ? 'now' : ''}"></span>`).join('')}</div><div class="sub">Passo ${n} de 3</div>`;
+function viewRegisto() {
+  return authShell(`${passos(1)}<h3>Crie a sua conta</h3>
+    <div class="field"><label for="rn1">Nome completo</label><input id="rn1" value="Carlos Quilamba"></div>
+    <div class="row gap12"><div class="field" style="flex:1"><label for="rm">Email</label><input id="rm" value="gerente@quilamba.ao"></div><div class="field" style="flex:1"><label for="rt1">Telefone</label><input id="rt1" value="923 000 111"></div></div>
+    <div class="field"><label for="rp">Palavra-passe</label><input id="rp" type="password" value="12345678"><span class="hint">Mínimo de 8 caracteres.</span></div>
+    <label class="inline"><span class="check on">${ic('check')}</span>Aceito os termos e a política de privacidade</label>
+    <button class="btn btn-primary btn-lg btn-block" data-go="#/a/registo-restaurante">Continuar</button>
+    <div class="sub" style="text-align:center">Já tem conta? <button class="link" data-go="#/a/login">Entrar</button></div>`, 'Comece a receber pedidos hoje', 'Crie a conta, configure o menu e partilhe o endereço do restaurante.');
+}
+function viewRegistoRest() {
+  return authShell(`${passos(2)}<button class="link" data-go="#/a/registo">${ic('back')}Voltar</button><h3>O seu restaurante</h3>
+    <div class="field"><label for="a1">Nome do restaurante</label><input id="a1" value="Restaurante Quilamba"></div>
+    <div class="field"><label for="a2">Endereço público</label><input id="a2" value="kami.ao/quilamba"><span class="hint">É este o endereço que partilha com os clientes.</span></div>
+    <div class="row gap12"><div class="field" style="flex:1"><label for="a3">Zona</label><input id="a3" value="Talatona"></div><div class="field" style="flex:1"><label>Horário</label><input value="10:00 às 22:00"></div></div>
+    <div class="label">Como recebe pedidos</div>
+    <label class="inline"><span class="check on">${ic('check')}</span>Pedidos online (levantamento e entrega)</label>
+    <label class="inline"><span class="check on">${ic('check')}</span>Pedidos na mesa por QR Code</label>
+    <button class="btn btn-primary btn-lg btn-block" data-go="#/a/registo-plano">Continuar</button>`, 'Comece a receber pedidos hoje', 'Crie a conta, configure o menu e partilhe o endereço do restaurante.');
+}
+function viewRegistoPlano() {
+  const pl = (n, d, li) => `<button class="card plan ${reg.plano === n ? 'hl' : ''}" data-plano="${n}" role="radio" aria-checked="${reg.plano === n}" style="text-align:left;cursor:pointer"><div class="row" style="justify-content:space-between;align-items:center"><h4>${n}</h4><span class="radio ${reg.plano === n ? 'on' : ''}"></span></div><div class="sub">${d}</div><ul>${li.map(x => `<li>${x}</li>`).join('')}</ul></button>`;
+  return authShell(`${passos(3)}<button class="link" data-go="#/a/registo-restaurante">${ic('back')}Voltar</button><h3>Escolha o plano</h3><p class="sub">Pode mudar depois. Valores por definir.</p>
+    <div class="col gap12" role="radiogroup">${pl('Start', 'Para começar com pedidos online', ['Pedidos online', 'Catálogo e fotografias', 'Gestão de pedidos'])}${pl('Premium', 'Para quem também serve à mesa', ['Tudo do Start', 'Pedidos na mesa por QR Code', 'Zonas e taxas de entrega'])}</div>
+    <button class="btn btn-primary btn-lg btn-block" data-go="#/a/registo-ok">Criar restaurante</button>`, 'Comece a receber pedidos hoje', 'Crie a conta, configure o menu e partilhe o endereço do restaurante.');
+}
+function viewRegistoOk() {
+  return authShell(`<div class="okmark">${ic('check', 'i-lg')}</div><h3>Restaurante criado</h3><p class="sub">kami.ao/quilamba já existe. Falta preparar o menu.</p>
+    <div class="card pad-sm col gap8"><label class="inline"><span class="check on">${ic('check')}</span>Conta criada</label><label class="inline"><span class="check"></span>Adicionar produtos</label><label class="inline"><span class="check"></span>Definir zonas de entrega</label><label class="inline"><span class="check"></span>Criar mesas e imprimir QR Codes</label></div>
+    <button class="btn btn-primary btn-lg btn-block" data-go="#/b/pedidos">Ir para o painel</button>`, 'Tudo pronto', 'Pode começar a configurar já.');
+}
+
+/* ---------- Landing ---------- */
+function viewLandingKami() {
+  const f = (i, t, d) => `<div class="card pad col gap8"><div class="okmark sm">${ic(i)}</div><h4>${t}</h4><p class="sub">${d}</p></div>`;
+  return `<div class="pub"><header class="pub-nav"><div class="logo"><i>K</i>Kami</div><nav><a href="#/l/kami">Funcionalidades</a><a href="#/l/kami">Planos</a></nav><span class="row gap8"><button class="btn btn-ghost" data-go="#/a/login">Entrar</button><button class="btn btn-primary" data-go="#/a/registo">Criar conta</button></span></header>
+    <section class="hero"><div class="col gap16"><h1>Receba pedidos online e na mesa, sem confusão na cozinha</h1><p>O Kami dá ao seu restaurante um endereço para partilhar no WhatsApp, um menu sempre actualizado e um painel que avisa quando chega um pedido.</p><div class="row gap12 wrap"><button class="btn btn-primary btn-lg" data-go="#/a/registo">Criar conta</button><button class="btn btn-secondary btn-lg" data-go="#/l/restaurante">Ver um restaurante de exemplo</button></div></div>
+    <div class="hero-art"><div class="ticket"><div class="ticket-h"><div><b>Entrega, Maria Cardoso</b><small>Pedido 0143, há 1 min</small></div><span class="badge b-new"><span class="dot"></span>Novo</span></div><ul><li><b>1x</b><div>Calulu de peixe</div></li></ul><div class="ticket-f"><span class="price">5.200 Kz</span><span class="btn btn-primary btn-sm">Aceitar</span></div></div><div class="ticket t-prep"><div class="ticket-h"><div><b>Mesa 2</b><small>Pedido 0140, aceite às 13:02</small></div><span class="badge b-prep"><span class="dot"></span>Em preparação</span></div><ul><li><b>2x</b><div>Mufete de cacusso</div></li></ul></div></div></section>
+    <section class="sec"><h2>Tudo o que o restaurante precisa para vender</h2><div class="grid3">${f('cart', 'Pedidos online', 'Levantamento ou entrega, com local confirmado pelo cliente.')}${f('table', 'Pedidos na mesa', 'Cada mesa tem o seu QR Code e um atendimento próprio.')}${f('bell', 'Aviso na cozinha', 'Um som repete-se até alguém aceitar o pedido.')}</div></section>
+    <section class="sec band"><h2>Como começar</h2><div class="grid3"><div class="step"><b>1</b><h4>Crie a conta</h4><p class="sub">Leva dois minutos.</p></div><div class="step"><b>2</b><h4>Monte o menu</h4><p class="sub">Produtos, preços e fotografias.</p></div><div class="step"><b>3</b><h4>Partilhe o endereço</h4><p class="sub">No WhatsApp, redes sociais ou na mesa.</p></div></div></section>
+    <section class="sec"><h2>Planos</h2><div class="grid2" style="max-width:720px"><div class="card plan"><h4>Start</h4><div class="big">Por definir</div><ul><li>Pedidos online</li><li>Catálogo e fotografias</li></ul><button class="btn btn-secondary" data-go="#/a/registo">Começar com Start</button></div><div class="card plan hl"><h4>Premium</h4><div class="big">Por definir</div><ul><li>Tudo do Start</li><li>Pedidos na mesa por QR Code</li><li>Zonas e taxas de entrega</li></ul><button class="btn btn-primary" data-go="#/a/registo">Começar com Premium</button></div></div></section>
+    <footer class="pub-foot"><div class="logo"><i>K</i>Kami</div><span class="sub">Feito em Angola</span></footer></div>`;
+}
+function viewLandingRest() {
+  const top = PRODUTOS.filter(p => p.on).slice(0, 3);
+  return `<div class="pub"><section class="rest-hero"><div class="logo" style="font-size:18px"><i>Q</i>${REST.nome}</div><div class="col gap12" style="max-width:520px"><span class="badge ${S.aberto ? 'b-ready' : 'b-cancel'}"><span class="dot"></span>${S.aberto ? 'Aberto até às ' + REST.fecha : 'Fechado agora'}</span><h1>Comida angolana, feita ao momento</h1><p>Peça para levantar ou receba em casa, em ${REST.zona}.</p><div class="row gap12 wrap"><button class="btn btn-primary btn-lg" data-go="#/c/menu">Fazer pedido</button><button class="btn btn-secondary btn-lg" data-go="#/c/menu">Ver o menu</button></div></div></section>
+    <section class="sec"><div class="grid3"><div class="card pad-sm row" style="align-items:center">${ic('clock')}<div><b>Horário</b><div class="sub">10:00 às ${REST.fecha}, todos os dias</div></div></div><div class="card pad-sm row" style="align-items:center">${ic('pin')}<div><b>Onde estamos</b><div class="sub">Rua Direita de ${REST.zona}</div></div></div><div class="card pad-sm row" style="align-items:center">${ic('cart')}<div><b>Entrega</b><div class="sub">A partir de 1.000 Kz</div></div></div></div></section>
+    <section class="sec"><h2>Os mais pedidos</h2><div class="grid3">${top.map(p => `<div class="card"><div class="ph" style="height:120px;border-radius:12px 12px 0 0">${ic('image')}</div><div class="pad-sm col gap8"><b>${p.n}</b><span class="sub">${p.d}</span><span class="price">${kz(p.p)}</span></div></div>`).join('')}</div></section>
+    <footer class="pub-foot"><span class="sub">Pedidos por Kami</span><button class="link" data-go="#/l/kami">Quer um destes para o seu restaurante?</button></footer></div>`;
+}
+
+/* ---------- Cliente: telas extra ---------- */
+const baseR = () => (location.hash.split('/')[1] === 'm' ? 'm' : 'c');
+function viewFechado() {
+  return phone(`${appbar(REST.nome, 'Fechado agora', '#/l/restaurante')}<div class="screen"><div class="empty"><div class="okmark" style="background:var(--evo-color-warning-soft);color:var(--evo-color-on-warning)">${ic('clock', 'i-lg')}</div><b>Estamos fechados</b>Voltamos às 10:00. Pode ver o menu, mas não é possível fazer pedidos.</div><div class="banner">${ic('info')}<div>Horário: 10:00 às ${REST.fecha}, todos os dias.</div></div></div>`, `<button class="btn btn-secondary btn-lg btn-block" data-go="#/l/restaurante">Voltar à página do restaurante</button>`);
+}
+function viewForaZona() {
+  return phone(`${appbar('Finalizar pedido', '', '#/c/checkout')}<div class="screen"><div class="map mapbox"><div class="zone"></div><div class="pin" style="left:82%;top:70%">${ic('pin')}</div></div><div class="alert a-err">${ic('warn')}<div><b>Fora da zona de entrega</b>Não entregamos em Viana. Corrija o local ou escolha levantamento.</div></div><div class="field"><label>Local de entrega</label><input value="Viana, Estrada de Catete"></div></div>`, `<div class="col gap8"><button class="btn btn-primary btn-lg btn-block" data-go="#/c/checkout">Corrigir local</button><button class="btn btn-secondary btn-block" data-act="modo-levantar">Mudar para levantamento</button></div>`);
+}
+function viewConfirmacao() {
+  const o = S.orders.find(x => x.id === lastId) || S.orders[0];
+  return phone(`<div class="screen" style="justify-content:center;text-align:center;align-items:center;gap:16px"><div class="okmark">${ic('check', 'i-lg')}</div><h3 style="font-size:22px">Pedido enviado</h3><p class="sub" style="max-width:260px">O restaurante vai aceitar em breve e dar-lhe uma estimativa.</p><div class="card pad-sm" style="width:100%"><div class="sumrow"><span>Pedido</span><b>${pid(o)}</b></div><div class="sumrow"><span>Total</span><b>${kz(tot(o.itens))}</b></div></div></div>`, `<div class="col gap8"><button class="btn btn-primary btn-lg btn-block" data-go="#/c/track">Acompanhar pedido</button><button class="btn btn-secondary btn-block" data-go="#/c/menu">Fazer outro pedido</button></div>`);
+}
+function viewProduto() {
+  const b = baseR(); const p = PRODUTOS.find(x => x.id === pd.id) || PRODUTOS[0];
+  return phone(`<div class="appbar"><button class="back" data-go="#/${b}/menu" aria-label="Voltar">${ic('back')}</button><div class="grow"><b>${p.c}</b></div></div><div class="screen">${p.foto ? `<div class="ph" style="height:180px">${ic('image', 'i-lg')}</div>` : ''}<div><h3 style="font-size:20px">${p.n}</h3><p class="sub" style="margin:4px 0 8px">${p.d}</p><b style="font-size:18px">${kz(p.p)}</b></div>
+    <div class="field"><label for="po">Observações <span class="opt">(opcional)</span></label><textarea id="po" placeholder="Ex.: sem gindungo"></textarea></div>
+    <div class="row" style="justify-content:space-between;align-items:center"><b>Quantidade</b><div class="stepper"><button data-act="pd-dec" aria-label="Menos">${ic('minus')}</button><span>${pd.q}</span><button data-act="pd-inc" aria-label="Mais">${ic('plus')}</button></div></div></div>`,
+    `<button class="btn btn-primary btn-lg btn-block" data-act="pd-add" style="justify-content:space-between"><span>Adicionar ao carrinho</span><span>${kz(p.p * pd.q)}</span></button>`);
+}
+function viewScan() {
+  return phone(`<div class="appbar"><div class="grow"><b>${REST.nome}</b><small>Pedidos na mesa</small></div></div><div class="screen" style="justify-content:center;align-items:center;text-align:center;gap:14px"><div class="qr" style="width:96px;height:96px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:28px">4</div><h3 style="font-size:22px">Mesa 4</h3><p class="sub" style="max-width:260px">Escolha o que quer e a cozinha recebe o pedido. Pode fazer mais pedidos durante a refeição.</p></div>`, `<button class="btn btn-primary btn-lg btn-block" data-go="#/m/menu">Ver o menu</button>`);
+}
+function viewEncerrado() {
+  return phone(`<div class="appbar"><div class="grow"><b>Mesa 4</b><small>${REST.nome}</small></div></div><div class="screen"><div class="empty"><div class="okmark" style="background:var(--evo-color-surface-sunken);color:var(--evo-color-on-surface-muted)">${ic('lock', 'i-lg')}</div><b>Atendimento encerrado</b>Para fazer novo pedido, peça ao funcionário ou digitalize o QR Code da mesa outra vez.</div></div>`, `<button class="btn btn-primary btn-lg btn-block" data-go="#/m/scan">Digitalizar de novo</button>`);
+}
+
+/* ---------- Back-office: telas extra ---------- */
+function viewPedido() {
+  const o = todosPedidos().find(x => x.id === sOrder) || todosPedidos()[0]; const sub = tot(o.itens);
+  const ev = [['Pedido recebido', o.d || 'Hoje'], o.estado !== 'novo' && o.estado !== 'cancelado' ? ['Aceite, ' + (o.eta || 20) + ' min', ''] : null, ['pronto', 'concluido'].includes(o.estado) ? ['Pronto', ''] : null, o.estado === 'concluido' ? ['Concluído', ''] : null, o.estado === 'cancelado' ? ['Recusado', ''] : null].filter(Boolean);
+  return frame('b', NAV_B(), 'historico', `
+    <div class="page-h"><div><button class="link" data-go="#/b/historico">${ic('back')}Histórico</button><h3 style="margin-top:6px">Pedido ${pid(o)}</h3></div>${badge(o.estado)}</div>
+    <div class="split"><div class="col gap12"><div class="card pad col gap12"><b>Itens</b><div class="tbl"><table><tr><th>Item</th><th class="r">Qtd</th><th class="r">Preço</th></tr>${o.itens.map(i => `<tr><td>${i.n}${i.o ? `<div class="sub">${i.o}</div>` : ''}</td><td class="r">${i.q}</td><td class="r price">${kz(i.q * i.p)}</td></tr>`).join('')}</table></div><div class="sumrow tot"><span>Total</span><span>${kz(sub + (o.tipo === 'entrega' ? 1000 : 0))}</span></div></div>
+    ${['novo', 'prep', 'pronto'].includes(o.estado) && S.orders.find(x => x.id === o.id) ? `<div class="row gap8" style="justify-content:flex-end"><button class="btn btn-secondary" data-act="recusar" data-id="${o.id}">Recusar</button><button class="btn btn-primary" data-act="${o.estado === 'novo' ? 'accept' : 'next'}" data-id="${o.id}">${o.estado === 'novo' ? 'Aceitar' : o.estado === 'prep' ? 'Marcar pronto' : 'Concluir'}</button></div>` : ''}</div>
+    <div class="col gap12"><div class="card pad col gap8"><b>Cliente</b><div class="sub">${tipoTxt(o)}</div><div class="sub">${o.tipo === 'entrega' ? 'Rua Direita de Talatona' : o.tipo === 'mesa' ? 'Atendimento da mesa' : 'Levanta no restaurante'}</div></div><div class="card pad"><b>Cronologia</b><ul class="timeline" style="margin-top:12px">${ev.map((e, k) => `<li class="${k === ev.length - 1 ? 'now' : 'done'}"><span class="mk">${ic('check')}</span><b>${e[0]}</b><small>${e[1]}</small></li>`).join('')}</ul></div></div></div>`, modal && modal.t === 'accept' ? acceptModal(modal.id) : '');
+}
+function viewHistorico() {
+  const l = todosPedidos().filter(o => hfil === 'todos' || (hfil === 'concluidos' ? o.estado === 'concluido' : o.estado === 'cancelado'));
+  const ch = (k, t) => `<button class="chip ${hfil === k ? 'on' : ''}" data-hist="${k}">${t}</button>`;
+  return frame('b', NAV_B(), 'historico', `<div class="page-h"><div><h3>Histórico de pedidos</h3><p>${l.length} pedidos</p></div><div class="field" style="width:240px"><input placeholder="Procurar por nome ou número" aria-label="Procurar"></div></div>
+    <div class="pill-row">${ch('todos', 'Todos')}${ch('concluidos', 'Concluídos')}${ch('cancelados', 'Cancelados')}</div>
+    <div class="tbl"><table><tr><th>Pedido</th><th>Cliente</th><th>Tipo</th><th>Quando</th><th>Estado</th><th class="r">Total</th></tr>${l.map(o => `<tr class="row-click" data-ov="${o.id}"><td><b>${pid(o)}</b></td><td>${o.quem}</td><td>${{ mesa: 'Mesa', entrega: 'Entrega', levantamento: 'Levantamento' }[o.tipo]}</td><td>${o.d}</td><td>${badge(o.estado)}</td><td class="r price">${kz(tot(o.itens))}</td></tr>`).join('')}</table></div>`);
+}
+function viewCategorias() {
+  return frame('b', NAV_B(), 'categorias', `<div class="page-h"><div><h3>Categorias</h3><p>A ordem aqui é a ordem no menu.</p></div><button class="btn btn-primary" data-act="toast-ok">${ic('plus')}Nova categoria</button></div>
+    <div class="tbl"><table><tr><th>Nome</th><th>Produtos</th><th>Estado</th><th class="r">Ordem</th></tr>${CATS.map((c, k) => `<tr><td><b>${c}</b></td><td>${PRODUTOS.filter(p => p.c === c).length}</td><td><span class="badge b-ready">Visível</span></td><td class="r"><button class="btn btn-secondary btn-sm" aria-label="Subir">↑</button> <button class="btn btn-secondary btn-sm" aria-label="Descer">↓</button></td></tr>`).join('')}</table></div>`);
+}
+function viewEquipa() {
+  const eq = [['Carlos Quilamba', 'Gerente', 'Tudo', 'Activo'], ['Helena Sousa', 'Atendente', 'Pedidos, mesas, encerrar atendimento', 'Activo'], ['Mário Gomes', 'Cozinha', 'Pedidos', 'Activo'], ['Joana Pinto', 'Atendente', 'Pedidos, mesas', 'Convite enviado']];
+  return frame('b', NAV_B(), 'equipa', `<div class="page-h"><div><h3>Equipa</h3><p>Defina quem pode encerrar atendimentos e alterar o menu.</p></div><button class="btn btn-primary" data-act="convidar">${ic('plus')}Convidar funcionário</button></div>
+    <div class="tbl"><table><tr><th>Nome</th><th>Função</th><th>Permissões</th><th>Estado</th></tr>${eq.map(e => `<tr><td><b>${e[0]}</b></td><td>${e[1]}</td><td>${e[2]}</td><td><span class="badge ${e[3] === 'Activo' ? 'b-ready' : 'b-new'}">${e[3]}</span></td></tr>`).join('')}</table></div>`,
+    modal && modal.t === 'convite' ? `<div class="scrim" data-act="fechar"><div class="modal" role="dialog" aria-modal="true" aria-label="Convidar funcionário" onclick="event.stopPropagation()"><h3>Convidar funcionário</h3><div class="field"><label for="cv">Email</label><input id="cv" placeholder="nome@exemplo.ao"></div><div class="field"><label for="cf">Função</label><select id="cf"><option>Atendente</option><option>Cozinha</option><option>Gerente</option></select></div><label class="inline"><span class="check on">${ic('check')}</span>Pode encerrar atendimentos</label><div class="row gap8" style="justify-content:flex-end"><button class="btn btn-secondary" data-act="fechar">Cancelar</button><button class="btn btn-primary" data-act="enviar-convite">Enviar convite</button></div></div></div>` : '');
+}
+function viewPlanoBO() {
+  return frame('b', NAV_B(), 'plano', `<div class="page-h"><div><h3>Plano e facturação</h3><p>O seu plano e o que já usou este mês.</p></div><button class="btn btn-secondary" data-act="toast-ok">Mudar de plano</button></div>
+    <div class="split"><div class="card plan hl"><span class="badge b-ready"><span class="dot"></span>Activo</span><h4>Premium</h4><div class="big">Por definir</div><ul><li>Pedidos online e na mesa</li><li>Zonas e taxas de entrega</li></ul></div>
+    <div class="card pad col gap12"><b>Uso este mês</b><div><div class="sumrow"><span>Pedidos</span><b>184</b></div><div class="sumrow"><span>Funcionários</span><b>4</b></div><div class="sumrow"><span>Produtos</span><b>${PRODUTOS.length}</b></div></div></div></div>
+    <div class="tbl"><table><tr><th>Factura</th><th>Período</th><th>Estado</th><th class="r">Valor</th></tr><tr><td>F-0007</td><td>Outubro 2026</td><td><span class="badge b-new">Por pagar</span></td><td class="r price">—</td></tr><tr><td>F-0006</td><td>Setembro 2026</td><td><span class="badge b-ready">Paga</span></td><td class="r price">—</td></tr></table></div>`);
+}
+
+/* ---------- Plataforma: telas extra ---------- */
+function viewDashboard() {
+  const v = [34, 52, 41, 66, 58, 80, 72];
+  return frame('p', NAV_P, 'dashboard', `<div class="page-h"><div><h3>Visão geral</h3><p>Últimos 7 dias</p></div></div>
+    <div class="kpis"><div class="card kpi"><small>Restaurantes activos</small><b>2</b></div><div class="card kpi"><small>Pedidos</small><b>403</b></div><div class="card kpi"><small>Novos registos</small><b>3</b></div><div class="card kpi"><small>Em teste</small><b>1</b></div></div>
+    <div class="split"><div class="card pad col gap12"><b>Pedidos por dia</b><div class="bars" role="img" aria-label="Pedidos por dia, de 34 a 80">${v.map((n, k) => `<div><span style="height:${n}%"></span><small>${['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'][k]}</small></div>`).join('')}</div></div>
+    <div class="card pad col gap8"><b>Registos recentes</b>${REST_LIST.slice(1, 4).map(r => `<div class="sumrow"><span>${r[0]}</span><span class="sub">${r[3]}</span></div>`).join('')}</div></div>`);
+}
+function viewRestDetalhe() {
+  const r = REST_LIST[sRest];
+  return frame('p', NAV_P, 'restaurantes', `<div class="page-h"><div><button class="link" data-go="#/p/restaurantes">${ic('back')}Restaurantes</button><h3 style="margin-top:6px">${r[0]}</h3></div><span class="row gap8"><button class="btn btn-secondary" data-act="toast-ok">Mudar plano</button><button class="btn btn-danger" data-act="toast-ok">Suspender</button></span></div>
+    <div class="kpis"><div class="card kpi"><small>Plano</small><b>${r[1]}</b></div><div class="card kpi"><small>Estado</small><b>${r[2]}</b></div><div class="card kpi"><small>Cliente desde</small><b style="font-size:16px">${r[3]}</b></div><div class="card kpi"><small>Pedidos</small><b>${r[4]}</b></div></div>
+    <div class="split"><div class="card pad col gap8"><b>Contacto</b><div class="sub">gerente@quilamba.ao</div><div class="sub">923 000 111</div><div class="sub">kami.ao/quilamba</div></div><div class="card pad col gap8"><b>Pedidos recentes</b>${S.orders.slice(0, 3).map(o => `<div class="sumrow"><span>${pid(o)}, ${tipoTxt(o)}</span>${badge(o.estado)}</div>`).join('')}</div></div>`);
+}
+
+/* ---------- Encaminhamento ---------- */
+function render() {
+  const h = location.hash || '#/a/splash'; const [, area, pg] = h.split('/');
+  const sc = (window.KAMI_SCREENS || []).find(s => s.rota === area + '/' + pg);
+  if (!document.body.classList.contains('frame')) renderCtx(area, sc);
+  const v = {
+    'a/splash': viewSplash, 'a/login': viewLogin, 'a/recuperar': viewRecuperar, 'a/registo': viewRegisto, 'a/registo-restaurante': viewRegistoRest, 'a/registo-plano': viewRegistoPlano, 'a/registo-ok': viewRegistoOk,
+    'l/kami': viewLandingKami, 'l/restaurante': viewLandingRest,
+    'c/menu': () => viewMenu(false), 'c/produto': viewProduto, 'c/cart': () => viewCart(false), 'c/checkout': viewCheckout, 'c/confirmacao': viewConfirmacao, 'c/track': viewTrack, 'c/fechado': viewFechado, 'c/foradazona': viewForaZona,
+    'm/scan': viewScan, 'm/menu': () => viewMenu(true), 'm/produto': viewProduto, 'm/cart': () => viewCart(true), 'm/session': viewSession, 'm/encerrado': viewEncerrado,
+    'b/pedidos': viewPedidos, 'b/novo-pedido': () => { const n = S.orders.find(o => o.estado === 'novo'); if (n) modal = { t: 'accept', id: n.id }; return viewPedidos(); }, 'b/pedido': viewPedido, 'b/historico': viewHistorico, 'b/mesas': viewMesas, 'b/produtos': viewProdutos, 'b/categorias': viewCategorias, 'b/zonas': viewZonas, 'b/equipa': viewEquipa, 'b/plano': viewPlanoBO, 'b/definicoes': viewDefinicoes,
+    'p/dashboard': viewDashboard, 'p/restaurantes': viewRestaurantes, 'p/restaurante': viewRestDetalhe, 'p/planos': viewPlanos,
+  }[area + '/' + pg] || viewSplash;
+  $('#app').innerHTML = v(); $('#layer').innerHTML = '';
+  const root = $('#app').firstElementChild; if (root && sc) root.dataset.screen = sc.id;
+  document.title = (sc ? sc.id + ' ' + sc.nome + ' · ' : '') + 'Kami';
+}
+addEventListener('hashchange', () => { modal = null; render(); });
+
+/* ---------- Acções ---------- */
+const novoPedido = (tipo, quem, mesa) => {
+  const id = S.next++; S.orders.unshift({ id, tipo, quem, mesa, itens: cart.map(i => ({ n: i.n, q: i.q, p: i.p, o: obs || undefined })), estado: 'novo', min: 0 });
+  if (mesa && !S.mesasAtivas.includes(mesa)) S.mesasAtivas.push(mesa);
+  cart = []; obs = ''; lastId = id; save(); return id;
+};
+const ordemEstado = ['novo', 'prep', 'pronto', 'concluido'];
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-go],[data-add],[data-inc],[data-dec],[data-rm],[data-modo],[data-cat],[data-act],[data-mesa],[data-prod],[data-pv],[data-ov],[data-rest],[data-plano],[data-hist]'); if (!t) return;
+  const d = t.dataset;
+  if (d.go) return go(d.go);
+  if (d.add) { const p = PRODUTOS.find(x => x.id == d.add); const l = cart.find(i => i.n === p.n); l ? l.q++ : cart.push({ n: p.n, p: p.p, q: 1 }); return render(); }
+  if (d.inc) { cart[d.inc].q++; return render(); }
+  if (d.dec) { cart[d.dec].q > 1 ? cart[d.dec].q-- : cart.splice(d.dec, 1); return render(); }
+  if (d.rm) { cart.splice(d.rm, 1); return render(); }
+  if (d.modo) { modo = d.modo; return render(); }
+  if (d.cat) { cat = d.cat; return render(); }
+  if (d.mesa) { sel.mesa = +d.mesa; return render(); }
+  if (d.prod) { sel.prod = +d.prod; return render(); }
+  if (d.pv) { pd = { id: +d.pv, q: 1 }; return go('#/' + baseR() + '/produto'); }
+  if (d.ov) { sOrder = +d.ov; return go('#/b/pedido'); }
+  if (d.rest !== undefined) { sRest = +d.rest; return go('#/p/restaurante'); }
+  if (d.plano) { reg.plano = d.plano; return render(); }
+  if (d.hist) { hfil = d.hist; return render(); }
+  const id = +d.id; const o = S.orders.find(x => x.id === id);
+  switch (d.act) {
+    case 'reset': localStorage.removeItem('kami-state'); location.reload(); break;
+    case 'enviar-online': { const n = $('#nome')?.value || 'Cliente'; novoPedido(modo, n); go('#/c/confirmacao'); break; }
+    case 'enviar-mesa': { obs = $('#obs')?.value || ''; novoPedido('mesa', 'Mesa 4', 4); toast('Pedido enviado para a cozinha'); go('#/m/session'); break; }
+    case 'avancar-demo': { const x = S.orders.find(q => q.id === lastId); if (x) { if (x.estado === 'novo') x.eta = 20; const k = ordemEstado.indexOf(x.estado); if (k < 3) x.estado = ordemEstado[k + 1]; save(); render(); } break; }
+    case 'accept': modal = { t: 'accept', id }; render(); break;
+    case 'fechar': modal = null; render(); break;
+    case 'aceitar': o.estado = 'prep'; o.eta = +($('#eta')?.value || 20); modal = null; save(); toast('Pedido aceite'); render(); break;
+    case 'next': o.estado = ordemEstado[ordemEstado.indexOf(o.estado) + 1]; save(); toast(o.estado === 'concluido' ? 'Pedido concluído' : 'Estado actualizado'); render(); break;
+    case 'recusar': o.estado = 'cancelado'; save(); toast('Pedido recusado'); render(); break;
+    case 'simular-novo': S.orders.unshift({ id: S.next++, tipo: 'mesa', mesa: 5, quem: 'Mesa 5', itens: [{ n: 'Mufete de cacusso', q: 1, p: 6800 }, { n: 'Sumo de maracujá', q: 2, p: 1200 }], estado: 'novo', min: 0 }); if (!S.mesasAtivas.includes(5)) S.mesasAtivas.push(5); save(); render(); break;
+    case 'som': S.som = !S.som; save(); render(); break;
+    case 'aberto': S.aberto = !S.aberto; save(); toast(S.aberto ? 'Restaurante aberto' : 'Restaurante fechado'); render(); break;
+    case 'encerrar': S.mesasAtivas = S.mesasAtivas.filter(n => n !== sel.mesa); S.orders.forEach(x => { if (x.mesa === sel.mesa) x.mesa = undefined, x.tipo = 'mesa'; }); save(); toast('Atendimento encerrado'); render(); break;
+    case 'abrir-mesa': S.mesasAtivas.push(sel.mesa); save(); render(); break;
+    case 'toggle-prod': { const p = PRODUTOS.find(x => x.id === sel.prod); p.on = !p.on; render(); break; }
+    case 'guardar-prod': { const p = PRODUTOS.find(x => x.id === sel.prod); p.n = $('#pn').value; p.c = $('#pc').value; p.p = +$('#pp').value || p.p; p.d = $('#pd').value; toast('Produto guardado'); render(); break; }
+    case 'novo-prod': { const id2 = Math.max(...PRODUTOS.map(x => x.id)) + 1; PRODUTOS.push({ id: id2, n: 'Novo produto', d: '', p: 0, c: 'Pratos', on: false, foto: false }); sel.prod = id2; render(); break; }
+    case 'cancelar-prod': render(); break;
+    case 'guardar-def': REST.nome = $('#rn').value; REST.fecha = $('#rf').value; toast('Definições guardadas'); render(); break;
+    case 'recuperar': toast('Enviámos a ligação para o seu email'); go('#/a/login'); break;
+    case 'modo-levantar': modo = 'levantamento'; go('#/c/checkout'); break;
+    case 'pd-inc': pd.q++; render(); break;
+    case 'pd-dec': if (pd.q > 1) pd.q--; render(); break;
+    case 'pd-add': { const p = PRODUTOS.find(x => x.id === pd.id); const l = cart.find(i => i.n === p.n); l ? l.q += pd.q : cart.push({ n: p.n, p: p.p, q: pd.q }); toast('Adicionado ao carrinho'); go('#/' + baseR() + '/menu'); break; }
+    case 'convidar': modal = { t: 'convite' }; render(); break;
+    case 'enviar-convite': modal = null; toast('Convite enviado'); render(); break;
+    case 'toast-ok': toast('Fora do âmbito deste protótipo'); break;
+    case 'add-mesa': case 'add-zona': case 'novo-rest': case 'qr': toast('Fora do âmbito deste protótipo'); break;
+  }
+});
+document.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('toggle')) { e.preventDefault(); e.target.click(); } if (e.key === 'Escape' && modal) { modal = null; render(); } });
+render();
+</script>
+</body>
+</html>

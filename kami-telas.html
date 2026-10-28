@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="pt-AO">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kami — Todas as telas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="kami-theme.css">
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--evo-font-sans);color:var(--evo-color-on-surface);background:#efedea;background-image:radial-gradient(#d9d5cf 1px,transparent 1px);background-size:20px 20px;font-size:14px}
+header{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:16px;padding:10px 24px;background:var(--evo-color-surface);border-bottom:1px solid var(--evo-color-border)}
+header b{font-size:16px}
+header .sp{flex:1}
+header a{font-weight:700;color:var(--evo-color-primary-hover);text-decoration:none}
+header input{height:34px;border:1px solid var(--evo-color-border-strong);border-radius:var(--evo-radius-md);padding:0 12px;font:inherit;width:220px}
+.zoom{display:flex;align-items:center;gap:8px}
+main{padding:24px}
+section{margin-bottom:48px}
+section h2{margin:0 0 4px;font-size:20px}
+section>p{margin:0 0 16px;color:var(--evo-color-on-surface-muted)}
+.row{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}
+.fr{display:flex;flex-direction:column;gap:8px}
+.cap{display:flex;align-items:center;gap:8px;font-weight:700}
+.ref{background:var(--evo-color-on-surface);color:var(--evo-color-surface);font-size:12px;font-weight:800;padding:2px 7px;border-radius:var(--evo-radius-sm);cursor:copy}
+.box{position:relative;background:#fff;border:1px solid var(--evo-color-border);border-radius:var(--evo-radius-md);box-shadow:0 2px 8px rgba(59,31,20,.1);overflow:hidden}
+.box iframe{position:absolute;inset:0;border:0;transform-origin:0 0;background:#fff}
+.box a{position:absolute;inset:0;z-index:2}
+.box a:focus-visible{outline:3px solid var(--evo-focus-ring-color);outline-offset:2px}
+.meta{font-size:12px;color:var(--evo-color-on-surface-muted);max-width:var(--w)}
+.meta code{font-family:Consolas,monospace;font-size:11.5px;background:var(--evo-color-surface-sunken);padding:0 4px;border-radius:3px}
+.hide{display:none}
+</style>
+</head>
+<body>
+<header><b>Kami, todas as telas</b><span id="n" class="sub"></span><span class="sp"></span><input id="q" type="search" placeholder="Procurar (ex.: CLI-03, carrinho)" aria-label="Procurar telas"><label class="zoom">Zoom <input id="z" type="range" min="25" max="70" value="40" style="width:110px;height:auto;padding:0"></label><a href="kami-app.html#/a/splash">Abrir protótipo</a></header>
+<main id="m"></main>
+<script src="kami-screens.js"></script>
+<script>
+const SIZE = { phone: [400, 800], web: [1280, 800], desk: [1280, 800] };
+const AREAS = {
+  'Entrada': 'Splash, login, recuperação e registo em três passos.',
+  'Landing': 'Site do Kami para restaurantes e a página pública de cada restaurante.',
+  'Cliente online': 'Pedido por levantamento ou entrega, a partir do endereço partilhado.',
+  'Cliente na mesa': 'Pedido por QR Code, dentro de um atendimento de mesa.',
+  'Back-office': 'Painel do restaurante.',
+  'Plataforma': 'Gestão SaaS: restaurantes e planos.',
+};
+let scale = 0.4;
+const S = window.KAMI_SCREENS;
+function draw() {
+  document.getElementById('n').textContent = S.length + ' telas';
+  document.getElementById('m').innerHTML = Object.keys(AREAS).map(a => `<section><h2>${a}</h2><p>${AREAS[a]}</p><div class="row">${S.filter(s => s.area === a).map(s => {
+    const [w, h] = SIZE[s.tipo]; const sc = s.tipo === 'phone' ? scale * 1.35 : scale; const W = Math.round(w * sc), H = Math.round(h * sc);
+    return `<div class="fr" data-k="${(s.id + ' ' + s.nome + ' ' + s.ang[1]).toLowerCase()}" style="--w:${W}px"><div class="cap"><span class="ref" title="Copiar referência" data-copy="${s.id}">${s.id}</span>${s.nome}</div><div class="box" style="width:${W}px;height:${H}px"><iframe loading="lazy" tabindex="-1" title="${s.id} ${s.nome}" src="kami-app.html?frame#/${s.rota}" style="width:${w}px;height:${h}px;transform:scale(${sc})"></iframe><a href="kami-app.html#/${s.rota}" aria-label="Abrir ${s.id} no protótipo"></a></div><div class="meta"><code>${s.ang[2]}</code> · ${s.ang[1]}${s.vai.length ? '<br>Vai para: ' + s.vai.join(', ') : ''}</div></div>`;
+  }).join('')}</div></section>`).join('');
+}
+draw();
+document.getElementById('z').oninput = e => { scale = e.target.value / 100; draw(); filtrar(); };
+function filtrar() { const q = document.getElementById('q').value.trim().toLowerCase(); document.querySelectorAll('.fr').forEach(f => f.classList.toggle('hide', !!q && !f.dataset.k.includes(q))); }
+document.getElementById('q').oninput = filtrar;
+document.addEventListener('click', e => { const c = e.target.closest('[data-copy]'); if (c) { try { navigator.clipboard.writeText(c.dataset.copy); } catch {} c.textContent = 'copiado'; setTimeout(() => c.textContent = c.dataset.copy, 900); } });
+</script>
+</body>
+</html>
