@@ -219,6 +219,8 @@ Este módulo destina-se ao cliente que está dentro do restaurante, se senta num
 | RPQ-06 | Associação dos pedidos | Os pedidos realizados durante a sessão deverão ficar associados à respectiva sessão e mesa. |
 | RPQ-07 | Controlo da sessão | O sistema deverá permitir acompanhar o início e o fim do atendimento. |
 | RPQ-08 | Encerramento pelo funcionário | Um funcionário autorizado poderá encerrar a sessão através do back-office. |
+| RPQ-09 | Convite para a mesma sessão | Quem abriu a sessão poderá convidar outras pessoas da mesa através de um QR Code de convite, para consultarem o menu e fazerem pedidos na mesma sessão. |
+| RPQ-10 | Código manual da mesa | Cada mesa terá também um código curto (6 letras e números), impresso por baixo do QR Code no cartão da mesa. Se a câmara não funcionar ou o QR Code não for lido, o cliente poderá escrever esse código para entrar na mesa, com o mesmo efeito da leitura do QR Code. |
 
 ### 11.1. Regras para sessões activas
 
@@ -232,7 +234,17 @@ Foram aprovadas as seguintes regras:
 
 **Exemplo:** a Mesa 4 tem uma sessão activa. Se outro cliente ler o QR Code da Mesa 4, o sistema detecta a sessão existente e apresenta um aviso em vez de criar outra sessão.
 
-**Por definir:** como permitir o atendimento de um novo cliente quando a sessão anterior continua activa, sem misturar os pedidos.
+### 11.2. Convidar amigos para a mesma sessão
+
+Aprovado em 2026-11-02. Resolve o caso de várias pessoas sentadas na mesma mesa que querem pedir cada uma do seu telemóvel.
+
+- Depois de abrir a sessão, o cliente pode tocar em **"Convidar amigos"**. O sistema mostra um **QR Code de convite** e o respectivo link, que pode ser partilhado.
+- O convite é diferente do QR Code da mesa. Quem o lê **entra na sessão já aberta**: consulta o menu e faz pedidos que ficam associados à mesma mesa e à mesma sessão.
+- O QR Code da mesa continua a seguir as regras de 11.1. Quem o lê com a mesa ocupada e **sem convite** vê o aviso e não pode encomendar. O aviso explica que pode pedir o convite a quem abriu a mesa.
+- O convite **deixa de funcionar quando a sessão é encerrada**. Uma nova sessão gera um convite novo.
+- Todos os pedidos feitos por convidados contam para o total da mesa.
+
+**Por definir:** como atender um cliente novo, que não conhece quem abriu a sessão, quando a sessão anterior continua activa sem ter sido encerrada.
 
 ## 12. Back-office e notificações
 
@@ -257,7 +269,22 @@ Ainda não foram aprovados:
 - O intervalo entre avisos, por exemplo, dois ou três minutos.
 - As condições exactas para parar a repetição.
 - O comportamento das notificações quando o back-office não está aberto.
-- Os estados definitivos dos pedidos e as transições permitidas.
+
+### 12.2. Estados do pedido
+
+Aprovado em 2026-11-02. Os pedidos online e os pedidos na mesa usam os mesmos quatro estados, sempre por esta ordem:
+
+| Estado | Significado | O cliente vê (online) | O cliente vê (mesa) | Passa para |
+|---|---|---|---|---|
+| `A_ESPERA` | O pedido chegou ao back-office e aguarda que a equipa o aceite (RB-05, RN-03). Ainda não há estimativa. | À espera | À espera | `EM_PREPARACAO` |
+| `EM_PREPARACAO` | A equipa aceitou o pedido. A partir daqui o cliente vê o tempo estimado (RT-01). | Em preparação | Em preparação | `PRONTO` |
+| `PRONTO` | O pedido está pronto. | Pronto para levantar (levantamento) ou A caminho (entrega) | Pronto | `ENTREGUE` |
+| `ENTREGUE` | O pedido chegou ao cliente. É o estado final. | Entregue | Servido | — |
+
+- As transições só avançam, uma de cada vez, e são feitas pela equipa no back-office.
+- A estimativa de preparação só existe a partir de `EM_PREPARACAO`. Na entrega ao domicílio, o tempo de deslocação conta a partir de `PRONTO` (RT-05).
+
+**Por definir:** recusa e cancelamento de pedidos (se são estados próprios, em que momento são permitidos e quem os pode fazer).
 
 ## 13. Estimativas de preparação e entrega
 
@@ -324,9 +351,9 @@ Os pontos abaixo permanecem em aberto e não devem ser tratados como requisitos 
 |---|---|
 | Planos | Preços, limites exactos de contas e funcionalidades exclusivas do Premium. |
 | Produtos | Comportamento para produtos esgotados, incluindo disponibilidade e visibilidade no menu. |
-| Sessões | Como tratar o cliente que encontra uma sessão activa pertencente a um atendimento anterior. |
+| Sessões | Como tratar o cliente que encontra uma sessão activa pertencente a um atendimento anterior e não tem convite. |
 | Notificações | Intervalo de repetição, condições de paragem e comportamento quando o back-office não está aberto. |
-| Pedidos | Estados definitivos do pedido e transições permitidas entre estados. |
+| Pedidos | Recusa e cancelamento de pedidos: se são estados próprios, quando são permitidos e quem os pode fazer. |
 | Estimativas | Fórmula para calcular o tempo de pedidos com vários produtos e a estimativa de entrega. |
 | Entregas | Método definitivo de configuração e validação geográfica das zonas de entrega. |
 | Pagamentos | Processo operacional para registar ou confirmar pagamentos efectuados fora da plataforma. |
@@ -345,6 +372,9 @@ Os pontos abaixo permanecem em aberto e não devem ser tratados como requisitos 
 - Os preços dos pedidos anteriores serão preservados através de snapshots.
 - Os novos pedidos terão notificações visuais e sonoras, com repetição periódica.
 - As estimativas começarão com tempos base definidos pela equipa; o Machine Learning ficará para uma versão posterior.
+- Cada mesa tem, além do QR Code, um código manual de 6 caracteres como alternativa à câmara.
+- Quem abre a sessão de uma mesa pode convidar outras pessoas para a mesma sessão através de um QR Code de convite, válido até a sessão ser encerrada.
+- Os pedidos passam pelos estados `A_ESPERA`, `EM_PREPARACAO`, `PRONTO` e `ENTREGUE`, por esta ordem.
 
 ---
 

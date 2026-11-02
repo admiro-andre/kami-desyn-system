@@ -28,8 +28,13 @@ Convenções: componentes *standalone*, uma pasta por tela em `src/app/features/
 | CLI-06 | Acompanhar pedido | `#/c/track` | `/:slug/pedido/:id` | `TrackPage` | `public/order/track` |
 | CLI-07 | Restaurante fechado | `#/c/fechado` | `/:slug/fechado` | `ClosedPage` | `public/order/closed` |
 | CLI-08 | Fora da zona de entrega | `#/c/foradazona` | `/:slug/fora-da-zona` | `OutOfZonePage` | `public/order/out-of-zone` |
+| MES-00 | Ler QR Code | `#/m/ler` | `/ler` | `QrScanPage` | `public/table/scan` |
+| MES-00b | Escrever o código da mesa | `#/m/codigo` | `/codigo` | `TableCodePage` | `public/table/code` |
 | MES-01 | Entrada por QR Code | `#/m/scan` | `/:slug/mesa/:token` | `TableStartPage` | `public/table/start` |
+| MES-01c | Convidar amigos (modal) | `#/m/convidar` | `(diálogo sobre /:slug/mesa/:token)` | `TableInviteDialog` | `public/table/invite-dialog` |
+| MES-01b | Mesa já ocupada (aviso) | `#/m/ocupada` | `/:slug/mesa/:token` (estado) | `TableStartPage` | `public/table/start` |
 | MES-02 | Menu da mesa | `#/m/menu` | `/:slug/mesa/:token/menu` | `TableMenuPage` | `public/table/menu` |
+| MES-02s | Pesquisa (mesa) | `#/m/pesquisa` | `(diálogo sobre /:slug/mesa/:token/menu)` | `MenuSearchDialog` | `public/shared/menu-search-dialog` |
 | MES-03 | Detalhe do produto (mesa) | `#/m/produto` | `/:slug/mesa/:token/produto/:id` | `TableProductPage` | `public/table/product` |
 | MES-04 | Carrinho da mesa | `#/m/cart` | `/:slug/mesa/:token/carrinho` | `TableCartPage` | `public/table/cart` |
 | MES-05 | Pedidos do atendimento | `#/m/session` | `/:slug/mesa/:token/pedidos` | `TableSessionPage` | `public/table/session` |

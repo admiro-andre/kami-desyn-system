@@ -1,0 +1,2434 @@
+<title>Kami Design System v2</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* =====================================================================
+   KAMI DESIGN SYSTEM v2
+   Back-office: layout 3 zonas inspirado no Slack → paleta Kami quente
+   Mobile: blocos coloridos + botões pílula escuros + botões círculo nav
+   Paleta: inalterada face ao kami-theme.css
+   ===================================================================== */
+:root {
+  --surface:        #ffffff;
+  --surface-sunken: #fff6e5;
+  --canvas:         #f9f8f6;
+  --on-surface:     #3b1f14;
+  --on-muted:       #7a5645;
+  --border:         #ebe3d8;
+  --border-strong:  #948b81;
+  --primary:        #d43e12;
+  --primary-h:      #b5300b;
+  --primary-s:      #ffe8dc;
+  --on-primary:     #ffffff;
+  --sun:            #ffd35c;
+  --sun-s:          #fef1bd;
+  --success:        #15803d;
+  --success-s:      #ddf2dc;
+  --warning:        #fab902;
+  --warning-s:      #fff0c2;
+  --danger:         #be123c;
+  --danger-s:       #fde4ea;
+  --rail-bg:        #3b1f14;
+  --rail-active:    rgba(255,232,220,.18);
+  --r-sm: 5px; --r-md: 8px; --r-lg: 14px; --r-xl: 20px; --r-full: 9999px;
+  --font: 'Nunito', system-ui, sans-serif;
+  --sh-card:  0 1px 3px rgba(59,31,20,.08);
+  --sh-modal: 0 16px 40px rgba(59,31,20,.22);
+}
+
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{
+  font-family:var(--font);color:var(--on-surface);background:var(--canvas);
+  font-size:14px;line-height:1.5;
+  padding-left:max(0px,env(safe-area-inset-left,0px));
+  padding-right:max(0px,env(safe-area-inset-right,0px));
+  padding-block:0;
+}
+h1,h2,h3,h4,h5{line-height:1.2;font-weight:800;text-wrap:balance}
+p{max-width:68ch}
+svg{flex:none}
+
+/* ── DOC SHELL ─────────────────────────────────────────────────────── */
+.ds-shell{display:flex;height:100%;min-height:100dvh}
+.ds-nav{
+  width:210px;flex:none;background:var(--surface);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  position:sticky;top:0;height:100dvh;overflow-y:auto;
+  padding:20px 0 32px;
+}
+.ds-nav-logo{
+  display:flex;align-items:center;gap:10px;
+  padding:0 16px 20px;font-size:15px;font-weight:900;
+  border-bottom:1px solid var(--border);margin-bottom:8px;
+}
+.ds-nav-logo span{
+  width:30px;height:30px;border-radius:var(--r-md);
+  background:var(--primary);color:var(--on-primary);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;font-weight:900;flex:none;
+}
+.ds-group{padding:16px 16px 4px;font-size:11px;font-weight:700;
+  letter-spacing:.07em;text-transform:uppercase;color:var(--on-muted)}
+.ds-link{
+  display:flex;align-items:center;gap:8px;
+  padding:7px 16px;font-size:13px;font-weight:700;
+  color:var(--on-surface);cursor:pointer;border-left:3px solid transparent;
+  text-decoration:none;
+}
+.ds-link:hover{background:var(--surface-sunken)}
+.ds-link.active{
+  background:var(--primary-s);color:var(--primary-h);
+  border-left-color:var(--primary);
+}
+.ds-main{flex:1;min-width:0;overflow-y:auto;padding:40px 48px 80px;display:flex;flex-direction:column;gap:64px}
+@media(max-width:700px){
+  .ds-nav{display:none}
+  .ds-main{padding:24px 16px 60px}
+}
+
+/* ── SECTION HEADINGS ──────────────────────────────────────────────── */
+.sec{display:flex;flex-direction:column;gap:32px}
+.sec-head{padding-bottom:16px;border-bottom:1px solid var(--border)}
+.sec-head h2{font-size:26px;letter-spacing:-.02em}
+.sec-head p{color:var(--on-muted);margin-top:6px;font-weight:600;font-size:14px}
+.subsec{display:flex;flex-direction:column;gap:16px}
+.subsec-title{font-size:13px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--on-muted)}
+.preview{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-lg);overflow:hidden;
+}
+.preview-inner{padding:24px;display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+.preview-dark{background:var(--canvas)}
+.annotation{font-size:12px;color:var(--on-muted);font-weight:700;
+  font-family:monospace;background:var(--surface-sunken);
+  border-radius:4px;padding:2px 7px;display:inline-block;margin-top:4px}
+
+/* ── TOKENS ────────────────────────────────────────────────────────── */
+.palette{display:flex;flex-wrap:wrap;gap:10px}
+.swatch{display:flex;flex-direction:column;gap:6px;width:88px}
+.swatch-color{height:60px;border-radius:var(--r-md);border:1px solid rgba(59,31,20,.1)}
+.swatch-label{font-size:11px;font-weight:800;color:var(--on-surface)}
+.swatch-token{font-size:10px;color:var(--on-muted);font-family:monospace}
+.type-scale{display:flex;flex-direction:column;gap:10px}
+.ts-row{display:flex;align-items:baseline;gap:16px}
+.ts-size{font-size:11px;color:var(--on-muted);font-family:monospace;width:64px;flex:none}
+
+/* ── BACK-OFFICE: SHELL ────────────────────────────────────────────── */
+.bo-shell{
+  display:grid;
+  grid-template-columns:64px 220px 1fr;
+  grid-template-rows:52px 1fr;
+  border:1px solid var(--border);border-radius:var(--r-lg);
+  overflow:hidden;height:440px;font-size:13px;
+  box-shadow:var(--sh-card);
+}
+/* Rail (leftmost dark column) */
+.bo-rail{
+  grid-row:1/3;background:var(--rail-bg);
+  display:flex;flex-direction:column;align-items:center;
+  padding:10px 0;gap:2px;
+}
+.rail-ws{
+  width:36px;height:36px;border-radius:var(--r-md);
+  background:var(--primary);color:var(--on-primary);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:15px;margin-bottom:8px;
+}
+.rail-item{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:8px 0;width:100%;cursor:pointer;
+  color:rgba(255,246,229,.6);position:relative;
+}
+.rail-item:hover{color:rgba(255,246,229,.9)}
+.rail-item.active{color:#fff}
+.rail-item.active::before{
+  content:"";position:absolute;left:0;top:8px;bottom:8px;
+  width:3px;border-radius:0 2px 2px 0;background:var(--sun);
+}
+.rail-item svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.rail-item-label{font-size:10px;font-weight:700;letter-spacing:.01em}
+.rail-sep{width:32px;height:1px;background:rgba(255,246,229,.15);margin:6px 0}
+/* Sidebar */
+.bo-sidebar{
+  background:var(--surface);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;padding:10px 6px;gap:0;overflow-y:auto;
+}
+.bo-sidebar-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:6px 8px 10px;margin-bottom:4px;
+  border-bottom:1px solid var(--border);
+}
+.bo-sidebar-name{font-size:14px;font-weight:900;color:var(--on-surface)}
+.bo-sidebar-icon{color:var(--on-muted);cursor:pointer}
+.bo-sidebar-search{
+  margin:8px 2px;height:30px;background:var(--canvas);
+  border-radius:var(--r-full);display:flex;align-items:center;
+  gap:6px;padding:0 10px;color:var(--on-muted);font-size:12px;
+  border:1px solid var(--border);
+}
+.bo-sec-label{
+  padding:10px 10px 4px;font-size:11px;font-weight:700;
+  letter-spacing:.07em;text-transform:uppercase;color:var(--on-muted);
+}
+.bo-nav{
+  display:flex;align-items:center;gap:7px;
+  height:32px;padding:0 8px;border-radius:var(--r-sm);
+  font-size:13px;font-weight:700;color:var(--on-muted);
+  cursor:pointer;position:relative;
+}
+.bo-nav:hover{background:var(--canvas)}
+.bo-nav.active{
+  background:var(--primary-s);color:var(--primary-h);font-weight:800;
+}
+.bo-nav.active::before{
+  content:"";position:absolute;left:-6px;top:6px;bottom:6px;
+  width:3px;border-radius:0 2px 2px 0;background:var(--primary);
+}
+.bo-nav svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.bo-nav-badge{
+  margin-left:auto;min-width:18px;height:18px;
+  background:var(--primary);color:var(--on-primary);
+  border-radius:var(--r-full);font-size:10px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;padding:0 5px;
+}
+.bo-nav-badge.warn{background:var(--warning);color:var(--on-surface)}
+/* Header */
+.bo-header{
+  grid-column:2/4;background:var(--surface);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 16px;gap:12px;
+}
+.bo-header-title{font-size:15px;font-weight:900;flex:1}
+.bo-header-search{
+  height:32px;background:var(--canvas);border:1px solid var(--border);
+  border-radius:var(--r-full);display:flex;align-items:center;
+  gap:6px;padding:0 12px;color:var(--on-muted);font-size:12px;width:200px;
+}
+.bo-avatar{
+  width:30px;height:30px;border-radius:50%;
+  background:var(--sun);color:var(--on-surface);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:12px;flex:none;
+}
+/* Content */
+.bo-content{
+  background:var(--canvas);overflow:auto;
+  padding:16px 20px;display:flex;flex-direction:column;gap:12px;
+}
+.bo-page-header{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+.bo-page-title{font-size:18px;font-weight:900;letter-spacing:-.01em}
+/* Modo Pedido: rail recolhido (só ícones), sem sidebar, quadro em destaque */
+.bo-shell.bo-focus{grid-template-columns:52px 1fr;height:560px}
+.bo-focus .bo-header{grid-column:2/3}
+.bo-focus .bo-rail{padding:8px 0}
+.bo-focus .rail-ws{width:32px;height:32px;font-size:13px}
+.bo-focus .rail-item{padding:9px 0}
+.bo-focus .rail-item-label{display:none}
+.bo-focus .rail-expand{margin-top:auto;transform:scaleX(-1)}
+.focus-live{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 9px;
+  border-radius:var(--r-full);background:var(--success-s);color:var(--success);font-size:11px;font-weight:800}
+.focus-live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--success)}
+.focus-stats{display:flex;gap:6px}
+.focus-stat{display:flex;align-items:baseline;gap:5px;height:30px;padding:0 10px;align-items:center;
+  border-radius:var(--r-md);background:var(--canvas);border:1px solid var(--border);
+  font-size:11px;font-weight:700;color:var(--on-muted);white-space:nowrap}
+.focus-stat b{font-size:15px;font-weight:900;color:var(--on-surface);font-variant-numeric:tabular-nums}
+.focus-stat.warn{background:var(--warning-s);border-color:color-mix(in srgb,var(--warning) 45%,transparent)}
+.focus-stat.late{background:var(--danger-s);border-color:color-mix(in srgb,var(--danger) 35%,transparent)}
+.focus-stat.late b{color:var(--danger)}
+.bo-focus .bo-content{padding:14px}
+.bo-focus .kanban{gap:12px;align-items:start}
+.bo-focus .k-col{padding:10px;gap:8px}
+.bo-focus .k-col-head{font-size:12px}
+.bo-focus .ticket{padding:12px 14px;gap:8px}
+.bo-focus .ticket-top strong{font-size:16px}
+.bo-focus .ticket li{font-size:13px}
+.bo-focus .ticket-price{font-size:15px}
+.t-timer{font-size:12px;font-weight:900;font-variant-numeric:tabular-nums;height:22px;padding:0 8px;
+  display:inline-flex;align-items:center;border-radius:var(--r-sm);background:var(--canvas);color:var(--on-surface)}
+.t-timer.late{background:var(--danger-s);color:var(--danger)}
+.ticket.is-new{box-shadow:0 0 0 2px var(--warning),var(--sh-card)}
+.bo-focus .ticket.is-late{border-left-color:var(--danger)}
+.ticket-note{font-size:12px;font-weight:700;color:var(--primary-h);background:var(--primary-s);
+  border-radius:var(--r-sm);padding:4px 8px}
+
+/* Kanban columns */
+.kanban{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;flex:1}
+.k-col{background:color-mix(in srgb,var(--on-surface) 4%,var(--canvas));
+  border:1px solid var(--border);border-radius:var(--r-md);padding:8px;
+  display:flex;flex-direction:column;gap:6px}
+.k-col-head{
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--on-muted);padding:2px 2px 6px;border-bottom:1px solid var(--border);
+  margin-bottom:2px;
+}
+.k-count{
+  min-width:18px;height:18px;padding:0 5px;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-full);font-size:10px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* ── TICKET CARD ──────────────────────────────────────────────────── */
+.ticket{
+  background:var(--surface);border-radius:var(--r-md);
+  border:1px solid var(--border);border-left:4px solid var(--warning);
+  padding:10px 12px;display:flex;flex-direction:column;gap:7px;
+  box-shadow:var(--sh-card);
+}
+.ticket.t-prep{border-left-color:var(--primary)}
+.ticket.t-ready{border-left-color:var(--success)}
+.ticket.t-done{border-left-color:var(--border-strong)}
+.ticket-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.ticket-top strong{font-size:14px;font-weight:900}
+.ticket-top small{display:block;color:var(--on-muted);font-size:11px;margin-top:1px}
+.ticket ul{list-style:none;padding:6px 0;margin:0;
+  border-top:1px dashed color-mix(in srgb,var(--border-strong) 50%,transparent);
+  border-bottom:1px dashed color-mix(in srgb,var(--border-strong) 50%,transparent);
+  display:flex;flex-direction:column;gap:3px}
+.ticket li{display:flex;gap:7px;font-size:12px}
+.ticket li b{min-width:20px;font-weight:900}
+.ticket-foot{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.ticket-price{font-size:14px;font-weight:900}
+
+/* ── BADGE / STATUS CHIP ──────────────────────────────────────────── */
+.badge{
+  display:inline-flex;align-items:center;gap:5px;
+  height:22px;padding:0 8px;border-radius:var(--r-sm);
+  font-size:11px;font-weight:800;white-space:nowrap;
+  background:var(--canvas);color:var(--on-surface);
+}
+.badge-dot{width:7px;height:7px;border-radius:50%}
+.b-new{background:var(--warning-s);color:var(--on-surface)}
+.b-new .badge-dot{background:var(--warning)}
+.b-prep{background:var(--primary-s);color:var(--primary-h)}
+.b-prep .badge-dot{background:var(--primary)}
+.b-ready{background:var(--success-s);color:var(--success)}
+.b-ready .badge-dot{background:var(--success)}
+.b-done{background:var(--canvas);color:var(--on-muted)}
+.b-done .badge-dot{background:var(--border-strong)}
+.b-cancel{background:var(--danger-s);color:var(--danger)}
+.b-cancel .badge-dot{background:var(--danger)}
+
+/* ── BUTTONS ─── back-office compact ─────────────────────────────── */
+.btn{
+  height:34px;padding:0 14px;border:0;border-radius:var(--r-md);
+  font:700 13px/1 var(--font);display:inline-flex;align-items:center;
+  justify-content:center;gap:6px;cursor:pointer;white-space:nowrap;
+}
+.btn-p{background:var(--primary);color:var(--on-primary)}
+.btn-p:hover{background:var(--primary-h)}
+.btn-s{background:var(--surface);color:var(--on-surface);border:1px solid var(--border-strong)}
+.btn-s:hover{background:var(--canvas)}
+.btn-ghost{background:transparent;color:var(--primary-h)}
+.btn-d{background:var(--danger);color:var(--on-danger)}
+.btn-sm{height:28px;padding:0 10px;font-size:12px}
+.btn-lg{height:42px;padding:0 20px;font-size:14px}
+.btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ── FORM FIELDS (back-office) ────────────────────────────────────── */
+.field{display:flex;flex-direction:column;gap:5px}
+.field-label{font-size:12px;font-weight:800;color:var(--on-surface)}
+.field-opt{font-weight:600;color:var(--on-muted)}
+.input{
+  height:36px;border:1px solid var(--border-strong);border-radius:var(--r-md);
+  padding:0 12px;display:flex;align-items:center;justify-content:space-between;
+  background:var(--surface);font-size:13px;font-family:var(--font);
+  color:var(--on-surface);
+}
+.input-ph{color:var(--on-muted)}
+.input-focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-s);outline:none}
+.input-err{border-color:var(--danger);background:var(--danger-s)}
+.textarea{height:60px;align-items:flex-start;padding-top:10px}
+.field-hint{font-size:11px;color:var(--on-muted);font-weight:600}
+.field-err{font-size:11px;color:var(--danger);font-weight:800}
+/* Toggle */
+.toggle{
+  width:42px;height:22px;border-radius:var(--r-full);
+  background:var(--border-strong);position:relative;cursor:pointer;flex:none;
+}
+.toggle::after{
+  content:"";position:absolute;top:3px;left:3px;
+  width:16px;height:16px;border-radius:50%;background:#fff;
+  transition:left .15s;
+}
+.toggle.on{background:var(--primary)}
+.toggle.on::after{left:23px}
+/* Checkbox */
+.check{
+  width:20px;height:20px;border:1.5px solid var(--border-strong);
+  border-radius:4px;display:inline-flex;align-items:center;justify-content:center;
+  background:var(--surface);flex:none;
+}
+.check.on{background:var(--primary);border-color:var(--primary);color:var(--on-primary)}
+.check svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+
+/* ── TABLE ─────────────────────────────────────────────────────────── */
+.tbl{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden}
+.tbl table{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{
+  background:var(--canvas);text-align:left;
+  font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--on-muted);padding:8px 12px;border-bottom:1px solid var(--border);
+}
+.tbl td{padding:9px 12px;border-bottom:1px solid var(--border)}
+.tbl tr:last-child td{border-bottom:0}
+.tbl tr:hover td{background:var(--surface-sunken)}
+.tbl-actions{display:flex;gap:6px;opacity:0}
+.tbl tr:hover .tbl-actions{opacity:1}
+
+/* ── MESA CARD ─────────────────────────────────────────────────────── */
+.mesa{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-md);padding:12px;
+  display:flex;flex-direction:column;gap:6px;min-height:90px;
+  box-shadow:var(--sh-card);
+}
+.mesa strong{font-size:14px;font-weight:900}
+.mesa.act{border:1px solid var(--border);border-left:4px solid var(--warning)}
+.mesa.act-prep{border:1px solid var(--border);border-left:4px solid var(--primary)}
+.mesa.free{
+  border:1px dashed var(--border-strong);
+  background:transparent;box-shadow:none;
+  color:var(--on-muted);
+}
+
+/* ── ALERT / NOTIFICATION ─────────────────────────────────────────── */
+.alert{
+  --a-color:var(--primary);
+  border:1px solid color-mix(in srgb,var(--a-color) 30%,transparent);
+  border-left:3px solid var(--a-color);
+  border-radius:var(--r-md);padding:10px 12px;
+  display:flex;gap:9px;font-size:13px;background:var(--primary-s);
+}
+.alert.a-ok{--a-color:var(--success);background:var(--success-s)}
+.alert.a-warn{--a-color:var(--warning);background:var(--warning-s)}
+.alert.a-err{--a-color:var(--danger);background:var(--danger-s)}
+.alert svg{width:16px;height:16px;color:var(--a-color);stroke:currentColor;fill:none;stroke-width:2;flex:none;margin-top:1px}
+.alert strong{display:block;font-weight:800;margin-bottom:2px}
+
+/* ── TABS ──────────────────────────────────────────────────────────── */
+.tabs{display:flex;border-bottom:1px solid var(--border);gap:0}
+.tab{
+  padding:8px 14px;font-size:13px;font-weight:700;
+  color:var(--on-muted);border-bottom:2px solid transparent;
+  margin-bottom:-1px;cursor:pointer;
+}
+.tab.on{color:var(--on-surface);border-bottom-color:var(--primary)}
+
+/* ── MODAL ────────────────────────────────────────────────────────── */
+.scrim{
+  background:rgba(59,31,20,.4);display:flex;
+  align-items:center;justify-content:center;
+  border-radius:var(--r-lg);overflow:hidden;padding:20px;
+}
+.modal{
+  background:var(--surface);border-radius:var(--r-lg);
+  padding:20px;box-shadow:var(--sh-modal);
+  width:100%;max-width:380px;display:flex;flex-direction:column;gap:12px;
+}
+.modal h3{font-size:16px;font-weight:900}
+
+/* ══════════════════════════════════════════════════════════════════
+   MOBILE COMPONENTS
+   ══════════════════════════════════════════════════════════════════ */
+.phones-row{display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start}
+/* Phone shell */
+.phone-stage{
+  background:var(--sun);border-radius:28px;
+  padding:0 6px 6px;display:inline-flex;
+  flex-direction:column;align-items:stretch;width:284px;
+  box-shadow:0 8px 32px rgba(59,31,20,.18);
+}
+.stage-nav{margin:0 -6px;padding:14px 12px 12px;background:var(--surface);border-radius:28px 28px 0 0;
+  border-bottom:1px solid var(--border)}
+.stage-nav .m-nav-mid small{color:var(--on-surface);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stage-nav .m-nav-mid{min-width:0}
+.phone-label{font-size:12px;font-weight:800;color:var(--on-surface)}
+.phone-sub{font-size:11px;color:var(--on-muted);max-width:200px}
+.phone{
+  width:100%;height:500px;border-radius:22px;
+  overflow:hidden;background:var(--surface);
+  display:flex;flex-direction:column;
+  }
+/* Mobile nav bar */
+.m-nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 18px 8px;flex:none;
+}
+.m-nav-mid{font-size:15px;font-weight:900;text-align:center;flex:1}
+.m-nav-mid small{display:block;font-size:11px;font-weight:600;color:var(--on-muted)}
+/* Circle buttons (key element from reference image) */
+.circ{
+  width:40px;height:40px;border-radius:50%;
+  background:var(--on-surface);color:var(--surface);
+  display:flex;align-items:center;justify-content:center;flex:none;cursor:pointer;
+}
+.circ svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+/* Hero heading (mixed weight) */
+.m-hero{padding:8px 18px 12px;flex:none}
+.m-hero h2{font-size:28px;font-weight:400;line-height:1.15}
+.m-hero h2 strong{font-weight:900}
+/* Category chips */
+.m-chips{
+  display:flex;gap:8px;padding:0 18px 12px;
+  overflow-x:auto;flex:none;scrollbar-width:none;
+}
+.phone > .m-chips:first-child{padding-top:14px}
+.m-chips::-webkit-scrollbar{display:none}
+.m-chip{
+  display:inline-flex;align-items:center;justify-content:center;flex:none;
+  height:34px;padding:0 14px;border-radius:var(--r-full);
+  font-size:13px;font-weight:800;white-space:nowrap;
+  border:1.5px solid var(--border);color:var(--on-muted);background:var(--surface);
+  cursor:pointer;
+}
+.m-chip.active{background:var(--on-surface);color:var(--surface);border-color:var(--on-surface)}
+/* Category section block (main innovation vs v1) */
+.m-section{margin:0 12px 10px;border-radius:var(--r-xl);overflow:hidden}
+.m-sec-head{
+  padding:14px 16px 12px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.m-sec-head h3{font-size:16px;font-weight:900}
+.m-sec-head small{font-size:11px;font-weight:700;opacity:.7}
+.m-sec-c-orange{background:var(--primary-s)}
+.m-sec-c-amber{background:var(--sun-s)}
+.m-sec-c-green{background:var(--success-s)}
+/* Product item */
+.m-prod{
+  background:var(--surface);display:flex;
+  align-items:center;gap:12px;padding:12px 16px;
+  border-top:1px solid var(--border);
+}
+.m-prod-img{
+  width:60px;height:60px;border-radius:var(--r-md);
+  background:var(--primary-s);flex:none;display:flex;
+  align-items:center;justify-content:center;color:var(--on-muted);font-size:10px;
+}
+.m-prod-info{flex:1;min-width:0}
+.m-prod-name{font-size:14px;font-weight:800}
+.m-prod-desc{font-size:11px;color:var(--on-muted);font-weight:600;margin-top:2px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.m-prod-price{font-size:14px;font-weight:900;margin-top:4px}
+.m-add{
+  width:34px;height:34px;border-radius:50%;
+  background:var(--on-surface);color:var(--surface);
+  display:flex;align-items:center;justify-content:center;flex:none;cursor:pointer;
+}
+.m-add svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+/* Dark pill button (CTA, key element from reference image) */
+.m-cta{
+  height:52px;border-radius:var(--r-full);
+  background:var(--on-surface);color:var(--surface);
+  display:flex;align-items:center;justify-content:center;
+  font:900 15px/1 var(--font);gap:10px;cursor:pointer;
+  width:100%;border:0;
+}
+.m-cta:hover{background:color-mix(in srgb,var(--on-surface) 90%,var(--primary))}
+.m-cta-count{
+  background:var(--primary);color:var(--on-primary);
+  width:22px;height:22px;border-radius:50%;
+  font-size:12px;font-weight:900;display:flex;align-items:center;justify-content:center;
+}
+/* Bottom bar */
+.m-bottom{
+  flex:none;padding:10px 14px 14px;background:var(--surface);
+  border-top:1px solid var(--border);
+}
+/* Mobile screen scroll area */
+.m-scroll{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+.m-scroll::-webkit-scrollbar{width:0}
+.m-scroll > *{flex-shrink:0}
+/* Stepper */
+.m-stepper{
+  display:inline-flex;align-items:center;border-radius:var(--r-full);
+  overflow:hidden;border:1.5px solid var(--on-surface);height:36px;
+}
+.m-stepper button{
+  all:unset;width:36px;height:100%;display:flex;align-items:center;justify-content:center;
+  font-size:20px;cursor:pointer;color:var(--on-surface);
+}
+.m-stepper span{
+  min-width:32px;text-align:center;font-weight:900;font-size:15px;
+  border-left:1.5px solid var(--on-surface);border-right:1.5px solid var(--on-surface);
+  display:flex;align-items:center;justify-content:center;height:100%;
+}
+/* Cart item */
+.m-cart-item{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 18px;border-bottom:1px solid var(--border);
+}
+.m-cart-item-info{flex:1;min-width:0}
+.m-cart-item-name{font-size:14px;font-weight:800}
+.m-cart-item-price{font-size:13px;color:var(--on-muted);font-weight:700;margin-top:2px}
+/* Order track */
+.timeline{list-style:none;padding:0;display:flex;flex-direction:column;gap:0}
+.tl-item{position:relative;padding:0 0 20px 28px}
+.tl-item::before{content:"";position:absolute;left:8px;top:18px;bottom:0;width:2px;background:var(--border)}
+.tl-item:last-child::before{display:none}
+.tl-dot{
+  position:absolute;left:0;top:2px;width:18px;height:18px;
+  border-radius:50%;border:2px solid var(--border-strong);
+  background:var(--surface);display:flex;align-items:center;justify-content:center;
+}
+.tl-dot.done{background:var(--success);border-color:var(--success);color:#fff}
+.tl-item:has(.tl-dot.done)::before{background:var(--success)}
+.tl-dot.now{border-color:var(--primary);background:var(--primary);color:var(--on-primary)}
+.tl-dot.wait{border-color:var(--border)}
+.tl-dot svg{width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.tl-item b{display:block;font-weight:800;font-size:13px}
+.tl-item small{font-size:12px;color:var(--on-muted);font-weight:600}
+.tl-item.wait{color:var(--on-muted)}
+/* Estimate block */
+.m-estimate{
+  background:var(--sun);border-radius:var(--r-lg);
+  padding:14px 16px;margin:0 18px;
+}
+.m-estimate .big{font-size:32px;font-weight:900;line-height:1}
+
+/* ── FLUXO CLIENTE ONLINE ─────────────────────────────────────────── */
+.ico{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.phone{position:relative}
+.phone-label{background:var(--surface);border-radius:var(--r-full);padding:3px 12px 3px 3px;display:inline-flex;align-items:center;align-self:flex-start;margin:10px 0 8px}
+.phone-sub{background:color-mix(in srgb,var(--surface) 90%,transparent);border-radius:6px;padding:3px 8px;max-width:244px}
+.phone-step{display:inline-flex;width:20px;height:20px;border-radius:50%;background:var(--on-surface);color:var(--surface);
+  font-size:11px;font-weight:900;align-items:center;justify-content:center;margin-right:7px}
+.circ-sm{width:34px;height:34px}.circ-sm svg{width:16px;height:16px}
+.circ-light{background:var(--surface);color:var(--on-surface)}
+/* Landing do restaurante */
+.lnd-cover{height:168px;flex:none;position:relative;display:flex;align-items:flex-start;justify-content:space-between;padding:12px;
+  background:radial-gradient(circle at 78% 70%,color-mix(in srgb,var(--sun) 85%,transparent) 0 18%,transparent 40%),
+    radial-gradient(circle at 25% 30%,color-mix(in srgb,var(--primary-s) 60%,transparent) 0 12%,transparent 35%),
+    linear-gradient(135deg,var(--primary-h),var(--primary) 55%,var(--warning))}
+.lnd-cover .phone-label{margin:0}
+.stage-cover{padding-top:6px}
+.stage-cover .phone{height:602px}
+.lnd-topbar{position:absolute;inset:12px 12px auto;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.lnd-url{font-size:11px;font-weight:800;background:var(--surface);border-radius:var(--r-full);padding:6px 11px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.lnd-head{padding:0 18px 12px;margin-top:-34px;position:relative;display:flex;flex-direction:column;gap:6px}
+.lnd-logo{width:68px;height:68px;border-radius:20px;background:var(--primary);color:var(--on-primary);font-size:32px;font-weight:900;
+  display:flex;align-items:center;justify-content:center;border:4px solid var(--surface)}
+.lnd-name{font-size:24px;font-weight:900;letter-spacing:-.01em}
+.lnd-tagline{font-size:13px;font-weight:600;color:var(--on-muted);line-height:1.4}
+.lnd-open{display:inline-flex;align-items:center;gap:6px;width:fit-content;height:24px;padding:0 10px;border-radius:var(--r-full);
+  background:var(--success-s);color:var(--success);font-size:12px;font-weight:800}
+.lnd-open::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--success)}
+.lnd-facts{margin:0 18px;padding:10px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:700}
+.lnd-facts div{display:flex;gap:8px;align-items:center}
+.lnd-facts .ico{width:15px;height:15px;color:var(--primary)}
+.lnd-q{font-size:15px;font-weight:900;padding:14px 18px 8px}
+.lnd-modes{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 18px}
+.lnd-mode{border-radius:var(--r-lg);padding:12px;display:flex;flex-direction:column;gap:2px;border:2px solid transparent;cursor:pointer}
+.lnd-mode .ico{width:22px;height:22px;margin-bottom:6px}
+.lnd-mode b{font-size:14px;font-weight:900}
+.lnd-mode small{font-size:11px;font-weight:700;color:var(--on-muted);line-height:1.3}
+.lnd-mode.pick{background:var(--primary-s)}
+.lnd-mode.deliv{background:var(--success-s)}
+.lnd-mode.on{border-color:var(--on-surface)}
+.lnd-pop{display:flex;gap:10px;overflow-x:auto;padding:0 18px 16px;scrollbar-width:none}
+.lnd-pop::-webkit-scrollbar{display:none}
+.lnd-pop-item{width:108px;flex:none;display:flex;flex-direction:column;gap:3px}
+.lnd-pop-img{height:78px;border-radius:var(--r-md);margin-bottom:3px}
+.lnd-pop-item b{font-size:12px;font-weight:800;line-height:1.25}
+.lnd-pop-item span{font-size:12px;font-weight:900}
+.m-card-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:4px}
+.m-card-row .m-prod-price{margin-top:0;white-space:nowrap}
+.m-card-row .m-step-sm button{width:26px}
+.m-sec-head .m-sec-link{white-space:nowrap}
+.m-cta.bar span,.m-cta.bar em{white-space:nowrap}
+.m-cta.bar em{padding:7px 11px;font-size:13px}
+/* Menu e lista */
+.m-mode-pill{display:inline-flex;gap:4px;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--on-muted)}
+.m-mode-pill .ico{width:12px;height:12px}
+.m-sec-link{font-size:12px;font-weight:800;color:var(--on-surface);text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+.m-list{display:flex;flex-direction:column;padding:0 12px 12px;gap:8px}
+.m-card{display:flex;gap:12px;align-items:center;padding:10px;border-radius:var(--r-lg);background:var(--surface);border:1px solid var(--border)}
+.m-card .m-prod-img{width:72px;height:72px}
+.m-card.added{border-color:var(--on-surface);box-shadow:0 0 0 1px var(--on-surface)}
+.m-noimg{font-size:26px;font-weight:900;color:var(--on-muted);background:var(--canvas)!important}
+.m-step-sm{display:inline-flex;align-items:center;height:34px;border-radius:var(--r-full);background:var(--on-surface);color:var(--surface);flex:none}
+.m-step-sm button{all:unset;width:30px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.m-step-sm .ico{width:14px;height:14px;stroke-width:2.5}
+.m-step-sm span{min-width:12px;text-align:center;font-weight:900;font-size:14px}
+.m-toast{position:absolute;left:12px;right:12px;bottom:80px;display:flex;align-items:center;gap:8px;padding:10px 12px;
+  border-radius:var(--r-md);background:var(--on-surface);color:var(--surface);font-size:12px;font-weight:700;box-shadow:var(--sh-modal)}
+.m-toast .ico{width:16px;height:16px;color:var(--sun)}
+.m-toast u{margin-left:auto;font-weight:900;color:var(--sun);text-underline-offset:2px}
+.m-cta.bar{justify-content:space-between;padding:0 8px 0 20px}
+.m-cta.bar em{font-style:normal;background:color-mix(in srgb,var(--surface) 16%,transparent);border-radius:var(--r-full)}
+.m-cta.ghost{background:transparent;color:var(--on-surface);border:1.5px solid var(--on-surface)}
+/* Detalhe */
+.m-photo{height:190px;flex:none;position:relative;display:flex;align-items:center;justify-content:center;background:var(--primary-s)}
+.m-photo .m-nav{position:absolute;inset:0 0 auto}
+.m-dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:5px;
+  padding:5px 8px;border-radius:var(--r-full);background:color-mix(in srgb,var(--surface) 88%,transparent);box-shadow:var(--sh-card)}
+.m-dots i{width:6px;height:6px;border-radius:3px;background:color-mix(in srgb,var(--on-surface) 28%,transparent)}
+.m-dots i.on{width:16px;background:var(--on-surface)}
+/* Carrinho e finalizar */
+.m-rm{all:unset;cursor:pointer;color:var(--on-muted);width:30px;height:30px;display:flex;align-items:center;justify-content:center;flex:none}
+.m-rm .ico{width:16px;height:16px}
+.m-seg{display:flex;border-radius:var(--r-full);background:var(--canvas);border:1px solid var(--border);padding:3px;height:42px;flex:none}
+.m-seg span{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;border-radius:var(--r-full);font-size:13px;font-weight:800;color:var(--on-muted)}
+.m-seg span.on{background:var(--on-surface);color:var(--surface)}
+.m-seg .ico{width:15px;height:15px}
+.m-summary{background:var(--canvas);border-radius:var(--r-lg);padding:12px 14px;display:flex;flex-direction:column;gap:5px;font-size:12px;font-weight:700}
+.m-summary div{display:flex;justify-content:space-between;gap:8px}
+.m-summary span:first-child{color:var(--on-muted)}
+.m-summary .tot{font-size:15px;font-weight:900;border-top:1px solid var(--border);padding-top:7px;margin-top:2px}
+.m-summary .tot span:first-child{color:var(--on-surface)}
+.m-map{height:150px;flex:none;border-radius:var(--r-lg);position:relative;overflow:hidden;background-color:var(--surface-sunken);
+  background-image:repeating-linear-gradient(0deg,var(--border) 0 1px,transparent 1px 26px),repeating-linear-gradient(90deg,var(--border) 0 1px,transparent 1px 26px)}
+.m-map-zone{position:absolute;inset:16px 34px 20px 22px;border:2px dashed var(--success);border-radius:46% 54% 40% 60%;
+  background:color-mix(in srgb,var(--success) 10%,transparent)}
+.m-map-pin{position:absolute;left:52%;top:48%;transform:translate(-50%,-100%);color:var(--primary)}
+.m-map-pin .ico{width:34px;height:34px;fill:var(--surface);stroke-width:2.2}
+.m-map-btn{position:absolute;right:8px;bottom:8px}
+.m-addr{border:1px solid var(--border);border-radius:var(--r-lg);padding:12px;display:flex;flex-direction:column;gap:4px}
+.m-addr b{font-size:14px;font-weight:900}
+.m-addr small{font-size:12px;font-weight:600;color:var(--on-muted)}
+.m-zone-ok{display:inline-flex;gap:5px;align-items:center;width:fit-content;font-size:11px;font-weight:800;color:var(--success);
+  background:var(--success-s);border-radius:var(--r-full);padding:3px 9px;margin-top:4px}
+.m-zone-ok .ico{width:12px;height:12px;stroke-width:3}
+.m-link{font-size:13px;font-weight:800;text-decoration:underline;text-underline-offset:3px;color:var(--on-surface);text-align:center;cursor:pointer}
+.m-pay{display:flex;flex-direction:column;gap:6px}
+.m-pay-opt{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--border);border-radius:var(--r-md);font-size:13px;font-weight:800;cursor:pointer}
+.m-pay-opt small{display:block;font-weight:600;color:var(--on-muted);font-size:11px}
+.m-pay-opt.on{border-color:var(--on-surface);box-shadow:0 0 0 1px var(--on-surface)}
+.m-radio{width:18px;height:18px;border-radius:50%;border:2px solid var(--border-strong);flex:none}
+.m-pay-ico{width:36px;height:36px;border-radius:9px;flex:none;display:block}
+.m-pay-opt.on .m-radio{border:5px solid var(--on-surface)}
+.m-again{background:var(--sun-s);border-radius:var(--r-lg);padding:12px;display:flex;flex-direction:column;gap:4px}
+.m-again b{font-size:15px;font-weight:900}
+.m-again small{font-size:12px;font-weight:600;color:var(--on-muted)}
+.m-again-items{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+.m-again-item{display:flex;align-items:center;gap:10px;background:var(--surface);border-radius:var(--r-md);padding:8px}
+.m-again-item .m-add{width:30px;height:30px}
+.stage-modal{position:relative;overflow:hidden}
+.m-under{position:absolute;inset:0;display:flex;flex-direction:column;pointer-events:none}
+.m-backdrop{position:absolute;inset:0;border-radius:inherit;background:color-mix(in srgb,var(--on-surface) 40%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.m-search{position:absolute;top:14px;left:10px;right:10px;max-height:calc(100% - 28px);background:var(--surface);border-radius:var(--r-lg);
+  box-shadow:var(--sh-modal);display:flex;flex-direction:column;overflow:hidden}
+.m-search-bar{display:flex;align-items:center;gap:8px;padding:10px;border-bottom:1px solid var(--border)}
+.m-search-field{flex:1;min-width:0;display:flex;align-items:center;gap:8px;height:42px;padding:0 6px 0 12px;border-radius:var(--r-full);
+  border:1.5px solid var(--on-surface);font-size:14px;font-weight:700}
+.m-search-field > .ico{width:17px;height:17px;color:var(--on-muted)}
+.m-search-q{flex:1;display:flex;align-items:center}
+.m-caret{display:inline-block;width:1.5px;height:17px;background:var(--primary);margin-left:1px;animation:kblink 1s steps(1) infinite}
+@keyframes kblink{50%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.m-caret{animation:none}}
+.m-search-clear{all:unset;width:26px;height:26px;border-radius:50%;background:var(--canvas);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.m-search-clear .ico{width:13px;height:13px;stroke-width:2.5}
+.m-search-cancel{all:unset;font-size:13px;font-weight:800;cursor:pointer;padding:4px 2px}
+.m-search-count{font-size:12px;font-weight:700;color:var(--on-muted);padding:10px 12px 6px}
+.m-search-list{display:flex;flex-direction:column;gap:6px;padding:0 10px 10px;overflow-y:auto;scrollbar-width:none}
+.m-search-list::-webkit-scrollbar{display:none}
+.m-search-list .m-card{padding:8px}
+mark{background:var(--sun);color:inherit;border-radius:3px;padding:0 1px}
+.m-search-foot{padding:10px;border-top:1px solid var(--border);flex:none}
+/* Fluxo na mesa */
+.m-tent{position:relative;width:150px;padding:12px 16px 14px;border-radius:var(--r-xl);background:var(--sun);display:flex;flex-direction:column;align-items:center;flex:none;margin-bottom:10px}
+.m-tent::after{content:"";position:absolute;left:22px;right:22px;bottom:-10px;height:10px;border-radius:0 0 10px 10px;background:color-mix(in srgb,var(--on-surface) 22%,var(--sun))}
+.m-tent span{font-size:13px;font-weight:800}
+.m-tent b{font-size:84px;font-weight:900;line-height:.95;letter-spacing:-.04em}
+.m-tent small{font-size:11px;font-weight:700;opacity:.8}
+.m-tent.busy{background:var(--warning-s)}
+.m-tent.busy::after{background:color-mix(in srgb,var(--on-surface) 14%,var(--warning-s))}
+.m-tent.busy b{opacity:.45}
+.m-info{display:flex;gap:9px;align-items:flex-start;width:100%;background:var(--canvas);border-radius:var(--r-md);padding:10px 12px;font-size:12px;font-weight:600;line-height:1.45}
+.m-info .ico{width:16px;height:16px;color:var(--on-muted);margin-top:1px}
+.m-info.warn{background:var(--warning-s)}
+.m-info.warn .ico{color:var(--on-surface)}
+.m-session{display:flex;align-items:center;gap:8px;margin:12px 12px 0;padding:8px 12px;border-radius:var(--r-md);background:var(--success-s);font-size:12px;font-weight:700;flex:none}
+.m-session span:nth-child(2){flex:1}
+.m-session-dot{width:8px;height:8px;border-radius:50%;background:var(--success);flex:none}
+.m-order{border:1px solid var(--border);border-radius:var(--r-lg);padding:12px;display:flex;flex-direction:column;gap:8px;background:var(--surface)}
+.m-order-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.m-order-head b{font-size:15px;font-weight:900;display:block}
+.m-order-head small{font-size:11px;font-weight:600;color:var(--on-muted);white-space:nowrap}
+.m-order ul{list-style:none;padding:8px 0;margin:0;display:flex;flex-direction:column;gap:3px;border-top:1px dashed var(--border);border-bottom:1px dashed var(--border);font-size:13px;font-weight:600}
+.m-order li{display:flex;gap:8px}
+.m-order li b{min-width:22px;font-weight:900}
+.m-order-foot{display:flex;justify-content:space-between;font-size:13px;font-weight:900}
+.m-order-note{font-size:12px;font-weight:600;color:var(--on-muted)}
+.m-done{width:76px;height:76px;border-radius:50%;background:var(--success-s);color:var(--success);display:flex;align-items:center;justify-content:center;flex:none}
+.m-done .ico{width:34px;height:34px;stroke-width:2.6}
+.m-bottom-2{display:flex;flex-direction:column;gap:8px}
+.m-cta .ico{width:18px;height:18px}
+.m-cam{position:relative;flex:1;overflow:hidden;background-color:var(--on-surface);background-size:cover;background-position:center;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:22px 18px 18px}
+.m-cam-hint{position:relative;z-index:1;font-size:13px;font-weight:800;color:#fff;background:color-mix(in srgb,var(--on-surface) 70%,transparent);border-radius:var(--r-full);padding:6px 12px;text-align:center}
+.m-cam-frame{position:relative;width:190px;height:190px;border-radius:22px;box-shadow:0 0 0 600px color-mix(in srgb,var(--on-surface) 68%,transparent);display:flex;align-items:center;justify-content:center}
+.m-cam-frame i{position:absolute;width:34px;height:34px;border:4px solid var(--sun)}
+.m-cam-frame i:nth-child(1){top:-2px;left:-2px;border-right:0;border-bottom:0;border-radius:22px 0 0 0}
+.m-cam-frame i:nth-child(2){top:-2px;right:-2px;border-left:0;border-bottom:0;border-radius:0 22px 0 0}
+.m-cam-frame i:nth-child(3){bottom:-2px;left:-2px;border-right:0;border-top:0;border-radius:0 0 0 22px}
+.m-cam-frame i:nth-child(4){bottom:-2px;right:-2px;border-left:0;border-top:0;border-radius:0 0 22px 0}
+.m-cam-target{background:#fff;color:var(--on-surface);border-radius:10px;padding:10px 10px 6px;display:flex;flex-direction:column;align-items:center;gap:2px;transform:rotate(-6deg);box-shadow:0 6px 16px rgba(0,0,0,.35)}
+.m-cam-target .m-qr{width:96px;height:96px}
+.m-cam-target small{font-size:11px;font-weight:900}
+.m-cam-line{position:absolute;left:14px;right:14px;top:50%;height:2px;border-radius:2px;background:var(--sun);box-shadow:0 0 12px var(--sun);animation:kscan 2.2s ease-in-out infinite alternate}
+@keyframes kscan{from{top:14%}to{top:86%}}
+@media (prefers-reduced-motion:reduce){.m-cam-line{animation:none}}
+.m-cam-actions{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+.m-cam-actions p{font-size:12px;font-weight:700;color:#fff;max-width:200px}
+.m-qr{width:170px;height:170px;color:var(--on-surface);display:flex;align-items:center;justify-content:center}
+.m-qr svg{width:100%;height:100%;display:block}
+.m-sheet{position:absolute;left:12px;right:12px;top:50%;transform:translateY(-50%);background:var(--surface);border-radius:var(--r-xl);box-shadow:var(--sh-modal);padding:16px;display:flex;flex-direction:column;gap:12px}
+.m-sheet-head{display:flex;align-items:center;justify-content:space-between}
+.m-sheet-head b{font-size:18px;font-weight:900}
+.m-sheet p{font-size:13px;font-weight:600;color:var(--on-muted);line-height:1.45}
+.m-qr-card{position:relative;align-self:center;padding:12px;border-radius:var(--r-lg);border:1.5px solid var(--border);background:#fff}
+.m-qr-tag{position:absolute;left:50%;bottom:-11px;transform:translateX(-50%);background:var(--sun);color:var(--on-surface);font-size:12px;font-weight:900;border-radius:var(--r-full);padding:3px 12px;white-space:nowrap}
+.m-sheet .m-linkbox{margin-top:6px}
+.m-sheet-note{font-size:11px;font-weight:600;color:var(--on-muted);text-align:center}
+.m-order.is-served{opacity:.7}
+.m-cam-code{font-size:10px!important;font-weight:800!important;letter-spacing:.08em;color:var(--on-muted)}
+.m-cta[disabled]{opacity:.35;cursor:not-allowed}
+.m-code-where{align-self:center;display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 16px 8px;border-radius:12px;background:var(--surface);border:1.5px solid var(--border);transform:rotate(-3deg)}
+.m-code-where-qr{width:54px;height:54px;color:var(--border-strong);display:flex}
+.m-code-where-qr .ico{width:100%;height:100%;stroke-width:1.6}
+.m-code-where span{font-size:11px;font-weight:900}
+.m-code-where b{font-size:12px;font-weight:900;letter-spacing:.08em;background:var(--sun);border-radius:5px;padding:1px 6px;margin-top:2px}
+.m-code{display:flex;align-items:center;gap:6px}
+.m-code span{flex:1;height:50px;border-radius:var(--r-md);border:1.5px solid var(--border-strong);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:var(--on-surface);background:var(--surface)}
+.m-code span.cur{border-color:var(--on-surface);box-shadow:0 0 0 3px var(--sun-s);position:relative}
+.m-code span.cur::after{content:"";width:2px;height:22px;background:var(--primary);animation:kblink 1s steps(1) infinite}
+@media (prefers-reduced-motion:reduce){.m-code span.cur::after{animation:none}}
+.m-code i{width:8px;height:2px;background:var(--border-strong);flex:none}
+.lnd-scan{margin:12px 18px 0;padding:12px;border-radius:var(--r-lg);background:var(--on-surface);color:var(--surface);display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.lnd-scan-ico{width:36px;height:36px;border-radius:10px;background:color-mix(in srgb,var(--surface) 14%,transparent);display:flex;align-items:center;justify-content:center;flex:none}
+.lnd-scan-ico .ico{width:20px;height:20px;color:var(--sun)}
+.lnd-scan div{flex:1;min-width:0}
+.lnd-scan b{display:block;font-size:13px;font-weight:900}
+.lnd-scan small{display:block;font-size:11px;font-weight:600;opacity:.8;line-height:1.3}
+.lnd-scan-btn{all:unset;box-sizing:border-box;cursor:pointer;width:100%;justify-content:center;height:36px;padding:0 12px;border-radius:var(--r-full);background:var(--sun);color:var(--on-surface);font-size:12px;font-weight:900;display:flex;align-items:center}
+/* Pedido enviado */
+.m-wait{width:76px;height:76px;border-radius:50%;background:var(--warning-s);color:var(--on-surface);display:flex;align-items:center;justify-content:center;position:relative;flex:none}
+.m-wait .ico{width:32px;height:32px}
+.m-wait::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:3px solid transparent;border-top-color:var(--warning);animation:kspin 1.4s linear infinite}
+@keyframes kspin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.m-wait::after{animation:none}}
+.m-linkbox{display:flex;align-items:center;gap:8px;border:1px dashed var(--border-strong);border-radius:var(--r-md);padding:6px 6px 6px 10px;font-size:12px;font-weight:800}
+.m-linkbox span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.cmp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.cmp{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.cmp-demo{flex:1;padding:16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;background:var(--canvas);min-height:100px}
+.cmp-demo.white{background:var(--surface)}
+.cmp-meta{padding:10px 14px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:3px}
+.cmp-meta b{font-size:13px;font-weight:900}
+.cmp-meta code{font-size:11px;color:var(--primary-h);overflow-wrap:anywhere}
+.cmp-meta small{font-size:11px;color:var(--on-muted);font-weight:600}
+/* ── UTILITY ──────────────────────────────────────────────────────── */
+.flex{display:flex}.gap4{gap:4px}.gap8{gap:8px}.gap10{gap:10px}.gap12{gap:12px}.gap16{gap:16px}.gap20{gap:20px}.gap24{gap:24px}
+.col{flex-direction:column}.wrap{flex-wrap:wrap}.items-c{align-items:center}.just-between{justify-content:space-between}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.w100{width:100%}
+.muted{color:var(--on-muted)}
+.small{font-size:12px}
+.bold{font-weight:800}
+.mono{font-family:monospace;font-size:12px}
+</style>
+
+<!-- SVG sprite -->
+<svg hidden>
+  <symbol id="i-orders" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></symbol>
+  <symbol id="i-history" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></symbol>
+  <symbol id="i-table" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8"/></symbol>
+  <symbol id="i-team" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></symbol>
+  <symbol id="i-billing" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 12L12 3l9 9"/><path d="M9 21V12h6v9"/><path d="M3 12v9h18V12"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16v-5a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 21h4"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M16 16l4 4"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+  <symbol id="i-filter" viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 24 24"><path d="M3 4h2l2.2 10.2a1 1 0 0 0 1 .8h8.6a1 1 0 0 0 1-.8L19 8H6"/><circle cx="9" cy="19" r="1.2"/><circle cx="17" cy="19" r="1.2"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-6-5.6-6-11a6 6 0 1 1 12 0c0 5.4-6 11-6 11z"/><circle cx="12" cy="10" r="2"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></symbol>
+  <symbol id="i-platform" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></symbol>
+  <symbol id="i-bag" viewBox="0 0 24 24"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></symbol>
+  <symbol id="i-scooter" viewBox="0 0 24 24"><circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M9 17h6l-2-7H9M15 17l2-9h3"/></symbol>
+  <symbol id="i-locate" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></symbol>
+  <symbol id="i-pinfill" viewBox="0 0 24 24"><path d="M12 22s-7-6.2-7-12a7 7 0 1 1 14 0c0 5.8-7 12-7 12z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+  <symbol id="i-qr" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 17h4v4h-4"/></symbol>
+  <symbol id="i-keyboard" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2.5"/><path d="M6 9h.01M10 9h.01M14 9h.01M18 9h.01M6 13h.01M18 13h.01M10 13h4M7 16h10"/></symbol>
+  <symbol id="i-flash" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="pay-transfer" viewBox="0 0 96 96"><rect width="96" height="96" rx="20" fill="#3b1f14"/><path d="M0 20A20 20 0 0 1 20 0H76A20 20 0 0 1 96 20V42C70 28 30 58 0 40Z" fill="#fff" opacity=".12"/><g fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><path d="M26 30H66M57 21L66 30L57 39"/><path d="M70 52H30M39 43L30 52L39 61"/></g><text x="48" y="84" text-anchor="middle" font-family="Nunito, system-ui, sans-serif" font-weight="900" font-size="15" fill="#ffd35c">transfer</text></symbol>
+  <symbol id="pay-cash" viewBox="0 0 96 96"><rect width="96" height="96" rx="20" fill="#15803d"/><path d="M0 20A20 20 0 0 1 20 0H76A20 20 0 0 1 96 20V42C70 28 30 58 0 40Z" fill="#fff" opacity=".12"/><g fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round"><rect x="20" y="22" width="56" height="34" rx="6"/><circle cx="48" cy="39" r="8"/></g><circle cx="30" cy="39" r="3" fill="#fff"/><circle cx="66" cy="39" r="3" fill="#fff"/><text x="48" y="84" text-anchor="middle" font-family="Nunito, system-ui, sans-serif" font-weight="900" font-size="15" fill="#ddf2dc">dinheiro</text></symbol>
+</svg>
+
+<div class="ds-shell">
+<!-- ═══════════ DOC NAV ═══════════ -->
+<nav class="ds-nav">
+  <div class="ds-nav-logo"><span>K</span>Kami DS v2</div>
+  <div class="ds-group">Fundamentos</div>
+  <a class="ds-link" href="#tokens">Tokens & Paleta</a>
+  <a class="ds-link" href="#tipo">Tipografia</a>
+  <div class="ds-group">Back-office</div>
+  <a class="ds-link active" href="#bo-shell">Shell & Layout</a>
+  <a class="ds-link" href="#bo-nav">Navegação</a>
+  <a class="ds-link" href="#bo-btns">Botões & Campos</a>
+  <a class="ds-link" href="#bo-tickets">Talões de Pedido</a>
+  <a class="ds-link" href="#bo-table">Tabela de Dados</a>
+  <a class="ds-link" href="#bo-mesas">Mesas</a>
+  <a class="ds-link" href="#bo-misc">Avisos & Modal</a>
+  <div class="ds-group">Mobile</div>
+  <a class="ds-link" href="#m-shell">Fluxo do cliente online</a>
+  <a class="ds-link" href="#m-componentes">Componentes mobile</a>
+  <a class="ds-link" href="#m-mesa">Fluxo na mesa</a>
+</nav>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<main class="ds-main">
+
+<!-- TOKENS -->
+<section class="sec" id="tokens">
+  <div class="sec-head">
+    <h2>Tokens &amp; Paleta</h2>
+    <p>Paleta inalterada face ao <code>kami-theme.css</code>. Todos os componentes usam exclusivamente estas variáveis CSS.</p>
+  </div>
+
+  <div class="subsec">
+    <div class="subsec-title">Marca & Superfícies</div>
+    <div class="palette">
+      <div class="swatch"><div class="swatch-color" style="background:#d43e12"></div><div class="swatch-label">#D43E12</div><div class="swatch-token">--primary</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#b5300b"></div><div class="swatch-label">#B5300B</div><div class="swatch-token">--primary-h</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#ffe8dc"></div><div class="swatch-label">#FFE8DC</div><div class="swatch-token">--primary-s</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#ffd35c"></div><div class="swatch-label">#FFD35C</div><div class="swatch-token">--sun</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#fef1bd"></div><div class="swatch-label">#FEF1BD</div><div class="swatch-token">--sun-s</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#3b1f14"></div><div class="swatch-label">#3B1F14</div><div class="swatch-token">--on-surface / --rail-bg</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#7a5645"></div><div class="swatch-label">#7A5645</div><div class="swatch-token">--on-muted</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#fff6e5"></div><div class="swatch-label">#FFF6E5</div><div class="swatch-token">--surface-sunken</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#f9f8f6"></div><div class="swatch-label">#F9F8F6</div><div class="swatch-token">--canvas</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#ebe3d8;border:1px solid #ebe3d8"></div><div class="swatch-label">#EBE3D8</div><div class="swatch-token">--border</div></div>
+    </div>
+  </div>
+
+  <div class="subsec">
+    <div class="subsec-title">Estados semânticos</div>
+    <div class="palette">
+      <div class="swatch"><div class="swatch-color" style="background:#fab902"></div><div class="swatch-label">#FAB902</div><div class="swatch-token">--warning (Novo)</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#fff0c2"></div><div class="swatch-label">#FFF0C2</div><div class="swatch-token">--warning-s</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#15803d"></div><div class="swatch-label">#15803D</div><div class="swatch-token">--success (Pronto)</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#ddf2dc"></div><div class="swatch-label">#DDF2DC</div><div class="swatch-token">--success-s</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#be123c"></div><div class="swatch-label">#BE123C</div><div class="swatch-token">--danger</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#fde4ea"></div><div class="swatch-label">#FDE4EA</div><div class="swatch-token">--danger-s</div></div>
+    </div>
+  </div>
+
+  <div class="subsec">
+    <div class="subsec-title">Raios & Espaçamento</div>
+    <div class="flex gap12 wrap">
+      <div class="preview-inner flex gap12 wrap" style="border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;background:var(--surface)">
+        <div class="flex col gap4 items-c"><div style="width:40px;height:40px;background:var(--primary-s);border-radius:5px"></div><span class="swatch-token">5px / --r-sm</span></div>
+        <div class="flex col gap4 items-c"><div style="width:40px;height:40px;background:var(--primary-s);border-radius:8px"></div><span class="swatch-token">8px / --r-md</span></div>
+        <div class="flex col gap4 items-c"><div style="width:40px;height:40px;background:var(--primary-s);border-radius:14px"></div><span class="swatch-token">14px / --r-lg</span></div>
+        <div class="flex col gap4 items-c"><div style="width:40px;height:40px;background:var(--primary-s);border-radius:20px"></div><span class="swatch-token">20px / --r-xl (mobile)</span></div>
+        <div class="flex col gap4 items-c"><div style="width:40px;height:40px;background:var(--primary-s);border-radius:9999px"></div><span class="swatch-token">pill / --r-full</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIPOGRAFIA -->
+<section class="sec" id="tipo">
+  <div class="sec-head">
+    <h2>Tipografia</h2>
+    <p>Nunito em todos os contextos. Pesos 400 600 700 800 900. O 900 serve como display em mobile; o 700–800 no back-office.</p>
+  </div>
+  <div class="preview"><div class="preview-inner flex col gap12" style="padding:28px">
+    <div style="font-size:32px;font-weight:900;letter-spacing:-.02em">Muamba de Galinha <span style="font-weight:400">com pirão</span></div>
+    <div class="annotation">32px / 900 + 400 — hero mobile (.m-hero h2)</div>
+    <div style="font-size:22px;font-weight:900;letter-spacing:-.01em">Pedidos em aberto</div>
+    <div class="annotation">22px / 900 — títulos de página back-office</div>
+    <div style="font-size:18px;font-weight:900">Pedido #0142 · Mesa 4</div>
+    <div class="annotation">18px / 900 — subtítulos de secção</div>
+    <div style="font-size:14px;font-weight:700">Muamba de galinha (sem gindungo) · 2x · 6.000 Kz</div>
+    <div class="annotation">14px / 700 — corpo back-office e tabelas</div>
+    <div style="font-size:13px;font-weight:600;color:var(--on-muted)">Recebido há 3 min · Levantamento · novo-canal</div>
+    <div class="annotation">13px / 600 muted — metadados e legendas</div>
+    <div style="font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--on-muted)">Canais · Pedidos · Estado</div>
+    <div class="annotation">11px / 800 uppercase letterspaced — cabeçalhos de secção nav e tabela</div>
+  </div></div>
+</section>
+
+<!-- BO SHELL -->
+<section class="sec" id="bo-shell">
+  <div class="sec-head">
+    <h2>Back-office — Shell &amp; Layout</h2>
+    <p>3 zonas: rail de ícones (64 px, castanho escuro) + sidebar branca (220 px) + área de conteúdo (canvas). Inspirado na estrutura do Slack adaptada à paleta Kami.</p>
+  </div>
+
+  <div class="subsec">
+    <div class="subsec-title">Shell completa — Quadro de pedidos (BO-01)</div>
+    <div class="preview" style="padding:20px;background:var(--canvas)">
+      <div class="bo-shell">
+        <!-- Rail -->
+        <div class="bo-rail">
+          <div class="rail-ws">K</div>
+          <div class="rail-item active">
+            <svg><use href="#i-orders"/></svg>
+            <span class="rail-item-label">Pedidos</span>
+          </div>
+          <div class="rail-item">
+            <svg><use href="#i-history"/></svg>
+            <span class="rail-item-label">Histórico</span>
+          </div>
+          <div class="rail-item">
+            <svg><use href="#i-table"/></svg>
+            <span class="rail-item-label">Mesas</span>
+          </div>
+          <div class="rail-sep"></div>
+          <div class="rail-item">
+            <svg><use href="#i-box"/></svg>
+            <span class="rail-item-label">Produtos</span>
+          </div>
+          <div class="rail-item">
+            <svg><use href="#i-map"/></svg>
+            <span class="rail-item-label">Zonas</span>
+          </div>
+          <div class="rail-item">
+            <svg><use href="#i-team"/></svg>
+            <span class="rail-item-label">Equipa</span>
+          </div>
+          <div class="rail-sep"></div>
+          <div class="rail-item">
+            <svg><use href="#i-settings"/></svg>
+            <span class="rail-item-label">Config.</span>
+          </div>
+        </div>
+        <!-- Header -->
+        <div class="bo-header">
+          <div class="bo-header-title">Pedidos</div>
+          <div class="bo-header-search">
+            <svg width="13" height="13" style="stroke:var(--on-muted);fill:none;stroke-width:2"><use href="#i-search"/></svg>
+            Pesquisar pedidos…
+          </div>
+          <div class="bo-avatar">AA</div>
+        </div>
+        <!-- Sidebar -->
+        <div class="bo-sidebar">
+          <div class="bo-sidebar-header">
+            <span class="bo-sidebar-name">Restaurante Q.</span>
+            <svg width="16" height="16" style="stroke:var(--on-muted);fill:none;stroke-width:2"><use href="#i-settings"/></svg>
+          </div>
+          <div class="bo-sidebar-search">
+            <svg width="12" height="12" style="stroke:currentColor;fill:none;stroke-width:2"><use href="#i-search"/></svg>
+            Encontrar…
+          </div>
+          <div class="bo-sec-label">Operações</div>
+          <div class="bo-nav active">
+            <svg><use href="#i-orders"/></svg>Pedidos
+            <span class="bo-nav-badge warn">5</span>
+          </div>
+          <div class="bo-nav">
+            <svg><use href="#i-history"/></svg>Histórico
+          </div>
+          <div class="bo-nav">
+            <svg><use href="#i-table"/></svg>Mesas
+            <span class="bo-nav-badge">2</span>
+          </div>
+          <div class="bo-sec-label">Catálogo</div>
+          <div class="bo-nav">
+            <svg><use href="#i-box"/></svg>Produtos
+          </div>
+          <div class="bo-nav">
+            <svg><use href="#i-map"/></svg>Zonas
+          </div>
+          <div class="bo-sec-label">Gestão</div>
+          <div class="bo-nav">
+            <svg><use href="#i-team"/></svg>Equipa
+          </div>
+          <div class="bo-nav">
+            <svg><use href="#i-billing"/></svg>Plano
+          </div>
+          <div class="bo-nav">
+            <svg><use href="#i-settings"/></svg>Definições
+          </div>
+        </div>
+        <!-- Content -->
+        <div class="bo-content">
+          <div class="bo-page-header">
+            <div>
+              <div class="bo-page-title">Pedidos em aberto</div>
+            </div>
+            <div class="flex gap8 items-c">
+              <div class="badge b-new"><span class="badge-dot"></span>5 novos</div>
+              <button class="btn btn-s btn-sm">
+                <svg style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2"><use href="#i-bell"/></svg>
+                Som activo
+              </button>
+            </div>
+          </div>
+          <!-- Tabs -->
+          <div class="tabs">
+            <div class="tab on">Quadro</div>
+            <div class="tab">Lista</div>
+          </div>
+          <!-- Kanban -->
+          <div class="kanban">
+            <div class="k-col">
+              <div class="k-col-head">Novo <span class="k-count">2</span></div>
+              <div class="ticket">
+                <div class="ticket-top">
+                  <div><strong>Mesa 4</strong><small>Pedido #0142 · 2 min</small></div>
+                  <span class="badge b-new"><span class="badge-dot"></span>Novo</span>
+                </div>
+                <ul><li><b>2×</b>Muamba de galinha</li><li><b>3×</b>Cuca 33 cl</li></ul>
+                <div class="ticket-foot">
+                  <span class="ticket-price">9.200 Kz</span>
+                  <div class="flex gap6"><button class="btn btn-s btn-sm">Recusar</button><button class="btn btn-p btn-sm">Aceitar</button></div>
+                </div>
+              </div>
+              <div class="ticket">
+                <div class="ticket-top">
+                  <div><strong>Online</strong><small>Pedido #0143 · 4 min</small></div>
+                  <span class="badge b-new"><span class="badge-dot"></span>Novo</span>
+                </div>
+                <ul><li><b>1×</b>Mufete de cacusso</li></ul>
+                <div class="ticket-foot"><span class="ticket-price">5.500 Kz</span><button class="btn btn-p btn-sm">Aceitar</button></div>
+              </div>
+            </div>
+            <div class="k-col">
+              <div class="k-col-head">Em preparação <span class="k-count">2</span></div>
+              <div class="ticket t-prep">
+                <div class="ticket-top">
+                  <div><strong>Mesa 2</strong><small>Pedido #0140 · 12 min</small></div>
+                  <span class="badge b-prep"><span class="badge-dot"></span>Prep.</span>
+                </div>
+                <ul><li><b>1×</b>Calulu de peixe</li><li><b>2×</b>Sumo de múcua</li></ul>
+                <div class="ticket-foot"><span class="ticket-price">7.800 Kz</span><button class="btn btn-p btn-sm">Pronto</button></div>
+              </div>
+            </div>
+            <div class="k-col">
+              <div class="k-col-head">Pronto <span class="k-count">1</span></div>
+              <div class="ticket t-ready">
+                <div class="ticket-top">
+                  <div><strong>Mesa 7</strong><small>Pedido #0138 · 22 min</small></div>
+                  <span class="badge b-ready"><span class="badge-dot"></span>Pronto</span>
+                </div>
+                <ul><li><b>1×</b>Frango grelhado</li><li><b>1×</b>Arroz</li></ul>
+                <div class="ticket-foot"><span class="ticket-price">4.200 Kz</span><button class="btn btn-s btn-sm">Entregue</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex gap8 wrap" style="margin-top:8px">
+      <span class="annotation">.bo-rail (64px, --rail-bg)</span>
+      <span class="annotation">.bo-sidebar (220px, white + border-right)</span>
+      <span class="annotation">.bo-header (52px, white + border-bottom)</span>
+      <span class="annotation">.bo-content (--canvas, flex col)</span>
+    </div>
+  </div>
+
+  <div class="subsec">
+    <div class="subsec-title">Modo Pedido — barras laterais recolhidas, foco nos pedidos</div>
+    <p class="muted small" style="font-weight:600">Para a hora de ponta na cozinha/balcão. O rail fica só com ícones (52 px), a sidebar desaparece e o quadro ocupa toda a largura. Talões maiores, cronómetro por pedido e alerta de atraso. Sai-se pelo botão no cabeçalho ou pelo ícone no fundo do rail.</p>
+    <div class="preview" style="padding:20px;background:var(--canvas)">
+      <div class="bo-shell bo-focus">
+        <!-- Rail recolhido -->
+        <div class="bo-rail">
+          <div class="rail-ws">K</div>
+          <div class="rail-item active" title="Pedidos"><svg><use href="#i-orders"/></svg><span class="rail-item-label">Pedidos</span></div>
+          <div class="rail-item" title="Mesas"><svg><use href="#i-table"/></svg><span class="rail-item-label">Mesas</span></div>
+          <div class="rail-item" title="Histórico"><svg><use href="#i-history"/></svg><span class="rail-item-label">Histórico</span></div>
+          <div class="rail-item rail-expand" title="Expandir barras laterais"><svg><use href="#i-back"/></svg></div>
+        </div>
+        <!-- Header -->
+        <div class="bo-header">
+          <div class="flex items-c gap10" style="flex:1;min-width:0">
+            <div class="bo-header-title" style="flex:none">Modo Pedido</div>
+            <span class="focus-live">Ao vivo</span>
+          </div>
+          <div class="focus-stats">
+            <div class="focus-stat warn"><b>3</b>novos</div>
+            <div class="focus-stat"><b>2</b>em prep.</div>
+            <div class="focus-stat late"><b>1</b>atrasado</div>
+            <div class="focus-stat"><b>14</b>min média</div>
+          </div>
+          <button class="btn btn-s btn-sm">Sair do modo</button>
+        </div>
+        <!-- Quadro -->
+        <div class="bo-content">
+          <div class="kanban">
+            <div class="k-col">
+              <div class="k-col-head">Novo <span class="k-count">3</span></div>
+              <div class="ticket is-new">
+                <div class="ticket-top">
+                  <div><strong>Mesa 4</strong><small>#0145 · QR Code</small></div>
+                  <span class="t-timer">agora</span>
+                </div>
+                <ul><li><b>2×</b>Muamba de galinha</li><li><b>3×</b>Cuca 33 cl</li></ul>
+                <div class="ticket-note">Sem gindungo</div>
+                <div class="ticket-foot"><span class="ticket-price">9.200 Kz</span><div class="flex gap6"><button class="btn btn-s btn-sm">Recusar</button><button class="btn btn-p">Aceitar</button></div></div>
+              </div>
+              <div class="ticket">
+                <div class="ticket-top">
+                  <div><strong>Online · Levantamento</strong><small>#0144 · Joana M.</small></div>
+                  <span class="t-timer">3 min</span>
+                </div>
+                <ul><li><b>1×</b>Mufete de cacusso</li></ul>
+                <div class="ticket-foot"><span class="ticket-price">5.500 Kz</span><button class="btn btn-p">Aceitar</button></div>
+              </div>
+              <div class="ticket">
+                <div class="ticket-top">
+                  <div><strong>Mesa 9</strong><small>#0143 · QR Code</small></div>
+                  <span class="t-timer">5 min</span>
+                </div>
+                <ul><li><b>4×</b>Sumo de múcua</li></ul>
+                <div class="ticket-foot"><span class="ticket-price">3.200 Kz</span><button class="btn btn-p">Aceitar</button></div>
+              </div>
+            </div>
+            <div class="k-col">
+              <div class="k-col-head">Em preparação <span class="k-count">2</span></div>
+              <div class="ticket t-prep is-late">
+                <div class="ticket-top">
+                  <div><strong>Mesa 2</strong><small>#0140 · prev. 15 min</small></div>
+                  <span class="t-timer late">18 min</span>
+                </div>
+                <ul><li><b>1×</b>Calulu de peixe seco</li><li><b>2×</b>Funge</li></ul>
+                <div class="ticket-foot"><span class="ticket-price">7.800 Kz</span><button class="btn btn-p">Marcar pronto</button></div>
+              </div>
+              <div class="ticket t-prep">
+                <div class="ticket-top">
+                  <div><strong>Online · Entrega</strong><small>#0141 · prev. 20 min</small></div>
+                  <span class="t-timer">9 min</span>
+                </div>
+                <ul><li><b>2×</b>Frango grelhado</li><li><b>2×</b>Batata frita</li></ul>
+                <div class="ticket-foot"><span class="ticket-price">8.400 Kz</span><button class="btn btn-p">Marcar pronto</button></div>
+              </div>
+            </div>
+            <div class="k-col">
+              <div class="k-col-head">Pronto <span class="k-count">1</span></div>
+              <div class="ticket t-ready">
+                <div class="ticket-top">
+                  <div><strong>Mesa 7</strong><small>#0138 · pronto há 2 min</small></div>
+                  <span class="t-timer">22 min</span>
+                </div>
+                <ul><li><b>1×</b>Frango grelhado</li><li><b>1×</b>Arroz branco</li></ul>
+                <div class="ticket-foot"><span class="ticket-price">4.200 Kz</span><button class="btn btn-s">Entregue</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex gap8 wrap" style="margin-top:8px">
+      <span class="annotation">.bo-shell.bo-focus → 52px + 1fr, sem .bo-sidebar</span>
+      <span class="annotation">.rail-item-label oculto, .rail-expand no fundo</span>
+      <span class="annotation">.focus-stats → contadores no cabeçalho</span>
+      <span class="annotation">.t-timer / .t-timer.late</span>
+      <span class="annotation">.ticket.is-new → anel --warning · .ticket.is-late → borda --danger</span>
+      <span class="annotation">.ticket-note → observação do cliente</span>
+    </div>
+  </div>
+</section>
+
+<!-- BO NAV -->
+<section class="sec" id="bo-nav">
+  <div class="sec-head">
+    <h2>Navegação</h2>
+    <p>Rail de ícones com label e barra lateral activa em âmbar. Sidebar: cabeçalhos 11 px uppercase + itens com ícone 16 px + badge.</p>
+  </div>
+  <div class="grid2">
+    <div class="subsec">
+      <div class="subsec-title">Rail — estados</div>
+      <div class="preview" style="background:var(--rail-bg);padding:8px;border-radius:var(--r-lg);width:80px">
+        <div style="display:flex;flex-direction:column;gap:2px;align-items:center">
+          <div class="rail-item active" style="width:100%"><svg style="width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2"><use href="#i-orders"/></svg><span class="rail-item-label">Pedidos</span></div>
+          <div class="rail-item" style="width:100%"><svg style="width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2"><use href="#i-table"/></svg><span class="rail-item-label">Mesas</span></div>
+          <div class="rail-item" style="width:100%;color:rgba(255,246,229,.4)"><svg style="width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2"><use href="#i-settings"/></svg><span class="rail-item-label">Config.</span></div>
+        </div>
+      </div>
+      <div class="flex gap8 wrap" style="margin-top:4px">
+        <span class="annotation">.rail-item.active → barra --sun esquerda</span>
+        <span class="annotation">.rail-item (default) → rgba branco 60%</span>
+      </div>
+    </div>
+    <div class="subsec">
+      <div class="subsec-title">Sidebar nav — estados</div>
+      <div class="preview" style="padding:12px;width:240px">
+        <div class="bo-sec-label">Operações</div>
+        <div class="bo-nav active"><svg style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2"><use href="#i-orders"/></svg>Pedidos<span class="bo-nav-badge warn">5</span></div>
+        <div class="bo-nav" style="background:var(--canvas)"><svg style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2"><use href="#i-history"/></svg>Histórico</div>
+        <div class="bo-nav"><svg style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2"><use href="#i-table"/></svg>Mesas<span class="bo-nav-badge">2</span></div>
+        <div class="bo-sec-label" style="margin-top:8px">Catálogo</div>
+        <div class="bo-nav" style="color:var(--on-muted)"><svg style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2"><use href="#i-box"/></svg>Produtos</div>
+      </div>
+      <div class="flex gap8 wrap" style="margin-top:4px">
+        <span class="annotation">.bo-nav.active → --primary-s + barra 3px --primary</span>
+        <span class="annotation">.bo-nav-badge → pill --primary</span>
+        <span class="annotation">.bo-nav-badge.warn → pill --warning</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BO BUTTONS & FIELDS -->
+<section class="sec" id="bo-btns">
+  <div class="sec-head">
+    <h2>Botões &amp; Campos</h2>
+    <p>Botões compactos (34 px default, 28 px small, 42 px large). Campos com 36 px de altura e contorno <code>--border-strong</code>.</p>
+  </div>
+  <div class="grid2">
+    <div class="subsec">
+      <div class="subsec-title">Botões — variantes e tamanhos</div>
+      <div class="preview"><div class="preview-inner flex col gap12">
+        <div class="flex gap8 wrap items-c">
+          <button class="btn btn-p">Aceitar pedido</button>
+          <button class="btn btn-s">Recusar</button>
+          <button class="btn btn-ghost">Ver detalhe</button>
+          <button class="btn btn-d">Eliminar</button>
+        </div>
+        <div class="flex gap8 wrap items-c">
+          <button class="btn btn-p btn-sm">Aceitar</button>
+          <button class="btn btn-s btn-sm">Cancelar</button>
+          <button class="btn btn-p btn-lg">Guardar produto</button>
+        </div>
+        <div class="flex gap8 items-c">
+          <button class="btn btn-p btn-sm flex gap4 items-c"><svg style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5"><use href="#i-plus"/></svg>Novo produto</button>
+          <button class="btn btn-s btn-sm flex gap4 items-c"><svg style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2"><use href="#i-filter"/></svg>Filtrar</button>
+        </div>
+      </div></div>
+      <span class="annotation">.btn .btn-p / .btn-s / .btn-ghost / .btn-d + .btn-sm / .btn-lg</span>
+    </div>
+    <div class="subsec">
+      <div class="subsec-title">Campos — estados</div>
+      <div class="preview"><div class="preview-inner flex col gap12">
+        <div class="field">
+          <div class="field-label">Nome do produto</div>
+          <div class="input">Muamba de galinha</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Preço <span class="field-opt">(Kz)</span></div>
+          <div class="input input-focus">3.500</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Slug</div>
+          <div class="input input-err input-ph">restaurante-xa</div>
+          <div class="field-err">Este endereço já existe. Escolhe outro.</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Descrição <span class="field-opt">(opcional)</span></div>
+          <div class="input textarea input-ph">Descreve o produto…</div>
+        </div>
+      </div></div>
+      <span class="annotation">.input / .input-focus / .input-err / .input-ph / .textarea</span>
+    </div>
+  </div>
+  <div class="subsec">
+    <div class="subsec-title">Controlos — toggle, checkbox, tabs</div>
+    <div class="preview"><div class="preview-inner flex gap24 wrap items-c">
+      <div class="flex col gap12">
+        <div class="flex gap10 items-c"><div class="toggle on"></div><span class="bold small">Restaurante aberto</span></div>
+        <div class="flex gap10 items-c"><div class="toggle"></div><span class="small muted">Restaurante fechado</span></div>
+      </div>
+      <div class="flex col gap10">
+        <div class="flex gap8 items-c"><div class="check on"><svg><use href="#i-check"/></svg></div><span class="small bold">Levantamento</span></div>
+        <div class="flex gap8 items-c"><div class="check on"><svg><use href="#i-check"/></svg></div><span class="small bold">Entrega ao domicílio</span></div>
+        <div class="flex gap8 items-c"><div class="check"></div><span class="small muted">Pedidos QR Code</span></div>
+      </div>
+      <div>
+        <div class="tabs">
+          <div class="tab on">Mensagens</div>
+          <div class="tab">Canvas</div>
+          <div class="tab">Ficheiros</div>
+        </div>
+      </div>
+    </div></div>
+    <span class="annotation">.toggle / .toggle.on · .check / .check.on · .tabs .tab / .tab.on</span>
+  </div>
+</section>
+
+<!-- BO TICKETS -->
+<section class="sec" id="bo-tickets">
+  <div class="sec-head">
+    <h2>Talões de Pedido</h2>
+    <p>Cartão com borda esquerda 4 px que muda de cor com o estado. É o elemento central do back-office.</p>
+  </div>
+  <div class="preview"><div class="preview-inner flex gap16 wrap">
+    <div style="width:220px">
+      <div class="small bold muted" style="margin-bottom:8px">Novo (âmbar)</div>
+      <div class="ticket">
+        <div class="ticket-top"><div><strong>Mesa 4</strong><small>#0142 · 2 min atrás</small></div><span class="badge b-new"><span class="badge-dot"></span>Novo</span></div>
+        <ul><li><b>2×</b>Muamba de galinha</li><li><b>1×</b>Mufete de cacusso</li><li><b>3×</b>Cuca 33 cl</li></ul>
+        <div class="ticket-foot"><span class="ticket-price">17.200 Kz</span><div class="flex gap6"><button class="btn btn-s btn-sm">Recusar</button><button class="btn btn-p btn-sm">Aceitar</button></div></div>
+      </div>
+    </div>
+    <div style="width:220px">
+      <div class="small bold muted" style="margin-bottom:8px">Em preparação (laranja)</div>
+      <div class="ticket t-prep">
+        <div class="ticket-top"><div><strong>Online · Levantamento</strong><small>#0140 · 12 min</small></div><span class="badge b-prep"><span class="badge-dot"></span>Prep.</span></div>
+        <ul><li><b>1×</b>Calulu de peixe seco</li><li><b>2×</b>Sumo natural múcua</li></ul>
+        <div class="ticket-foot"><span class="ticket-price">7.800 Kz</span><button class="btn btn-p btn-sm">Marcar pronto</button></div>
+      </div>
+    </div>
+    <div style="width:220px">
+      <div class="small bold muted" style="margin-bottom:8px">Pronto (verde)</div>
+      <div class="ticket t-ready">
+        <div class="ticket-top"><div><strong>Mesa 7</strong><small>#0138 · 22 min</small></div><span class="badge b-ready"><span class="badge-dot"></span>Pronto</span></div>
+        <ul><li><b>1×</b>Frango grelhado</li><li><b>1×</b>Arroz branco</li></ul>
+        <div class="ticket-foot"><span class="ticket-price">4.200 Kz</span><button class="btn btn-s btn-sm">Entregue</button></div>
+      </div>
+    </div>
+    <div style="width:220px">
+      <div class="small bold muted" style="margin-bottom:8px">Concluído (neutro)</div>
+      <div class="ticket t-done">
+        <div class="ticket-top"><div><strong>Mesa 2</strong><small>#0135 · 45 min</small></div><span class="badge b-done"><span class="badge-dot"></span>Concluído</span></div>
+        <ul><li><b>3×</b>Grelhados mistos</li><li><b>4×</b>Cerveja 33 cl</li></ul>
+        <div class="ticket-foot"><span class="ticket-price">22.500 Kz</span></div>
+      </div>
+    </div>
+  </div></div>
+  <div class="flex gap8 wrap" style="margin-top:8px">
+    <span class="annotation">.ticket → border-left: 4px --warning</span>
+    <span class="annotation">.ticket.t-prep → --primary</span>
+    <span class="annotation">.ticket.t-ready → --success</span>
+    <span class="annotation">.ticket.t-done → --border-strong</span>
+  </div>
+</section>
+
+<!-- BO TABLE -->
+<section class="sec" id="bo-table">
+  <div class="sec-head">
+    <h2>Tabela de Dados</h2>
+    <p>Cabeçalho 11 px uppercase, linhas 9 px padding, hover que revela acções. Usar para Histórico (BO-03), Produtos (BO-05), Categorias (BO-06), Equipa (BO-08).</p>
+  </div>
+  <div class="preview">
+    <div class="tbl">
+      <table>
+        <thead><tr>
+          <th>Produto</th><th>Categoria</th><th>Preço</th><th>Estado</th><th></th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Muamba de galinha</strong></td>
+            <td class="muted">Pratos principais</td>
+            <td style="font-variant-numeric:tabular-nums;font-weight:800">3.500 Kz</td>
+            <td><span class="badge b-ready"><span class="badge-dot"></span>Activo</span></td>
+            <td><div class="tbl-actions"><button class="btn btn-s btn-sm">Editar</button><button class="btn btn-d btn-sm">Remover</button></div></td>
+          </tr>
+          <tr>
+            <td><strong>Calulu de peixe seco</strong></td>
+            <td class="muted">Pratos principais</td>
+            <td style="font-variant-numeric:tabular-nums;font-weight:800">4.200 Kz</td>
+            <td><span class="badge b-ready"><span class="badge-dot"></span>Activo</span></td>
+            <td><div class="tbl-actions"><button class="btn btn-s btn-sm">Editar</button><button class="btn btn-d btn-sm">Remover</button></div></td>
+          </tr>
+          <tr>
+            <td><strong>Cuca 33 cl</strong></td>
+            <td class="muted">Bebidas</td>
+            <td style="font-variant-numeric:tabular-nums;font-weight:800">600 Kz</td>
+            <td><span class="badge b-cancel"><span class="badge-dot"></span>Inactivo</span></td>
+            <td><div class="tbl-actions"><button class="btn btn-s btn-sm">Editar</button></div></td>
+          </tr>
+          <tr>
+            <td><strong>Frango grelhado</strong></td>
+            <td class="muted">Pratos principais</td>
+            <td style="font-variant-numeric:tabular-nums;font-weight:800">2.800 Kz</td>
+            <td><span class="badge b-ready"><span class="badge-dot"></span>Activo</span></td>
+            <td><div class="tbl-actions"><button class="btn btn-s btn-sm">Editar</button><button class="btn btn-d btn-sm">Remover</button></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <span class="annotation">.tbl — hover revela .tbl-actions (opacity 0→1)</span>
+</section>
+
+<!-- BO MESAS -->
+<section class="sec" id="bo-mesas">
+  <div class="sec-head">
+    <h2>Mesas &amp; Atendimentos</h2>
+    <p>Cartões em grelha. Estado codificado pela borda esquerda. Tela BO-04.</p>
+  </div>
+  <div class="preview"><div class="preview-inner">
+    <div class="grid4" style="max-width:700px">
+      <div class="mesa act">
+        <strong>Mesa 4</strong>
+        <span class="badge b-new" style="width:fit-content"><span class="badge-dot"></span>Atendimento activo</span>
+        <div class="small muted">3 pedidos · 17.200 Kz</div>
+        <div class="small muted">Aberta há 48 min</div>
+      </div>
+      <div class="mesa act-prep">
+        <strong>Mesa 2</strong>
+        <span class="badge b-prep" style="width:fit-content"><span class="badge-dot"></span>Em preparação</span>
+        <div class="small muted">1 pedido · 7.800 Kz</div>
+        <div class="small muted">Aberta há 18 min</div>
+      </div>
+      <div class="mesa">
+        <strong>Mesa 7</strong>
+        <span class="badge b-done" style="width:fit-content"><span class="badge-dot"></span>Pedido pronto</span>
+        <div class="small muted">2 pedidos · 4.200 Kz</div>
+        <div class="small muted">Aberta há 35 min</div>
+      </div>
+      <div class="mesa free"><strong>Mesa 1</strong><div class="small">Livre</div></div>
+      <div class="mesa free"><strong>Mesa 3</strong><div class="small">Livre</div></div>
+      <div class="mesa free"><strong>Mesa 5</strong><div class="small">Livre</div></div>
+      <div class="mesa free"><strong>Mesa 6</strong><div class="small">Livre</div></div>
+      <div class="mesa free"><strong>Mesa 8</strong><div class="small">Livre</div></div>
+    </div>
+  </div></div>
+  <div class="flex gap8 wrap" style="margin-top:8px">
+    <span class="annotation">.mesa.act → border-left 4px --warning</span>
+    <span class="annotation">.mesa.act-prep → border-left 4px --primary</span>
+    <span class="annotation">.mesa.free → dashed border, sem sombra</span>
+  </div>
+</section>
+
+<!-- BO MISC -->
+<section class="sec" id="bo-misc">
+  <div class="sec-head"><h2>Avisos &amp; Modal</h2></div>
+  <div class="grid2">
+    <div class="subsec">
+      <div class="subsec-title">Alertas</div>
+      <div class="preview"><div class="preview-inner flex col gap10">
+        <div class="alert"><svg><use href="#i-bell"/></svg><div><strong>5 pedidos por tratar</strong>Os pedidos estão à espera de aceitação.</div></div>
+        <div class="alert a-ok"><svg><use href="#i-check"/></svg><div><strong>Pedido #0140 aceite</strong>Estimativa: 20 min.</div></div>
+        <div class="alert a-warn"><svg><use href="#i-bell"/></svg><div><strong>Zona de entrega</strong>Localização fora das zonas configuradas.</div></div>
+        <div class="alert a-err"><svg><use href="#i-bell"/></svg><div><strong>Erro ao aceitar pedido</strong>Tenta novamente.</div></div>
+      </div></div>
+      <span class="annotation">.alert / .a-ok / .a-warn / .a-err</span>
+    </div>
+    <div class="subsec">
+      <div class="subsec-title">Modal — Novo pedido (BO-11)</div>
+      <div class="preview preview-dark"><div style="padding:20px">
+        <div class="scrim" style="min-height:320px;border-radius:var(--r-lg)">
+          <div class="modal">
+            <div class="flex just-between items-c">
+              <h3>Novo pedido!</h3>
+              <span class="badge b-new"><span class="badge-dot"></span>Mesa 4</span>
+            </div>
+            <div class="ticket">
+              <div class="ticket-top"><div><strong>Pedido #0142</strong><small>Recebido agora</small></div></div>
+              <ul><li><b>2×</b>Muamba de galinha</li><li><b>3×</b>Cuca 33 cl</li></ul>
+              <div class="ticket-foot"><span class="ticket-price">9.200 Kz</span></div>
+            </div>
+            <div class="field">
+              <div class="field-label">Tempo estimado de preparação</div>
+              <div class="input">20 minutos</div>
+            </div>
+            <div class="flex gap8 just-between">
+              <button class="btn btn-s">Recusar pedido</button>
+              <button class="btn btn-p btn-lg" style="flex:1">Aceitar pedido</button>
+            </div>
+          </div>
+        </div>
+      </div></div>
+      <span class="annotation">.scrim → .modal com .ticket dentro</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ MOBILE ══════════════ -->
+<section class="sec" id="m-shell">
+  <div class="sec-head">
+    <h2>Mobile — Fluxo do cliente online</h2>
+    <p>Do link partilhado pelo restaurante até acompanhar o pedido. O cliente não cria conta: identifica-se só com nome e telemóvel no fim, e acompanha o pedido por um link. Endereço público: <code>restaurante.kami.ao/quilamba</code>.</p>
+  </div>
+  <div class="phones-row">
+
+    <!-- 1. Landing do restaurante -->
+    <div class="phone-stage stage-cover">
+      <div class="phone">
+        <div class="m-scroll">
+          <div class="lnd-cover" style="background:linear-gradient(to bottom,color-mix(in srgb,var(--on-surface) 45%,transparent),transparent 50%),url(assets/fotos/biryani8.jpg) center/cover" role="img" aria-label="Imagem de capa do restaurante">
+            <div class="phone-label" data-screen="LND-02"><span class="phone-step">1</span>Página do restaurante</div>
+            <div class="circ circ-light" title="Partilhar"><svg><use href="#i-share"/></svg></div>
+          </div>
+          <div class="lnd-head">
+            <div class="lnd-logo">Q</div>
+            <h2 class="lnd-name">Restaurante Quilamba</h2>
+            <p class="lnd-tagline">Muamba, calulu e mufete feitos como em casa, no centro do Kilamba.</p>
+            <span class="lnd-open">Aberto agora, fecha às 22h</span>
+          </div>
+          <div class="lnd-facts">
+            <div><svg class="ico"><use href="#i-pin"/></svg>Kilamba, Bloco Q, Edifício 12, Luanda</div>
+            <div><svg class="ico"><use href="#i-clock"/></svg>Todos os dias, das 11h às 22h</div>
+          </div>
+          <div class="lnd-scan">
+            <span class="lnd-scan-ico"><svg class="ico"><use href="#i-qr"/></svg></span>
+            <div><b>Estás no restaurante?</b><small>Lê o QR Code da mesa e pede daí.</small></div>
+            <button class="lnd-scan-btn"><svg class="ico" style="width:16px;height:16px;margin-right:6px"><use href="#i-qr"/></svg>Ler QR Code</button>
+          </div>
+          <div class="lnd-q">Como queres receber?</div>
+          <div class="lnd-modes">
+            <div class="lnd-mode pick on"><svg class="ico"><use href="#i-bag"/></svg><b>Levantar</b><small>Pronto em cerca de 20 min</small></div>
+            <div class="lnd-mode deliv"><svg class="ico"><use href="#i-scooter"/></svg><b>Entrega</b><small>Kilamba e Talatona</small></div>
+          </div>
+          <div class="lnd-q">Os mais pedidos</div>
+          <div class="lnd-pop">
+            <div class="lnd-pop-item"><div class="lnd-pop-img" style="background:var(--canvas) url(assets/fotos/butter-chicken1.jpg) center/cover"></div><b>Muamba de galinha</b><span>3.500 Kz</span></div>
+            <div class="lnd-pop-item"><div class="lnd-pop-img" style="background:var(--canvas) url(assets/fotos/biryani4.jpg) center/cover"></div><b>Mufete de cacusso</b><span>5.500 Kz</span></div>
+            <div class="lnd-pop-item"><div class="lnd-pop-img" style="background:var(--canvas) url(assets/fotos/butter-chicken4.jpg) center/cover"></div><b>Calulu de peixe</b><span>4.200 Kz</span></div>
+          </div>
+        </div>
+        <div class="m-bottom"><button class="m-cta">Ver menu</button></div>
+      </div>
+    </div>
+
+    <!-- 2. Menu -->
+    <div class="phone-stage">
+      <div class="m-nav stage-nav">
+          <div class="circ"><svg><use href="#i-back"/></svg></div>
+          <div class="m-nav-mid">Quilamba<small class="m-mode-pill"><svg class="ico"><use href="#i-bag"/></svg>Levantar</small></div>
+          <div class="circ"><svg><use href="#i-search"/></svg></div>
+        </div>
+      <div class="phone-label" data-screen="CLI-01"><span class="phone-step">2</span>Menu</div>
+      <div class="phone">
+        <div class="m-hero"><h2>O que vais <strong>comer hoje?</strong></h2></div>
+        <div class="m-chips">
+          <div class="m-chip active">Todos</div><div class="m-chip">Pratos</div><div class="m-chip">Bebidas</div><div class="m-chip">Sobremesas</div>
+        </div>
+        <div class="m-scroll">
+          <div class="m-section">
+            <div class="m-sec-head m-sec-c-orange"><h3>Pratos principais</h3><span class="m-sec-link">Ver todos (6)</span></div>
+            <div class="m-prod">
+              <div class="m-prod-img" style="background:var(--canvas) url(assets/fotos/butter-chicken1.jpg) center/cover"></div>
+              <div class="m-prod-info"><div class="m-prod-name">Muamba de galinha</div><div class="m-prod-desc">Com pirão, gindungo e dendém</div><div class="m-prod-price">3.500 Kz</div></div>
+              <div class="m-add"><svg><use href="#i-plus"/></svg></div>
+            </div>
+            <div class="m-prod">
+              <div class="m-prod-img" style="background:var(--canvas) url(assets/fotos/butter-chicken4.jpg) center/cover"></div>
+              <div class="m-prod-info"><div class="m-prod-name">Calulu de peixe</div><div class="m-prod-desc">Peixe seco, quiabos e óleo de palma</div><div class="m-prod-price">4.200 Kz</div></div>
+              <div class="m-add"><svg><use href="#i-plus"/></svg></div>
+            </div>
+          </div>
+          <div class="m-section">
+            <div class="m-sec-head m-sec-c-amber"><h3>Bebidas</h3><span class="m-sec-link">Ver todas (8)</span></div>
+            <div class="m-prod">
+              <div class="m-prod-img" style="background:var(--canvas) url(assets/fotos/dessert3.jpg) center/cover"></div>
+              <div class="m-prod-info"><div class="m-prod-name">Sumo de múcua</div><div class="m-prod-desc">Natural, sem açúcar</div><div class="m-prod-price">800 Kz</div></div>
+              <div class="m-add"><svg><use href="#i-plus"/></svg></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phone-stage stage-modal">
+      <div class="m-nav stage-nav">
+          <div class="circ"><svg><use href="#i-back"/></svg></div>
+          <div class="m-nav-mid">Quilamba<small class="m-mode-pill"><svg class="ico"><use href="#i-bag"/></svg>Levantar</small></div>
+          <div class="circ"><svg><use href="#i-search"/></svg></div>
+        </div>
+      <div class="phone-label" data-screen="CLI-01s"><span class="phone-step">3</span>Pesquisa</div>
+      <div class="phone">
+        <div class="m-under" aria-hidden="true">
+        <div class="m-hero"><h2>O que vais <strong>comer hoje?</strong></h2></div>
+        <div class="m-chips">
+          <div class="m-chip active">Todos</div><div class="m-chip">Pratos</div><div class="m-chip">Bebidas</div><div class="m-chip">Sobremesas</div>
+        </div>
+        <div class="m-scroll">
+          <div class="m-section">
+            <div class="m-sec-head m-sec-c-orange"><h3>Pratos principais</h3><span class="m-sec-link">Ver todos (6)</span></div>
+            <div class="m-prod">
+              <div class="m-prod-img" style="background:var(--canvas) url(assets/fotos/butter-chicken1.jpg) center/cover"></div>
+              <div class="m-prod-info"><div class="m-prod-name">Muamba de galinha</div><div class="m-prod-desc">Com pirão, gindungo e dendém</div><div class="m-prod-price">3.500 Kz</div></div>
+              <div class="m-add"><svg><use href="#i-plus"/></svg></div>
+            </div>
+            <div class="m-prod">
+              <div class="m-prod-img" style="background:var(--canvas) url(assets/fotos/butter-chicken4.jpg) center/cover"></div>
+              <div class="m-prod-info"><div class="m-prod-name">Calulu de peixe</div><div class="m-prod-desc">Peixe seco, quiabos e óleo de palma</div><div class="m-prod-price">4.200 Kz</div></div>
+              <div class="m-add"><svg><use href="#i-plus"/></svg></div>
+            </div>
+          </div>
+          <div class="m-section">
+            <div class="m-sec-head m-sec-c-amber"><h3>Bebidas</h3><span class="m-sec-link">Ver todas (8)</span></div>
+            <div class="m-prod">
+              <div class="m-prod-img" style="background:var(--canvas) url(assets/fotos/dessert3.jpg) center/cover"></div>
+              <div class="m-prod-info"><div class="m-prod-name">Sumo de múcua</div><div class="m-prod-desc">Natural, sem açúcar</div><div class="m-prod-price">800 Kz</div></div>
+              <div class="m-add"><svg><use href="#i-plus"/></svg></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      <div class="m-backdrop"></div>
+      <div class="m-search" role="dialog" aria-label="Pesquisar no menu">
+          <div class="m-search-bar">
+            <label class="m-search-field"><svg class="ico"><use href="#i-search"/></svg><span class="m-search-q">mu<i class="m-caret"></i></span><button class="m-search-clear" aria-label="Limpar"><svg class="ico"><use href="#i-x"/></svg></button></label>
+            <button class="m-search-cancel">Fechar</button>
+          </div>
+          <div class="m-search-count">3 resultados para "mu"</div>
+          <div class="m-search-list">
+            <div class="m-card added"><div class="m-prod-img" style="background:var(--canvas) url(assets/fotos/butter-chicken1.jpg) center/cover;width:44px;height:44px"></div><div class="m-prod-info"><div class="m-prod-name"><mark>Mu</mark>amba de galinha</div><div class="m-prod-desc">Pratos principais</div><div class="m-card-row"><div class="m-prod-price">3.500 Kz</div><div class="m-step-sm"><button><svg class="ico"><use href="#i-minus"/></svg></button><span>1</span><button><svg class="ico"><use href="#i-plus"/></svg></button></div></div></div></div>
+            <div class="m-card"><div class="m-prod-img" style="background:var(--canvas) url(assets/fotos/biryani4.jpg) center/cover;width:44px;height:44px"></div><div class="m-prod-info"><div class="m-prod-name"><mark>Mu</mark>fete de cacusso</div><div class="m-prod-desc">Pratos principais</div><div class="m-card-row"><div class="m-prod-price">5.500 Kz</div><div class="m-add"><svg><use href="#i-plus"/></svg></div></div></div></div>
+            <div class="m-card"><div class="m-prod-img" style="background:var(--canvas) url(assets/fotos/dessert3.jpg) center/cover;width:44px;height:44px"></div><div class="m-prod-info"><div class="m-prod-name">Sumo de <mark>mú</mark>cua</div><div class="m-prod-desc">Bebidas</div><div class="m-card-row"><div class="m-prod-price">800 Kz</div><div class="m-add"><svg><use href="#i-plus"/></svg></div></div></div></div>
+          </div>
+          <div class="m-search-foot"><button class="m-cta bar"><span>Ver carrinho (1)</span><em>3.500 Kz</em></button></div>
+        </div>
+    </div>
+
+    <!-- 3. Lista da categoria -->
+    <div class="phone-stage">
+      <div class="m-nav stage-nav">
+          <div class="circ"><svg><use href="#i-back"/></svg></div>
+          <div class="m-nav-mid">Pratos principais<small>6 pratos</small></div>
+          <div class="circ"><svg><use href="#i-search"/></svg></div>
+        </div>
+      <div class="phone-label" data-screen="CLI-01b"><span class="phone-step">4</span>Produtos da categoria</div>
+      <div class="phone">
+        <div class="m-chips">
+          <div class="m-chip">Todos</div><div class="m-chip active">Pratos</div><div class="m-chip">Bebidas</div><div class="m-chip">Sobremesas</div>
+        </div>
+        <div class="m-scroll">
+          <div class="m-list">
+            <div class="m-card">
+              <div class="m-prod-img" style="background:var(--canvas) url(assets/fotos/butter-chicken1.jpg) center/cover"></div>
+              <div class="m-prod-info"><div class="m-prod-name">Muamba de galinha</div><div class="m-prod-desc">Com pirão, gindungo e dendém</div><div class="m-card-row"><div class="m-prod-price">3.500 Kz</div><div class="m-add"><svg><use href="#i-plus"/></svg></div></div></div>
+            </div>
+            <div class="m-card">
+              <div class="m-prod-img" style="background:var(--canvas) url(assets/fotos/butter-chicken4.jpg) center/cover"></div>
+              <div class="m-prod-info"><div class="m-prod-name">Calulu de peixe</div><div class="m-prod-desc">Peixe seco, quiabos e óleo de palma</div><div class="m-card-row"><div class="m-prod-price">4.200 Kz</div><div class="m-add"><svg><use href="#i-plus"/></svg></div></div></div>
+            </div>
+            <div class="m-card">
+              <div class="m-prod-img" style="background:var(--canvas) url(assets/fotos/biryani4.jpg) center/cover"></div>
+              <div class="m-prod-info"><div class="m-prod-name">Mufete de cacusso</div><div class="m-prod-desc">Banana pão, batata doce e feijão de óleo</div><div class="m-card-row"><div class="m-prod-price">5.500 Kz</div><div class="m-add"><svg><use href="#i-plus"/></svg></div></div></div>
+            </div>
+            <div class="m-card">
+              <div class="m-prod-img m-noimg">F</div>
+              <div class="m-prod-info"><div class="m-prod-name">Frango grelhado</div><div class="m-prod-desc">Meio frango com batata frita</div><div class="m-card-row"><div class="m-prod-price">2.800 Kz</div><div class="m-add"><svg><use href="#i-plus"/></svg></div></div></div>
+            </div>
+            <div class="m-card">
+              <div class="m-prod-img" style="background:var(--canvas) url(assets/fotos/idly1.jpg) center/cover"></div>
+              <div class="m-prod-info"><div class="m-prod-name">Funje de bombó</div><div class="m-prod-desc">Acompanhamento</div><div class="m-card-row"><div class="m-prod-price">600 Kz</div><div class="m-add"><svg><use href="#i-plus"/></svg></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Depois de tocar + -->
+    <div class="phone-stage">
+      <div class="m-nav stage-nav">
+          <div class="circ"><svg><use href="#i-back"/></svg></div>
+          <div class="m-nav-mid">Pratos principais<small>6 pratos</small></div>
+          <div class="circ"><svg><use href="#i-search"/></svg></div>
+        </div>
+      <div class="phone-label" data-screen="CLI-01c"><span class="phone-step">5</span>Produto adicionado</div>
+      <div class="phone">
+        <div class="m-chips">
+          <div class="m-chip">Todos</div><div class="m-chip active">Pratos</div><div class="m-chip">Bebidas</div><div class="m-chip">Sobremesas</div>
+        </div>
+        <div class="m-scroll">
+          <div class="m-list">
+            <div class="m-card added">
+              <div class="m-prod-img" style="background:var(--canvas) url(assets/fotos/butter-chicken1.jpg) center/cover"></div>
+              <div class="m-prod-info"><div class="m-prod-name">Muamba de galinha</div><div class="m-prod-desc">Com pirão, gindungo e dendém</div><div class="m-card-row"><div class="m-prod-price">3.500 Kz</div><div class="m-step-sm"><button aria-label="Tirar um"><svg class="ico"><use href="#i-minus"/></svg></button><span>1</span><button aria-label="Pôr mais um"><svg class="ico"><use href="#i-plus"/></svg></button></div></div></div>
+            </div>
+            <div class="m-card">
+              <div class="m-prod-img" style="background:var(--canvas) url(assets/fotos/butter-chicken4.jpg) center/cover"></div>
+              <div class="m-prod-info"><div class="m-prod-name">Calulu de peixe</div><div class="m-prod-desc">Peixe seco, quiabos e óleo de palma</div><div class="m-card-row"><div class="m-prod-price">4.200 Kz</div><div class="m-add"><svg><use href="#i-plus"/></svg></div></div></div>
+            </div>
+            <div class="m-card">
+              <div class="m-prod-img" style="background:var(--canvas) url(assets/fotos/biryani4.jpg) center/cover"></div>
+              <div class="m-prod-info"><div class="m-prod-name">Mufete de cacusso</div><div class="m-prod-desc">Banana pão, batata doce e feijão de óleo</div><div class="m-card-row"><div class="m-prod-price">5.500 Kz</div><div class="m-add"><svg><use href="#i-plus"/></svg></div></div></div>
+            </div>
+            <div class="m-card">
+              <div class="m-prod-img m-noimg">F</div>
+              <div class="m-prod-info"><div class="m-prod-name">Frango grelhado</div><div class="m-prod-desc">Meio frango com batata frita</div><div class="m-card-row"><div class="m-prod-price">2.800 Kz</div><div class="m-add"><svg><use href="#i-plus"/></svg></div></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="m-toast"><svg class="ico"><use href="#i-check"/></svg>Muamba de galinha adicionada<u>Desfazer</u></div>
+        <div class="m-bottom"><button class="m-cta bar"><span>Ver carrinho (1)</span><em>3.500 Kz</em></button></div>
+      </div>
+    </div>
+
+    <!-- 5. Detalhe do produto -->
+    <div class="phone-stage">
+      <div class="m-nav stage-nav"><div class="circ"><svg><use href="#i-back"/></svg></div><div class="m-nav-mid">Quilamba<small>Levantar</small></div><div class="circ" title="Partilhar"><svg><use href="#i-share"/></svg></div></div>
+      <div class="phone-label" data-screen="CLI-02"><span class="phone-step">6</span>Detalhe do produto</div>
+      <div class="phone">
+        <div class="m-photo" style="background:var(--canvas) url(assets/fotos/butter-chicken7.jpg) center/cover">
+          
+          <div class="m-dots"><i class="on"></i><i></i><i></i></div>
+        </div>
+        <div class="m-scroll" style="padding:16px 18px;gap:10px">
+          <h2 style="font-size:22px;font-weight:900">Muamba de galinha</h2>
+          <p style="font-size:13px;font-weight:600;color:var(--on-muted)">Galinha cozida em molho de dendém com quiabos e gindungo. Vem com pirão ou funje.</p>
+          <div style="font-size:20px;font-weight:900">3.500 Kz</div>
+          <div class="field">
+            <div class="field-label">Observação <span class="field-opt">(opcional)</span></div>
+            <div class="input input-ph textarea" style="height:50px">Ex.: sem gindungo</div>
+          </div>
+          <div class="flex just-between items-c">
+            <span class="bold small">Quantidade</span>
+            <div class="m-stepper"><button>−</button><span>2</span><button>+</button></div>
+          </div>
+        </div>
+        <div class="m-bottom"><button class="m-cta bar"><span>Adicionar 2</span><em>7.000 Kz</em></button></div>
+      </div>
+    </div>
+
+    <!-- 6. Carrinho -->
+    <div class="phone-stage">
+      <div class="m-nav stage-nav">
+          <div class="circ"><svg><use href="#i-back"/></svg></div>
+          <div class="m-nav-mid">O teu pedido<small>3 produtos</small></div>
+          <div style="width:40px"></div>
+        </div>
+      <div class="phone-label" data-screen="CLI-03"><span class="phone-step">7</span>Carrinho</div>
+      <div class="phone">
+        <div class="m-scroll">
+          <div class="m-cart-item">
+            <div class="m-cart-item-info"><div class="m-cart-item-name">Muamba de galinha</div><div class="m-cart-item-price">7.000 Kz</div><div class="small muted" style="font-weight:600">Sem gindungo</div></div>
+            <div class="m-step-sm"><button><svg class="ico"><use href="#i-minus"/></svg></button><span>2</span><button><svg class="ico"><use href="#i-plus"/></svg></button></div>
+            <button class="m-rm" aria-label="Remover"><svg class="ico"><use href="#i-trash"/></svg></button>
+          </div>
+          <div class="m-cart-item">
+            <div class="m-cart-item-info"><div class="m-cart-item-name">Mufete de cacusso</div><div class="m-cart-item-price">5.500 Kz</div></div>
+            <div class="m-step-sm"><button><svg class="ico"><use href="#i-minus"/></svg></button><span>1</span><button><svg class="ico"><use href="#i-plus"/></svg></button></div>
+            <button class="m-rm" aria-label="Remover"><svg class="ico"><use href="#i-trash"/></svg></button>
+          </div>
+          <div class="m-cart-item">
+            <div class="m-cart-item-info"><div class="m-cart-item-name">Sumo de múcua</div><div class="m-cart-item-price">1.600 Kz</div></div>
+            <div class="m-step-sm"><button><svg class="ico"><use href="#i-minus"/></svg></button><span>2</span><button><svg class="ico"><use href="#i-plus"/></svg></button></div>
+            <button class="m-rm" aria-label="Remover"><svg class="ico"><use href="#i-trash"/></svg></button>
+          </div>
+          <div style="padding:14px 18px"><span class="m-link" style="display:block">Adicionar mais produtos</span></div>
+          <div style="padding:0 18px 16px">
+            <div class="m-summary">
+              <div><span>Subtotal</span><span>14.100 Kz</span></div>
+              <div><span>Taxa de entrega</span><span>Calculada no passo seguinte</span></div>
+              <div class="tot"><span>Total</span><span>14.100 Kz</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="m-bottom"><button class="m-cta">Continuar</button></div>
+      </div>
+    </div>
+
+    <!-- 7. Finalizar: levantamento -->
+    <div class="phone-stage">
+      <div class="m-nav stage-nav">
+          <div class="circ"><svg><use href="#i-back"/></svg></div>
+          <div class="m-nav-mid">Finalizar</div>
+          <div style="width:40px"></div>
+        </div>
+      <div class="phone-label" data-screen="CLI-04"><span class="phone-step">8</span>Finalizar</div>
+      <div class="phone">
+        <div class="m-scroll" style="padding:4px 18px 16px;gap:14px">
+          <div class="m-seg"><span class="on"><svg class="ico"><use href="#i-bag"/></svg>Levantar</span><span><svg class="ico"><use href="#i-scooter"/></svg>Entrega</span></div>
+          <div class="field"><div class="field-label">O teu nome</div><div class="input">Joana Mateus</div></div>
+          <div class="field"><div class="field-label">Telemóvel</div><div class="input">+244 923 456 789</div><div class="field-hint">Só para te avisarem quando estiver pronto.</div></div>
+          <div class="m-addr">
+            <small>Levantas em</small>
+            <b>Kilamba, Bloco Q, Edifício 12</b>
+            <small>Aberto até às 22h</small>
+          </div>
+          <div class="field"><div class="field-label">Como vais pagar?</div><div class="m-pay"><div class="m-pay-opt on"><span class="m-radio"></span><svg class="m-pay-ico" role="img" aria-label="Dinheiro"><use href="#pay-cash"/></svg><div>Dinheiro<small>No balcão, ao levantar</small></div></div><div class="m-pay-opt"><span class="m-radio"></span><img class="m-pay-ico" src="imagem-references/mcx.webp" alt="Multicaixa"><div>Multicaixa (TPA)<small>No balcão, ao levantar</small></div></div><div class="m-pay-opt"><span class="m-radio"></span><svg class="m-pay-ico" role="img" aria-label="Transferência"><use href="#pay-transfer"/></svg><div>Transferência<small>Mostra o comprovativo ao levantar</small></div></div></div><div class="field-hint">Não pagas nada agora.</div></div>
+          <div class="m-summary">
+            <div><span>3 produtos</span><span>14.100 Kz</span></div>
+            <div class="tot"><span>Total</span><span>14.100 Kz</span></div>
+          </div>
+        </div>
+        <div class="m-bottom"><button class="m-cta bar"><span>Enviar pedido</span><em>14.100 Kz</em></button></div>
+      </div>
+    </div>
+
+    <!-- 8. Finalizar: entrega -->
+    <div class="phone-stage">
+      <div class="m-nav stage-nav">
+          <div class="circ"><svg><use href="#i-back"/></svg></div>
+          <div class="m-nav-mid">Finalizar</div>
+          <div style="width:40px"></div>
+        </div>
+      <div class="phone-label" data-screen="CLI-04b"><span class="phone-step">9</span>Finalizar com entrega</div>
+      <div class="phone">
+        <div class="m-scroll" style="padding:4px 18px 16px;gap:12px">
+          <div class="m-seg"><span><svg class="ico"><use href="#i-bag"/></svg>Levantar</span><span class="on"><svg class="ico"><use href="#i-scooter"/></svg>Entrega</span></div>
+          <div class="m-map">
+            <div class="m-map-zone"></div>
+            <div class="m-map-pin"><svg class="ico"><use href="#i-pinfill"/></svg></div>
+            <div class="circ circ-sm circ-light m-map-btn" title="Usar a minha localização"><svg><use href="#i-locate"/></svg></div>
+          </div>
+          <div class="m-addr">
+            <b>Kilamba, Bloco T, Edifício 7</b>
+            <small>Arrasta o mapa para acertar o ponto</small>
+            <span class="m-zone-ok"><svg class="ico"><use href="#i-check"/></svg>Dentro da zona de entrega</span>
+          </div>
+          <div class="field"><div class="field-label">Porta, andar ou referência <span class="field-opt">(opcional)</span></div><div class="input input-ph">Ex.: 3.º andar, porta 32</div></div>
+          <span class="m-link">Escrever a morada à mão</span>
+          <div class="field"><div class="field-label">Como vais pagar?</div><div class="m-pay"><div class="m-pay-opt"><span class="m-radio"></span><svg class="m-pay-ico" role="img" aria-label="Dinheiro"><use href="#pay-cash"/></svg><div>Dinheiro<small>Ao entregador</small></div></div><div class="m-pay-opt on"><span class="m-radio"></span><img class="m-pay-ico" src="imagem-references/mcx.webp" alt="Multicaixa"><div>Multicaixa (TPA)<small>O entregador leva o TPA</small></div></div><div class="m-pay-opt"><span class="m-radio"></span><svg class="m-pay-ico" role="img" aria-label="Transferência"><use href="#pay-transfer"/></svg><div>Transferência<small>Mostra o comprovativo na entrega</small></div></div></div><div class="field-hint">Não pagas nada agora.</div></div>
+          <div class="m-summary">
+            <div><span>3 produtos</span><span>14.100 Kz</span></div>
+            <div><span>Taxa de entrega</span><span>1.000 Kz</span></div>
+            <div class="tot"><span>Total</span><span>15.100 Kz</span></div>
+          </div>
+        </div>
+        <div class="m-bottom"><button class="m-cta bar"><span>Enviar pedido</span><em>15.100 Kz</em></button></div>
+      </div>
+    </div>
+
+    <!-- 9. Pedido enviado, à espera -->
+    <div class="phone-stage">
+      <div class="m-nav stage-nav">
+          <div style="width:40px"></div>
+          <div class="m-nav-mid">Pedido #0145</div>
+          <div style="width:40px"></div>
+        </div>
+      <div class="phone-label" data-screen="CLI-05"><span class="phone-step">10</span>Pedido enviado</div>
+      <div class="phone">
+        <div class="m-scroll" style="padding:20px 18px 16px;gap:16px;align-items:center;text-align:center">
+          <div class="m-wait"><svg class="ico"><use href="#i-clock"/></svg></div>
+          <div>
+            <div style="font-size:20px;font-weight:900">À espera do Quilamba</div>
+            <p style="font-size:13px;font-weight:600;color:var(--on-muted);margin-top:6px">O restaurante tem de aceitar o pedido. Assim que aceitar, vês aqui quanto tempo falta.</p>
+          </div>
+          <div style="width:100%;text-align:left;display:flex;flex-direction:column;gap:6px">
+            <span class="small bold">Guarda este link para voltar a esta página</span>
+            <div class="m-linkbox"><span>restaurante.kami.ao/quilamba/p/0145</span><div class="circ circ-sm" title="Copiar link"><svg><use href="#i-copy"/></svg></div></div>
+          </div>
+          <div class="m-summary" style="width:100%;text-align:left">
+            <div><span>Levantar no restaurante</span><span>Joana M.</span></div>
+            <div><span>3 produtos</span><span>14.100 Kz</span></div>
+            <div><span>Pagamento</span><span>Dinheiro, ao levantar</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10. Acompanhar -->
+    <div class="phone-stage">
+      <div class="m-nav stage-nav">
+          <div style="width:40px"></div>
+          <div class="m-nav-mid">Pedido #0145</div>
+          <div style="width:40px"></div>
+        </div>
+      <div class="phone-label" data-screen="CLI-06"><span class="phone-step">11</span>Acompanhar pedido</div>
+      <div class="phone">
+        <div class="m-scroll" style="padding:12px 18px 16px;gap:16px">
+          <div class="m-estimate" style="margin:0">
+            <div class="big">~18 min</div>
+            <div style="font-size:13px;font-weight:700;margin-top:4px">Pronto para levantar por volta das 13h20</div>
+          </div>
+          <ul class="timeline">
+            <li class="tl-item"><div class="tl-dot done"><svg><use href="#i-check"/></svg></div><b>Pedido enviado</b><small>12h58</small></li>
+            <li class="tl-item"><div class="tl-dot done"><svg><use href="#i-check"/></svg></div><b>Aceite pelo Quilamba</b><small>13h01</small></li>
+            <li class="tl-item"><div class="tl-dot now"><svg><use href="#i-clock"/></svg></div><b>Em preparação</b><small>A cozinha já começou</small></li>
+            <li class="tl-item wait"><div class="tl-dot wait"></div><b>Pronto para levantar</b><small>A seguir</small></li>
+          </ul>
+          <div class="m-addr"><small>Levantas em</small><b>Kilamba, Bloco Q, Edifício 12</b></div>
+          <div class="m-again">
+            <b>Ainda com fome?</b>
+            <small>Podes fazer outro pedido enquanto esperas. Chega em separado deste.</small>
+            <div class="m-again-items">
+              <div class="m-again-item"><div class="m-prod-img" style="background:var(--canvas) url(assets/fotos/dessert3.jpg) center/cover;width:44px;height:44px"></div><div class="m-prod-info"><div class="m-prod-name" style="font-size:13px">Sumo de múcua</div><div class="m-prod-price" style="margin-top:0;font-size:13px">800 Kz</div></div><div class="m-add"><svg><use href="#i-plus"/></svg></div></div>
+              <div class="m-again-item"><div class="m-prod-img" style="background:var(--canvas) url(assets/fotos/dessert8.jpg) center/cover;width:44px;height:44px"></div><div class="m-prod-info"><div class="m-prod-name" style="font-size:13px">Doce de ginguba</div><div class="m-prod-price" style="margin-top:0;font-size:13px">1.200 Kz</div></div><div class="m-add"><svg><use href="#i-plus"/></svg></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="m-bottom"><button class="m-cta">Fazer outro pedido</button></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="subsec" id="m-componentes">
+    <div class="subsec-title">Componentes mobile</div>
+    <p class="muted small" style="font-weight:600">Todos os componentes usados nos ecrãs do fluxo online e do fluxo na mesa. A lista completa, com classes e regras, está em <code>COMPONENTES.md</code>.</p>
+    <div class="cmp-grid">
+      <div class="cmp">
+        <div class="cmp-demo"><div class="phone-stage" style="width:220px"><div class="m-nav stage-nav"><div class="circ circ-sm"><svg><use href="#i-back"/></svg></div><div class="m-nav-mid">Quilamba<small>Levantar</small></div><div class="circ circ-sm"><svg><use href="#i-search"/></svg></div></div><div class="phone-label"><span class="phone-step">2</span>Menu</div><div class="phone" style="height:60px"></div></div></div>
+        <div class="cmp-meta"><b>Moldura do ecrã</b><code>.phone-stage · .stage-nav · .phone-label + .phone-step · .phone</code><small>Todos os ecrãs. Ecrã 1 usa .stage-cover (sem cabeçalho, com capa).</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo"><div class="circ"><svg><use href="#i-back"/></svg></div><div class="circ"><svg><use href="#i-search"/></svg></div><div class="circ circ-sm"><svg><use href="#i-copy"/></svg></div><div class="circ circ-light" style="box-shadow:var(--sh-card)"><svg><use href="#i-share"/></svg></div></div>
+        <div class="cmp-meta"><b>Botão circular</b><code>.circ · .circ-sm · .circ-light</code><small>Voltar, pesquisar, partilhar, copiar link, localização.</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo white"><div class="m-nav" style="width:260px;padding:0;background:var(--surface)"><div class="circ"><svg><use href="#i-back"/></svg></div><div class="m-nav-mid">Pratos principais<small>6 pratos</small></div><div class="circ"><svg><use href="#i-search"/></svg></div></div></div>
+        <div class="cmp-meta"><b>Cabeçalho do ecrã</b><code>.m-nav · .m-nav-mid > small</code><small>Ecrãs 2 a 11. Título do contexto e subtítulo (modo, contagem).</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo"><div style="width:260px;position:relative;background:var(--canvas);border-radius:var(--r-lg);padding:10px"><div class="m-search" style="position:static;max-height:none"><div class="m-search-bar"><label class="m-search-field"><svg class="ico"><use href="#i-search"/></svg><span class="m-search-q">calu</span><button class="m-search-clear" aria-label="Limpar"><svg class="ico"><use href="#i-x"/></svg></button></label><button class="m-search-cancel">Fechar</button></div><div class="m-search-count">1 resultado para "calu"</div><div class="m-search-list"><div class="m-card"><div class="m-prod-img" style="background:var(--canvas) url(assets/fotos/butter-chicken4.jpg) center/cover;width:44px;height:44px"></div><div class="m-prod-info"><div class="m-prod-name"><mark>Calu</mark>lu de peixe</div><div class="m-card-row"><div class="m-prod-price">4.200 Kz</div><div class="m-add"><svg><use href="#i-plus"/></svg></div></div></div></div></div></div></div></div>
+        <div class="cmp-meta"><b>Pesquisa</b><code>.stage-modal · .m-backdrop · .m-search-foot · .m-search · .m-search-bar · .m-search-field · .m-search-clear · .m-search-cancel · .m-search-count · .m-search-list · mark</code><small>Ecrã 3 online e ecrã 7 da mesa. Abre pela lupa; fundo desfocado sobre o ecrã inteiro; resultados adicionam ao carrinho sem fechar.</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo white"><div class="m-hero" style="padding:0;width:260px"><h2>O que vais <strong>comer hoje?</strong></h2></div></div>
+        <div class="cmp-meta"><b>Título de entrada</b><code>.m-hero h2 > strong</code><small>Ecrã 2. Mistura peso 400 e 900.</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo white"><div class="m-chips" style="padding:0;max-width:260px"><div class="m-chip active">Todos</div><div class="m-chip">Pratos</div><div class="m-chip">Bebidas</div><div class="m-chip">Sobremesas</div></div></div>
+        <div class="cmp-meta"><b>Tabs de categoria</b><code>.m-chips · .m-chip · .m-chip.active</code><small>Ecrãs 2, 4, 5. Deslizam na horizontal.</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo"><div style="width:260px;display:flex;flex-direction:column;gap:6px"><div class="m-sec-head m-sec-c-orange" style="border-radius:var(--r-lg)"><h3>Pratos principais</h3><span class="m-sec-link">Ver todos (6)</span></div><div class="m-sec-head m-sec-c-amber" style="border-radius:var(--r-lg)"><h3>Bebidas</h3><span class="m-sec-link">Ver todas (8)</span></div><div class="m-sec-head m-sec-c-green" style="border-radius:var(--r-lg)"><h3>Sobremesas</h3><span class="m-sec-link">Ver todas (4)</span></div></div></div>
+        <div class="cmp-meta"><b>Bloco de categoria</b><code>.m-section · .m-sec-head · .m-sec-c-orange | -amber | -green · .m-sec-link</code><small>Ecrã 2. Uma cor por categoria, com "Ver todos".</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo white"><div class="m-prod" style="width:260px;border:0"><div class="m-prod-img" style="background:var(--canvas) url(assets/fotos/butter-chicken1.jpg) center/cover"></div><div class="m-prod-info"><div class="m-prod-name">Muamba de galinha</div><div class="m-prod-desc">Com pirão, gindungo e dendém</div><div class="m-prod-price">3.500 Kz</div></div><div class="m-add"><svg><use href="#i-plus"/></svg></div></div></div>
+        <div class="cmp-meta"><b>Linha de produto</b><code>.m-prod · .m-prod-img · .m-prod-info · .m-add</code><small>Ecrã 2, dentro do bloco de categoria.</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo"><div style="width:260px;display:flex;flex-direction:column;gap:8px"><div class="m-card added"><div class="m-prod-img" style="background:var(--canvas) url(assets/fotos/butter-chicken1.jpg) center/cover"></div><div class="m-prod-info"><div class="m-prod-name">Muamba de galinha</div><div class="m-prod-desc">Com pirão e dendém</div><div class="m-card-row"><div class="m-prod-price">3.500 Kz</div><div class="m-step-sm"><button><svg class="ico"><use href="#i-minus"/></svg></button><span>1</span><button><svg class="ico"><use href="#i-plus"/></svg></button></div></div></div></div><div class="m-card"><div class="m-prod-img m-noimg">F</div><div class="m-prod-info"><div class="m-prod-name">Frango grelhado</div><div class="m-prod-desc">Com batata frita</div><div class="m-card-row"><div class="m-prod-price">2.800 Kz</div><div class="m-add"><svg><use href="#i-plus"/></svg></div></div></div></div></div></div>
+        <div class="cmp-meta"><b>Cartão de produto</b><code>.m-card · .m-card.added · .m-card-row · .m-noimg</code><small>Ecrãs 4 e 5. Contorno escuro quando já está no carrinho; inicial quando não há foto.</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo white"><div class="m-add"><svg><use href="#i-plus"/></svg></div><div class="m-step-sm"><button><svg class="ico"><use href="#i-minus"/></svg></button><span>2</span><button><svg class="ico"><use href="#i-plus"/></svg></button></div><div class="m-stepper"><button>−</button><span>2</span><button>+</button></div></div>
+        <div class="cmp-meta"><b>Contadores de quantidade</b><code>.m-add · .m-step-sm · .m-stepper</code><small>.m-add vira .m-step-sm ao adicionar (ecrãs 5, 7). .m-stepper no detalhe (ecrã 6).</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo"><div class="m-toast" style="position:static;width:260px"><svg class="ico"><use href="#i-check"/></svg>Muamba de galinha adicionada<u>Desfazer</u></div></div>
+        <div class="cmp-meta"><b>Aviso temporário</b><code>.m-toast</code><small>Ecrã 5. Some ao fim de 3 s; "Desfazer" retira o produto.</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo white"><div style="width:260px;display:flex;flex-direction:column;gap:8px"><button class="m-cta">Ver menu</button><button class="m-cta bar"><span>Ver carrinho (1)</span><em>3.500 Kz</em></button><button class="m-cta ghost">Ver pedidos desta mesa</button></div></div>
+        <div class="cmp-meta"><b>Botão principal</b><code>.m-cta · .m-cta.bar > span + em · .m-cta.ghost</code><small>Um por ecrã, no fundo (.m-bottom). .bar quando mostra o valor.</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo"><div style="width:260px;border-radius:var(--r-lg);overflow:hidden;background:var(--surface)"><div class="lnd-cover" style="height:90px;background:linear-gradient(to bottom,color-mix(in srgb,var(--on-surface) 45%,transparent),transparent 50%),url(assets/fotos/biryani8.jpg) center/cover"><span></span><div class="circ circ-sm circ-light"><svg><use href="#i-share"/></svg></div></div><div class="lnd-head" style="padding-bottom:14px"><div class="lnd-logo">Q</div><span class="lnd-name" style="font-size:18px">Restaurante Quilamba</span><span class="lnd-open">Aberto agora, fecha às 22h</span></div></div></div>
+        <div class="cmp-meta"><b>Capa do restaurante</b><code>.stage-cover · .lnd-cover · .lnd-head · .lnd-logo · .lnd-open</code><small>Ecrã 1. Imagem de capa, partilhar, logótipo sobreposto, estado aberto/fechado.</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo white"><div style="width:260px;display:flex;flex-direction:column;gap:10px"><div class="lnd-facts" style="margin:0"><div><svg class="ico"><use href="#i-pin"/></svg>Kilamba, Bloco Q, Edifício 12</div><div><svg class="ico"><use href="#i-clock"/></svg>Todos os dias, 11h às 22h</div></div><div class="lnd-modes" style="padding:0"><div class="lnd-mode pick on"><svg class="ico"><use href="#i-bag"/></svg><b>Levantar</b><small>Cerca de 20 min</small></div><div class="lnd-mode deliv"><svg class="ico"><use href="#i-scooter"/></svg><b>Entrega</b><small>Kilamba e Talatona</small></div></div></div></div>
+        <div class="cmp-meta"><b>Informações e modo</b><code>.lnd-facts · .lnd-modes · .lnd-mode.pick | .deliv · .on</code><small>Ecrã 1. Morada, horário e escolha entre levantar e entrega.</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo white"><div class="lnd-pop" style="padding:0;max-width:260px"><div class="lnd-pop-item"><div class="lnd-pop-img" style="background:var(--canvas) url(assets/fotos/butter-chicken1.jpg) center/cover"></div><b>Muamba de galinha</b><span>3.500 Kz</span></div><div class="lnd-pop-item"><div class="lnd-pop-img" style="background:var(--canvas) url(assets/fotos/biryani4.jpg) center/cover"></div><b>Mufete de cacusso</b><span>5.500 Kz</span></div></div></div>
+        <div class="cmp-meta"><b>Mais pedidos</b><code>.lnd-pop · .lnd-pop-item</code><small>Ecrã 1. Lista horizontal.</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo"><div class="m-photo" style="width:260px;height:110px;border-radius:var(--r-lg);background:var(--canvas) url(assets/fotos/butter-chicken7.jpg) center/cover"><div class="m-dots"><i class="on"></i><i></i><i></i></div></div></div>
+        <div class="cmp-meta"><b>Galeria de fotos</b><code>.m-photo · .m-dots > i.on</code><small>Ecrã 6. Até 5 fotos por produto.</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo white"><div class="m-cart-item" style="width:260px;padding:8px 0;border:0"><div class="m-cart-item-info"><div class="m-cart-item-name">Mufete de cacusso</div><div class="m-cart-item-price">5.500 Kz</div></div><div class="m-step-sm"><button><svg class="ico"><use href="#i-minus"/></svg></button><span>1</span><button><svg class="ico"><use href="#i-plus"/></svg></button></div><button class="m-rm"><svg class="ico"><use href="#i-trash"/></svg></button></div></div>
+        <div class="cmp-meta"><b>Linha do carrinho</b><code>.m-cart-item · .m-step-sm · .m-rm</code><small>Ecrã 7. Mudar quantidade ou remover.</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo white"><div class="m-summary" style="width:260px"><div><span>3 produtos</span><span>14.100 Kz</span></div><div><span>Taxa de entrega</span><span>1.000 Kz</span></div><div class="tot"><span>Total</span><span>15.100 Kz</span></div></div></div>
+        <div class="cmp-meta"><b>Resumo de valores</b><code>.m-summary · .m-summary .tot</code><small>Ecrãs 7 a 10.</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo white"><div class="m-seg" style="width:260px"><span class="on"><svg class="ico"><use href="#i-bag"/></svg>Levantar</span><span><svg class="ico"><use href="#i-scooter"/></svg>Entrega</span></div></div>
+        <div class="cmp-meta"><b>Escolha de modo</b><code>.m-seg > span.on</code><small>Ecrãs 8 e 9. Levantar ou entrega.</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo white"><div class="field" style="width:260px"><div class="field-label">Telemóvel</div><div class="input">+244 923 456 789</div><div class="field-hint">Só para te avisarem quando estiver pronto.</div></div></div>
+        <div class="cmp-meta"><b>Campos de texto</b><code>.field · .field-label · .input · .field-hint</code><small>Ecrãs 6, 8, 9. Partilhado com o back-office.</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo white"><div class="m-pay" style="width:260px"><div class="m-pay-opt on"><span class="m-radio"></span><svg class="m-pay-ico" role="img" aria-label="Dinheiro"><use href="#pay-cash"/></svg><div>Dinheiro<small>No balcão, ao levantar</small></div></div><div class="m-pay-opt"><span class="m-radio"></span><img class="m-pay-ico" src="imagem-references/mcx.webp" alt="Multicaixa"><div>Multicaixa (TPA)<small>No balcão, ao levantar</small></div></div></div></div>
+        <div class="cmp-meta"><b>Forma de pagamento</b><code>.m-pay · .m-pay-opt.on · .m-radio</code><small>Ecrãs 8 e 9. Só informa o restaurante; não há pagamento na plataforma.</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo white"><div style="width:260px;display:flex;flex-direction:column;gap:8px"><div class="m-map" style="height:100px"><div class="m-map-zone" style="inset:10px 30px 12px 20px"></div><div class="m-map-pin"><svg class="ico"><use href="#i-pinfill"/></svg></div></div><div class="m-addr"><b>Kilamba, Bloco T, Edifício 7</b><span class="m-zone-ok"><svg class="ico"><use href="#i-check"/></svg>Dentro da zona de entrega</span></div><span class="m-link">Escrever a morada à mão</span></div></div>
+        <div class="cmp-meta"><b>Mapa e morada</b><code>.m-map · .m-map-zone · .m-map-pin · .m-addr · .m-zone-ok · .m-link</code><small>Ecrã 9. Zona de entrega a tracejado; alternativa manual por link.</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo white"><div class="m-wait"><svg class="ico"><use href="#i-clock"/></svg></div><div class="m-linkbox" style="width:220px"><span>restaurante.kami.ao/quilamba/p/0145</span><div class="circ circ-sm"><svg><use href="#i-copy"/></svg></div></div></div>
+        <div class="cmp-meta"><b>À espera de aceitação</b><code>.m-wait · .m-linkbox</code><small>Ecrã 10. Anel a rodar até o restaurante aceitar; link para voltar ao pedido.</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo white"><div style="width:260px;display:flex;flex-direction:column;gap:12px"><div class="m-estimate" style="margin:0"><div class="big">~18 min</div><div style="font-size:12px;font-weight:700;margin-top:4px">Pronto por volta das 13h20</div></div><ul class="timeline"><li class="tl-item"><div class="tl-dot done"><svg><use href="#i-check"/></svg></div><b>Aceite pelo Quilamba</b><small>13h01</small></li><li class="tl-item"><div class="tl-dot now"><svg><use href="#i-clock"/></svg></div><b>Em preparação</b><small>A cozinha já começou</small></li><li class="tl-item wait"><div class="tl-dot wait"></div><b>Pronto para levantar</b><small>A seguir</small></li></ul></div></div>
+        <div class="cmp-meta"><b>Estimativa e estados</b><code>.m-estimate · .timeline · .tl-item · .tl-dot.done | .now | .wait</code><small>Ecrã 11. Só depois de o restaurante aceitar.</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo white"><div class="m-again" style="width:260px"><b>Ainda com fome?</b><small>Podes fazer outro pedido enquanto esperas.</small><div class="m-again-items"><div class="m-again-item"><div class="m-prod-img" style="background:var(--canvas) url(assets/fotos/dessert3.jpg) center/cover;width:40px;height:40px"></div><div class="m-prod-info"><div class="m-prod-name" style="font-size:13px">Sumo de múcua</div><div class="m-prod-price" style="margin-top:0;font-size:13px">800 Kz</div></div><div class="m-add"><svg><use href="#i-plus"/></svg></div></div></div></div></div>
+        <div class="cmp-meta"><b>Sugestão de novo pedido</b><code>.m-again · .m-again-item</code><small>Ecrã 11, com o botão "Fazer outro pedido".</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo white"><div class="m-tent"><span>Mesa</span><b>4</b><small>Restaurante Quilamba</small></div><div class="m-tent busy"><span>Mesa</span><b>4</b><small>Atendimento aberto</small></div></div>
+        <div class="cmp-meta"><b>Número da mesa</b><code>.m-tent · .m-tent.busy</code><small>Mesa 3 e 5. Lembra o cartão com o número em cima da mesa. Esbatido quando a mesa já está ocupada.</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo white"><div class="m-session" style="width:260px;margin:0"><span class="m-session-dot"></span><span>Aberto às 13h45</span><a class="m-sec-link">Pedidos (1)</a></div></div>
+        <div class="cmp-meta"><b>Faixa do atendimento</b><code>.m-session · .m-session-dot</code><small>Mesa 6 (e por baixo da pesquisa, mesa 7). Lembra que há um atendimento aberto e leva aos pedidos já feitos.</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo"><div class="m-order" style="width:260px"><div class="m-order-head"><div><b>Pedido 1</b><small>Enviado às 13h52</small></div><span class="badge b-prep"><span class="badge-dot"></span>~8 min</span></div><ul><li><b>1×</b>Mufete de cacusso</li><li><b>3×</b>Cuca 33 cl</li></ul><div class="m-order-foot"><span>Total</span><span>8.500 Kz</span></div></div></div>
+        <div class="cmp-meta"><b>Pedido do atendimento</b><code>.m-order · .m-order-head · .m-order-note · .m-order-foot</code><small>Mesa 10. Um cartão por pedido, com estado: À espera, Em preparação, Pronto ou Servido.</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo white"><div style="width:260px;display:flex;flex-direction:column;gap:8px"><div class="m-info"><svg class="ico"><use href="#i-billing"/></svg><span>Não pagas agora. Pagas no fim, quando pedires a conta.</span></div><div class="m-info warn"><svg class="ico"><use href="#i-team"/></svg><span>Pede a um funcionário para fechar o atendimento anterior.</span></div></div></div>
+        <div class="cmp-meta"><b>Nota informativa</b><code>.m-info · .m-info.warn</code><small>Mesa 3, 5, 9, 11. Uma frase curta que explica a regra da mesa. .warn quando bloqueia uma acção.</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo white"><div class="m-done"><svg class="ico"><use href="#i-check"/></svg></div></div>
+        <div class="cmp-meta"><b>Fim do atendimento</b><code>.m-done</code><small>Mesa 11. Fecho feito por um funcionário no back-office.</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo"><div style="width:220px;height:230px;border-radius:var(--r-lg);overflow:hidden;display:flex"><div class="m-cam" style="background-image:url(assets/fotos/pizza5.jpg);padding:12px"><div class="m-cam-hint" style="font-size:11px">Centra o QR Code no quadrado</div><div class="m-cam-frame" style="width:120px;height:120px"><i></i><i></i><i></i><i></i><span class="m-cam-line"></span></div><span></span></div></div></div>
+        <div class="cmp-meta"><b>Leitor de QR Code</b><code>.m-cam · .m-cam-hint · .m-cam-frame · .m-cam-line · .m-cam-actions</code><small>Mesa 1. Câmara a ocupar o painel; fora do quadrado escurece. Em baixo, "Escrever o código da mesa".</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo white"><div class="m-qr-card" style="margin-bottom:12px"><div class="m-qr" data-qr="https://restaurante.kami.ao/quilamba/mesa/4/convite/K7F2" style="width:120px;height:120px"></div><span class="m-qr-tag">Mesa 4</span></div></div>
+        <div class="cmp-meta"><b>QR Code de convite</b><code>.m-qr[data-qr] · .m-qr-card · .m-qr-tag</code><small>Mesa 4. Gerado a partir do endereço em data-qr.</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo"><div class="m-sheet" style="position:static;transform:none;width:240px"><div class="m-sheet-head"><b>Convidar amigos</b><div class="circ circ-sm"><svg><use href="#i-x"/></svg></div></div><p>Quem ler este código entra no atendimento da Mesa 4.</p><button class="m-cta"><svg class="ico"><use href="#i-share"/></svg>Partilhar convite</button><small class="m-sheet-note">O convite deixa de funcionar quando o atendimento for fechado.</small></div></div>
+        <div class="cmp-meta"><b>Modal centrado</b><code>.stage-modal · .m-backdrop · .m-sheet · .m-sheet-head · .m-sheet-note</code><small>Mesa 4. Fundo desfocado sobre o ecrã inteiro; só o modal fica visível.</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo white"><div class="m-code" style="width:250px"><span>Q</span><span>L</span><span>B</span><i></i><span>4</span><span class="cur"></span><span></span></div></div>
+        <div class="cmp-meta"><b>Código da mesa</b><code>.m-code · .m-code span.cur · .m-code i · .m-code-where</code><small>Mesa 2. Alternativa ao QR Code: 6 letras e números impressos no cartão da mesa.</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo white"><div class="lnd-scan" style="margin:0;width:260px"><span class="lnd-scan-ico"><svg class="ico"><use href="#i-qr"/></svg></span><div><b>Estás no restaurante?</b><small>Lê o QR Code da mesa e pede daí.</small></div><button class="lnd-scan-btn"><svg class="ico" style="width:16px;height:16px;margin-right:6px"><use href="#i-qr"/></svg>Ler QR Code</button></div></div>
+        <div class="cmp-meta"><b>Ler QR Code na página</b><code>.lnd-scan · .lnd-scan-ico · .lnd-scan-btn</code><small>Ecrã 1 do fluxo online. Abre o leitor do fluxo na mesa.</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MOBILE MESA -->
+<section class="sec" id="m-mesa">
+  <div class="sec-head">
+    <h2>Mobile — Fluxo na mesa (QR Code)</h2>
+    <p>O cliente está sentado no restaurante e lê o QR Code da mesa. A mesa identifica o pedido: não há levantamento, entrega, nome nem telemóvel. Cada mesa tem um só atendimento aberto de cada vez, e é um funcionário que o fecha no back-office.</p>
+  </div>
+  <div class="phones-row">
+    <div class="phone-stage">
+      <div class="m-nav stage-nav"><div class="circ"><svg><use href="#i-back"/></svg></div><div class="m-nav-mid">Ler QR Code<small>Restaurante na Kami</small></div><div style="width:40px"></div></div>
+      <div class="phone-label" data-screen="MES-00"><span class="phone-step">1</span>Ler QR Code</div>
+      <div class="phone">
+        <div class="m-cam" style="background-image:url(assets/fotos/pizza5.jpg)">
+          <div class="m-cam-hint">Centra o QR Code da mesa no quadrado</div>
+          <div class="m-cam-frame"><i></i><i></i><i></i><i></i>
+            <div class="m-cam-target"><div class="m-qr" data-qr="https://restaurante.kami.ao/quilamba/mesa/4"></div><small>Mesa 4</small><small class="m-cam-code">QLB 4K7</small></div>
+            <span class="m-cam-line"></span>
+          </div>
+          <div class="m-cam-actions">
+            <div class="circ circ-light" title="Ligar lanterna"><svg><use href="#i-flash"/></svg></div>
+            <p>Não consegues ler? Chega mais perto ou acende a lanterna.</p>
+          </div>
+        </div>
+        <div class="m-bottom"><button class="m-cta ghost"><svg class="ico"><use href="#i-keyboard"/></svg>Escrever o código da mesa</button></div>
+      </div>
+    </div>
+
+    <div class="phone-stage">
+      <div class="m-nav stage-nav"><div class="circ"><svg><use href="#i-back"/></svg></div><div class="m-nav-mid">Código da mesa<small>Sem câmara</small></div><div style="width:40px"></div></div>
+      <div class="phone-label" data-screen="MES-00b"><span class="phone-step">2</span>Escrever o código</div>
+      <div class="phone">
+        <div class="m-scroll" style="padding:20px 18px 16px;gap:18px">
+          <div>
+            <h2 style="font-size:22px;font-weight:900">Escreve o código da mesa</h2>
+            <p style="font-size:13px;font-weight:600;color:var(--on-muted);margin-top:6px">São 6 letras e números, impressos por baixo do QR Code no cartão da mesa.</p>
+          </div>
+          <div class="m-code-where" aria-hidden="true"><div class="m-code-where-qr"><svg class="ico"><use href="#i-qr"/></svg></div><span>Mesa 4</span><b>QLB 4K7</b></div>
+          <div class="field">
+            <label class="field-label" for="mesa-code">Código da mesa</label>
+            <div class="m-code" id="mesa-code" role="textbox" aria-label="Código da mesa">
+              <span>Q</span><span>L</span><span>B</span><i></i><span>4</span><span class="cur"></span><span></span>
+            </div>
+            <div class="field-hint">Não importa se escreves em maiúsculas ou minúsculas.</div>
+          </div>
+        </div>
+        <div class="m-bottom"><button class="m-cta" disabled>Entrar na mesa</button></div>
+      </div>
+    </div>
+    <div class="phone-stage">
+      <div class="m-nav stage-nav"><div style="width:40px"></div><div class="m-nav-mid">Quilamba<small>Mesa 4</small></div><div style="width:40px"></div></div>
+      <div class="phone-label" data-screen="MES-01"><span class="phone-step">3</span>Entrada na mesa</div>
+      <div class="phone">
+        <div class="m-scroll" style="padding:22px 18px 16px;gap:18px;align-items:center;text-align:center">
+          <div class="m-tent"><span>Mesa</span><b>4</b><small>Restaurante Quilamba</small></div>
+          <div>
+            <h2 style="font-size:22px;font-weight:900">Bem-vindo à Mesa 4</h2>
+            <p style="font-size:13px;font-weight:600;color:var(--on-muted);margin-top:6px">Escolhe no menu e envia o pedido daqui. Vai directo para a cozinha e fica registado nesta mesa.</p>
+          </div>
+          <div class="m-info" style="text-align:left"><svg class="ico"><use href="#i-billing"/></svg><span>Não pagas agora. Pagas no fim, quando pedires a conta.</span></div>
+        </div>
+        <div class="m-bottom m-bottom-2"><button class="m-cta ghost"><svg class="ico"><use href="#i-team"/></svg>Convidar amigos</button><button class="m-cta">Começar a pedir</button></div>
+      </div>
+    </div>
+    <div class="phone-stage stage-modal">
+      <div class="m-nav stage-nav"><div style="width:40px"></div><div class="m-nav-mid">Quilamba<small>Mesa 4</small></div><div style="width:40px"></div></div>
+      <div class="phone-label" data-screen="MES-01c"><span class="phone-step">4</span>Convidar amigos</div>
+      <div class="phone">
+        <div class="m-under" aria-hidden="true">
+        <div class="m-scroll" style="padding:22px 18px 16px;gap:18px;align-items:center;text-align:center">
+          <div class="m-tent"><span>Mesa</span><b>4</b><small>Restaurante Quilamba</small></div>
+          <div>
+            <h2 style="font-size:22px;font-weight:900">Bem-vindo à Mesa 4</h2>
+            <p style="font-size:13px;font-weight:600;color:var(--on-muted);margin-top:6px">Escolhe no menu e envia o pedido daqui. Vai directo para a cozinha e fica registado nesta mesa.</p>
+          </div>
+          <div class="m-info" style="text-align:left"><svg class="ico"><use href="#i-billing"/></svg><span>Não pagas agora. Pagas no fim, quando pedires a conta.</span></div>
+        </div>
+        <div class="m-bottom m-bottom-2"><button class="m-cta ghost"><svg class="ico"><use href="#i-team"/></svg>Convidar amigos</button><button class="m-cta">Começar a pedir</button></div>
+        </div>
+      </div>
+      <div class="m-backdrop"></div>
+      <div class="m-sheet" role="dialog" aria-label="Convidar amigos">
+        <div class="m-sheet-head"><b>Convidar amigos</b><div class="circ circ-sm" title="Fechar"><svg><use href="#i-x"/></svg></div></div>
+        <p>Quem ler este código entra no atendimento da Mesa 4. Vê o menu e pode pedir para a mesma conta.</p>
+        <div class="m-qr-card"><div class="m-qr" data-qr="https://restaurante.kami.ao/quilamba/mesa/4/convite/K7F2"></div><span class="m-qr-tag">Mesa 4</span></div>
+        <div class="m-linkbox"><span>restaurante.kami.ao/quilamba/mesa/4/convite/K7F2</span><div class="circ circ-sm" title="Copiar link"><svg><use href="#i-copy"/></svg></div></div>
+        <button class="m-cta"><svg class="ico"><use href="#i-share"/></svg>Partilhar convite</button>
+        <small class="m-sheet-note">O convite deixa de funcionar quando o atendimento for fechado.</small>
+      </div>
+    </div>
+    <div class="phone-stage">
+      <div class="m-nav stage-nav"><div style="width:40px"></div><div class="m-nav-mid">Quilamba<small>Mesa 4</small></div><div style="width:40px"></div></div>
+      <div class="phone-label" data-screen="MES-01b"><span class="phone-step">5</span>Mesa já ocupada</div>
+      <div class="phone">
+        <div class="m-scroll" style="padding:22px 18px 16px;gap:16px;align-items:center;text-align:center">
+          <div class="m-tent busy"><span>Mesa</span><b>4</b><small>Atendimento aberto</small></div>
+          <div>
+            <h2 style="font-size:22px;font-weight:900">Esta mesa já está ocupada</h2>
+            <p style="font-size:13px;font-weight:600;color:var(--on-muted);margin-top:6px">Há um atendimento aberto desde as 13h45. Para não misturar pedidos, não podes abrir outro.</p>
+          </div>
+          <div class="m-info warn" style="text-align:left"><svg class="ico"><use href="#i-team"/></svg><span>Estás com quem abriu a mesa? Pede-lhe o QR Code de convite. Se acabaste de chegar, pede a um funcionário para fechar o atendimento anterior.</span></div>
+        </div>
+        <div class="m-bottom"><button class="m-cta ghost">Ver o menu</button></div>
+      </div>
+    </div>
+    <div class="phone-stage">
+      <div class="m-nav stage-nav"><div style="width:40px"></div><div class="m-nav-mid">Quilamba<small>Mesa 4</small></div><div class="circ"><svg><use href="#i-search"/></svg></div></div>
+      <div class="phone-label" data-screen="MES-02"><span class="phone-step">6</span>Menu da mesa</div>
+      <div class="phone">
+        <div class="m-session"><span class="m-session-dot"></span><span>Aberto às 13h45</span><a class="m-sec-link">Pedidos (2)</a></div>
+        <div class="m-hero"><h2>O que vais <strong>comer hoje?</strong></h2></div>
+        <div class="m-chips"><div class="m-chip active">Todos</div><div class="m-chip">Pratos</div><div class="m-chip">Bebidas</div><div class="m-chip">Sobremesas</div></div>
+        <div class="m-scroll">
+          <div class="m-section">
+            <div class="m-sec-head m-sec-c-orange"><h3>Pratos principais</h3><span class="m-sec-link">Ver todos (6)</span></div>
+            <div class="m-prod"><div class="m-prod-img" style="background:var(--canvas) url(assets/fotos/butter-chicken1.jpg) center/cover"></div><div class="m-prod-info"><div class="m-prod-name">Muamba de galinha</div><div class="m-prod-desc">Com pirão, gindungo e dendém</div><div class="m-card-row"><div class="m-prod-price">3.500 Kz</div><div class="m-add"><svg><use href="#i-plus"/></svg></div></div></div></div>
+            <div class="m-prod"><div class="m-prod-img" style="background:var(--canvas) url(assets/fotos/butter-chicken4.jpg) center/cover"></div><div class="m-prod-info"><div class="m-prod-name">Calulu de peixe</div><div class="m-prod-desc">Peixe seco, quiabos e óleo de palma</div><div class="m-card-row"><div class="m-prod-price">4.200 Kz</div><div class="m-add"><svg><use href="#i-plus"/></svg></div></div></div></div>
+          </div>
+          <div class="m-section">
+            <div class="m-sec-head m-sec-c-amber"><h3>Bebidas</h3><span class="m-sec-link">Ver todas (8)</span></div>
+            <div class="m-prod"><div class="m-prod-img" style="background:var(--canvas) url(assets/fotos/dessert3.jpg) center/cover"></div><div class="m-prod-info"><div class="m-prod-name">Sumo de múcua</div><div class="m-prod-desc">Natural, sem açúcar</div><div class="m-card-row"><div class="m-prod-price">800 Kz</div><div class="m-step-sm"><button><svg class="ico"><use href="#i-minus"/></svg></button><span>2</span><button><svg class="ico"><use href="#i-plus"/></svg></button></div></div></div></div>
+          </div>
+        </div>
+        <div class="m-bottom"><button class="m-cta bar"><span>Ver carrinho (2)</span><em>1.600 Kz</em></button></div>
+      </div>
+    </div>
+
+    <div class="phone-stage stage-modal">
+      <div class="m-nav stage-nav"><div style="width:40px"></div><div class="m-nav-mid">Quilamba<small>Mesa 4</small></div><div class="circ"><svg><use href="#i-search"/></svg></div></div>
+      <div class="phone-label" data-screen="MES-02s"><span class="phone-step">7</span>Pesquisa</div>
+      <div class="phone">
+        <div class="m-under" aria-hidden="true">
+        <div class="m-session"><span class="m-session-dot"></span><span>Aberto às 13h45</span><a class="m-sec-link">Pedidos (2)</a></div>
+        <div class="m-hero"><h2>O que vais <strong>comer hoje?</strong></h2></div>
+        <div class="m-chips"><div class="m-chip active">Todos</div><div class="m-chip">Pratos</div><div class="m-chip">Bebidas</div><div class="m-chip">Sobremesas</div></div>
+        <div class="m-scroll">
+          <div class="m-section">
+            <div class="m-sec-head m-sec-c-orange"><h3>Pratos principais</h3><span class="m-sec-link">Ver todos (6)</span></div>
+            <div class="m-prod"><div class="m-prod-img" style="background:var(--canvas) url(assets/fotos/butter-chicken1.jpg) center/cover"></div><div class="m-prod-info"><div class="m-prod-name">Muamba de galinha</div><div class="m-prod-desc">Com pirão, gindungo e dendém</div><div class="m-card-row"><div class="m-prod-price">3.500 Kz</div><div class="m-add"><svg><use href="#i-plus"/></svg></div></div></div></div>
+            <div class="m-prod"><div class="m-prod-img" style="background:var(--canvas) url(assets/fotos/butter-chicken4.jpg) center/cover"></div><div class="m-prod-info"><div class="m-prod-name">Calulu de peixe</div><div class="m-prod-desc">Peixe seco, quiabos e óleo de palma</div><div class="m-card-row"><div class="m-prod-price">4.200 Kz</div><div class="m-add"><svg><use href="#i-plus"/></svg></div></div></div></div>
+          </div>
+          <div class="m-section">
+            <div class="m-sec-head m-sec-c-amber"><h3>Bebidas</h3><span class="m-sec-link">Ver todas (8)</span></div>
+            <div class="m-prod"><div class="m-prod-img" style="background:var(--canvas) url(assets/fotos/dessert3.jpg) center/cover"></div><div class="m-prod-info"><div class="m-prod-name">Sumo de múcua</div><div class="m-prod-desc">Natural, sem açúcar</div><div class="m-card-row"><div class="m-prod-price">800 Kz</div><div class="m-step-sm"><button><svg class="ico"><use href="#i-minus"/></svg></button><span>2</span><button><svg class="ico"><use href="#i-plus"/></svg></button></div></div></div></div>
+          </div>
+        </div>
+        <div class="m-bottom"><button class="m-cta bar"><span>Ver carrinho (2)</span><em>1.600 Kz</em></button></div>
+      </div>
+      </div>
+      <div class="m-backdrop"></div>
+      <div class="m-search" role="dialog" aria-label="Pesquisar no menu">
+          <div class="m-search-bar">
+            <label class="m-search-field"><svg class="ico"><use href="#i-search"/></svg><span class="m-search-q">mu<i class="m-caret"></i></span><button class="m-search-clear" aria-label="Limpar"><svg class="ico"><use href="#i-x"/></svg></button></label>
+            <button class="m-search-cancel">Fechar</button>
+          </div>
+          <div class="m-search-count">3 resultados para "mu"</div>
+          <div class="m-search-list">
+            <div class="m-card added"><div class="m-prod-img" style="background:var(--canvas) url(assets/fotos/butter-chicken1.jpg) center/cover;width:44px;height:44px"></div><div class="m-prod-info"><div class="m-prod-name"><mark>Mu</mark>amba de galinha</div><div class="m-prod-desc">Pratos principais</div><div class="m-card-row"><div class="m-prod-price">3.500 Kz</div><div class="m-step-sm"><button><svg class="ico"><use href="#i-minus"/></svg></button><span>1</span><button><svg class="ico"><use href="#i-plus"/></svg></button></div></div></div></div>
+            <div class="m-card"><div class="m-prod-img" style="background:var(--canvas) url(assets/fotos/biryani4.jpg) center/cover;width:44px;height:44px"></div><div class="m-prod-info"><div class="m-prod-name"><mark>Mu</mark>fete de cacusso</div><div class="m-prod-desc">Pratos principais</div><div class="m-card-row"><div class="m-prod-price">5.500 Kz</div><div class="m-add"><svg><use href="#i-plus"/></svg></div></div></div></div>
+            <div class="m-card added"><div class="m-prod-img" style="background:var(--canvas) url(assets/fotos/dessert3.jpg) center/cover;width:44px;height:44px"></div><div class="m-prod-info"><div class="m-prod-name">Sumo de <mark>mú</mark>cua</div><div class="m-prod-desc">Bebidas</div><div class="m-card-row"><div class="m-prod-price">800 Kz</div><div class="m-step-sm"><button><svg class="ico"><use href="#i-minus"/></svg></button><span>2</span><button><svg class="ico"><use href="#i-plus"/></svg></button></div></div></div></div>
+          </div>
+          <div class="m-search-foot"><button class="m-cta bar"><span>Ver carrinho (3)</span><em>5.100 Kz</em></button></div>
+        </div>
+    </div>
+    <div class="phone-stage">
+      <div class="m-nav stage-nav"><div class="circ"><svg><use href="#i-back"/></svg></div><div class="m-nav-mid">Quilamba<small>Mesa 4</small></div><div style="width:40px"></div></div>
+      <div class="phone-label" data-screen="MES-03"><span class="phone-step">8</span>Detalhe do produto</div>
+      <div class="phone">
+        <div class="m-photo" style="background:var(--canvas) url(assets/fotos/butter-chicken7.jpg) center/cover"><div class="m-dots"><i class="on"></i><i></i><i></i></div></div>
+        <div class="m-scroll" style="padding:16px 18px;gap:10px">
+          <h2 style="font-size:22px;font-weight:900">Muamba de galinha</h2>
+          <p style="font-size:13px;font-weight:600;color:var(--on-muted)">Galinha cozida em molho de dendém com quiabos e gindungo. Vem com pirão ou funje.</p>
+          <div style="font-size:20px;font-weight:900">3.500 Kz</div>
+          <div class="field"><div class="field-label">Observação <span class="field-opt">(opcional)</span></div><div class="input textarea" style="height:50px">Uma sem gindungo</div></div>
+          <div class="flex just-between items-c"><span class="bold small">Quantidade</span><div class="m-stepper"><button>−</button><span>2</span><button>+</button></div></div>
+        </div>
+        <div class="m-bottom"><button class="m-cta bar"><span>Adicionar 2</span><em>7.000 Kz</em></button></div>
+      </div>
+    </div>
+    <div class="phone-stage">
+      <div class="m-nav stage-nav"><div class="circ"><svg><use href="#i-back"/></svg></div><div class="m-nav-mid">O teu pedido<small>Mesa 4</small></div><div style="width:40px"></div></div>
+      <div class="phone-label" data-screen="MES-04"><span class="phone-step">9</span>Carrinho da mesa</div>
+      <div class="phone">
+        <div class="m-scroll">
+          <div class="m-cart-item"><div class="m-cart-item-info"><div class="m-cart-item-name">Sumo de múcua</div><div class="m-cart-item-price">1.600 Kz</div><div class="small muted" style="font-weight:600">Bem fresco</div></div><div class="m-step-sm"><button><svg class="ico"><use href="#i-minus"/></svg></button><span>2</span><button><svg class="ico"><use href="#i-plus"/></svg></button></div><button class="m-rm" aria-label="Remover"><svg class="ico"><use href="#i-trash"/></svg></button></div>
+          <div style="padding:14px 18px"><span class="m-link" style="display:block">Adicionar mais produtos</span></div>
+          <div style="padding:0 18px 16px;display:flex;flex-direction:column;gap:10px">
+            <div class="m-summary"><div><span>2 produtos</span><span>1.600 Kz</span></div><div class="tot"><span>Este pedido</span><span>1.600 Kz</span></div></div>
+            <div class="m-info"><svg class="ico"><use href="#i-table"/></svg><span>Vai para a cozinha com o número da mesa. Não precisas de dar nome nem telemóvel.</span></div>
+          </div>
+        </div>
+        <div class="m-bottom"><button class="m-cta bar"><span>Enviar pedido</span><em>1.600 Kz</em></button></div>
+      </div>
+    </div>
+    <div class="phone-stage">
+      <div class="m-nav stage-nav"><div class="circ"><svg><use href="#i-back"/></svg></div><div class="m-nav-mid">Mesa 4<small>Aberto às 13h45</small></div><div class="circ" title="Convidar amigos"><svg><use href="#i-team"/></svg></div></div>
+      <div class="phone-label" data-screen="MES-05"><span class="phone-step">10</span>Pedidos do atendimento</div>
+      <div class="phone">
+        <div class="m-scroll" style="padding:12px 12px 16px;gap:10px">
+          <div class="m-order"><div class="m-order-head"><div><b>Pedido 3</b><small>Enviado às 14h25</small></div><span class="badge b-new"><span class="badge-dot"></span>À espera</span></div><div class="m-order-note">A cozinha ainda não aceitou. O tempo aparece assim que aceitar.</div><ul><li><b>2×</b>Sumo de múcua</li></ul><div class="m-order-foot"><span>Total</span><span>1.600 Kz</span></div></div>
+          <div class="m-order"><div class="m-order-head"><div><b>Pedido 2</b><small>Enviado às 14h10</small></div><span class="badge b-prep"><span class="badge-dot"></span>Em preparação</span></div><div class="m-order-note">Pronto em cerca de 8 min.</div><ul><li><b>2×</b>Muamba de galinha</li><li><b>1×</b>Sumo de múcua</li></ul><div class="m-order-foot"><span>Total</span><span>7.800 Kz</span></div></div>
+          <div class="m-order is-served"><div class="m-order-head"><div><b>Pedido 1</b><small>Enviado às 13h52</small></div><span class="badge b-ready"><span class="badge-dot"></span>Servido</span></div><ul><li><b>1×</b>Mufete de cacusso</li><li><b>1×</b>Calulu de peixe</li><li><b>3×</b>Cuca 33 cl</li></ul><div class="m-order-foot"><span>Total</span><span>11.500 Kz</span></div></div>
+          <div class="m-summary"><div><span>3 pedidos</span><span>20.900 Kz</span></div><div class="tot"><span>Total da mesa</span><span>20.900 Kz</span></div></div>
+          <span class="m-link" style="padding:4px 0">Pedir a conta</span>
+        </div>
+        <div class="m-bottom"><button class="m-cta">Fazer outro pedido</button></div>
+      </div>
+    </div>
+    <div class="phone-stage">
+      <div class="m-nav stage-nav"><div style="width:40px"></div><div class="m-nav-mid">Quilamba<small>Mesa 4</small></div><div style="width:40px"></div></div>
+      <div class="phone-label" data-screen="MES-06"><span class="phone-step">11</span>Atendimento encerrado</div>
+      <div class="phone">
+        <div class="m-scroll" style="padding:24px 18px 16px;gap:16px;align-items:center;text-align:center">
+          <div class="m-done"><svg class="ico"><use href="#i-check"/></svg></div>
+          <div>
+            <h2 style="font-size:22px;font-weight:900">Obrigado pela visita</h2>
+            <p style="font-size:13px;font-weight:600;color:var(--on-muted);margin-top:6px">O atendimento da Mesa 4 foi fechado às 14h52. Já não é possível enviar pedidos daqui.</p>
+          </div>
+          <div class="m-summary" style="width:100%;text-align:left"><div><span>Aberto</span><span>13h45</span></div><div><span>Fechado</span><span>14h52</span></div><div><span>3 pedidos</span><span>20.900 Kz</span></div><div class="tot"><span>Total</span><span>20.900 Kz</span></div></div>
+          <div class="m-info" style="text-align:left"><svg class="ico"><use href="#i-table"/></svg><span>Para pedir de novo, lê outra vez o QR Code da mesa.</span></div>
+        </div>
+        <div class="m-bottom"><button class="m-cta ghost">Ver página do restaurante</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+</div>
+
+<script src="assets/js/qrcode.min.js"></script>
+<script>
+// Active nav link on scroll
+const links = document.querySelectorAll('.ds-link');
+const sections = [...document.querySelectorAll('.sec')];
+function setActive() {
+  let cur = sections[0].id;
+  for (const s of sections) {
+    if (s.getBoundingClientRect().top < 120) cur = s.id;
+  }
+  links.forEach(l => {
+    l.classList.toggle('active', l.getAttribute('href') === '#' + cur);
+  });
+}
+document.querySelector('.ds-main').addEventListener('scroll', setActive);
+links.forEach(l => {
+  l.addEventListener('click', e => {
+    e.preventDefault();
+    const t = document.querySelector(l.getAttribute('href'));
+    if (t) t.scrollIntoView({behavior:'smooth'});
+  });
+});
+setActive();
+
+// QR Codes reais a partir de data-qr
+if(window.qrcode){document.querySelectorAll('.m-qr[data-qr]').forEach(function(el){
+  var q=qrcode(0,'Q');q.addData(el.dataset.qr);q.make();
+  el.innerHTML=q.createSvgTag({cellSize:4,margin:0,scalable:true});
+  var svg=el.querySelector('svg');if(svg){svg.querySelectorAll('rect').forEach(function(r){if(r.getAttribute('fill')==='white'||r.getAttribute('fill')==='#ffffff')r.setAttribute('fill','transparent')});svg.querySelectorAll('path').forEach(function(pth){pth.setAttribute('fill','currentColor')});}
+});}
+
+// Padrão de fundo mobile — rabiscos de comida, estilo WhatsApp, paleta Kami
+(function(){
+  var s='#3b1f14', bg='#ffd35c';
+  var svg='<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300">'
+    +'<g stroke="'+s+'" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.20">'
+    // FORK
+    +'<line x1="17" y1="9" x2="17" y2="34"/><line x1="13" y1="9" x2="13" y2="18"/><line x1="21" y1="9" x2="21" y2="18"/><path d="M13 18 Q17 20 21 18"/>'
+    // KNIFE
+    +'<line x1="28" y1="9" x2="28" y2="34"/><path d="M28 9 L32 14 L28 19"/>'
+    // WINE GLASS
+    +'<path d="M64 10 Q64 24 72 24 Q80 24 80 10 Z"/><line x1="72" y1="24" x2="72" y2="34"/><line x1="66" y1="34" x2="78" y2="34"/>'
+    // PLATE
+    +'<circle cx="135" cy="22" r="13"/><circle cx="135" cy="22" r="9"/>'
+    // FISH (large)
+    +'<path d="M188 20 Q199 11 210 20 Q199 29 188 20 Z"/><path d="M188 20 L182 14 L183 20 L182 26 Z"/><circle cx="204" cy="17" r="1.5" fill="'+s+'"/>'
+    // CHILLI
+    +'<path d="M263 10 L263 15 Q264 15 264 17 Q262 30 256 34"/><path d="M263 10 Q268 9 269 13 Q268 15 263 15"/>'
+    // DOTS DECO row 2
+    +'<circle cx="48" cy="66" r="2" fill="'+s+'"/><circle cx="55" cy="70" r="1.5" fill="'+s+'"/><circle cx="50" cy="74" r="1.5" fill="'+s+'"/><circle cx="57" cy="64" r="1" fill="'+s+'"/>'
+    // FLAME
+    +'<path d="M100 88 Q92 78 96 66 Q99 74 101 70 Q103 62 108 65 Q104 76 108 82 Q108 90 100 88 Z"/>'
+    // BOWL + STEAM
+    +'<path d="M136 78 Q136 96 148 96 Q160 96 160 78"/><line x1="134" y1="78" x2="162" y2="78"/><path d="M143 72 Q144 67 143 62"/><path d="M148 71 Q149 66 148 61"/><path d="M153 72 Q154 67 153 62"/>'
+    // SHRIMP
+    +'<path d="M204 66 Q218 66 218 76 Q218 88 204 90 Q202 85 204 80 Q211 80 213 74 Q213 70 206 70"/><path d="M204 66 L199 60 M204 66 L200 70"/>'
+    // STAR DECO
+    +'<polygon points="268,66 270,73 277,73 272,78 274,85 268,80 262,85 264,78 259,73 266,73" stroke="none" fill="'+s+'" opacity="0.2"/>'
+    // LEMON WEDGE
+    +'<circle cx="22" cy="130" r="13"/><line x1="9" y1="130" x2="35" y2="130"/><line x1="22" y1="117" x2="22" y2="143"/><line x1="13" y1="121" x2="31" y2="139"/><line x1="31" y1="121" x2="13" y2="139"/>'
+    // SPOON
+    +'<ellipse cx="78" cy="114" rx="5" ry="7"/><line x1="78" y1="121" x2="78" y2="140"/>'
+    // BURGER
+    +'<path d="M126 122 Q138 115 150 122"/><line x1="124" y1="122" x2="152" y2="122"/><rect x="124" y="126" width="28" height="4" rx="2"/><line x1="123" y1="132" x2="153" y2="132"/><line x1="125" y1="136" x2="151" y2="136"/><path d="M124 140 L152 140 Q152 144 138 144 Q124 144 124 140"/>'
+    // BOTTLE
+    +'<rect x="200" y="130" width="14" height="18" rx="3"/><path d="M201 130 L201 122 L205 119 L209 119 L213 122 L213 130"/><line x1="205" y1="119" x2="209" y2="119"/>'
+    // DIAMOND DECO
+    +'<path d="M268 120 L274 130 L268 140 L262 130 Z" opacity="0.4"/>'
+    // POT + HANDLES
+    +'<ellipse cx="28" cy="176" rx="16" ry="5"/><path d="M12 176 L12 188 Q12 194 28 194 Q44 194 44 188 L44 176"/><line x1="12" y1="176" x2="44" y2="176"/><path d="M15 176 Q28 171 41 176"/><circle cx="28" cy="171" r="2" fill="'+s+'"/><path d="M12 179 L7 179 Q5 181 5 183 Q5 185 7 187 L12 187"/><path d="M44 179 L49 179 Q51 181 51 183 Q51 185 49 187 L44 187"/>'
+    // PIZZA SLICE
+    +'<path d="M92 158 L77 188 L107 188 Z"/><line x1="79" y1="186" x2="105" y2="186"/><circle cx="88" cy="178" r="2.5" fill="'+s+'" opacity="0.5"/><circle cx="96" cy="172" r="2.5" fill="'+s+'" opacity="0.5"/><circle cx="97" cy="183" r="2.5" fill="'+s+'" opacity="0.5"/>'
+    // TOMATO
+    +'<circle cx="160" cy="178" r="13"/><path d="M160 165 L160 161"/><path d="M160 161 L165 157"/><path d="M160 161 L155 158"/><path d="M148 172 Q160 167 172 172"/><path d="M147 184 Q160 189 173 184"/>'
+    // BREAD LOAF
+    +'<path d="M206 180 Q206 167 218 165 Q230 167 230 180 Q230 190 218 190 Q206 190 206 180 Z"/><path d="M212 174 Q218 171 224 174"/>'
+    // LEAF / HERB
+    +'<path d="M258 188 Q258 165 272 160 Q274 178 262 186 Z"/><path d="M258 188 Q265 177 272 160"/>'
+    // CHICKEN LEG
+    +'<ellipse cx="22" cy="228" rx="10" ry="8"/><path d="M28 234 L40 250"/><path d="M38 248 Q41 252 39 255 Q36 252 36 249"/><path d="M41 246 Q44 251 42 255 Q39 253 38 249"/>'
+    // ONION
+    +'<path d="M81 240 Q81 222 93 218 Q105 222 105 240 Q105 248 93 248 Q81 248 81 240 Z"/><path d="M93 218 L93 213 L97 209"/><path d="M83 236 Q93 230 103 236"/><path d="M81 243 Q93 248 105 243"/>'
+    // FORK SINGLE
+    +'<line x1="155" y1="210" x2="155" y2="250"/><line x1="151" y1="210" x2="151" y2="220"/><line x1="159" y1="210" x2="159" y2="220"/><path d="M151 220 Q155 223 159 220"/>'
+    // BEER MUG
+    +'<rect x="204" y="218" width="20" height="24" rx="2"/><path d="M224 222 L230 222 Q234 222 234 229 Q234 236 230 236 L224 236"/><line x1="204" y1="225" x2="224" y2="225"/><circle cx="210" cy="232" r="1.5" fill="'+s+'"/><circle cx="215" cy="236" r="1.5" fill="'+s+'"/><circle cx="219" cy="230" r="2" fill="'+s+'"/>'
+    // DOTS DECO row 5
+    +'<circle cx="268" cy="230" r="2" fill="'+s+'"/><circle cx="274" cy="234" r="1.5" fill="'+s+'"/><circle cx="269" cy="239" r="1" fill="'+s+'"/><circle cx="275" cy="240" r="2" fill="'+s+'"/>'
+    // STAR DECO bottom
+    +'<polygon points="35,263 37,270 44,270 38,275 41,282 35,277 29,282 32,275 26,270 33,270" stroke="none" fill="'+s+'" opacity="0.2"/>'
+    // MORTAR & PESTLE
+    +'<path d="M83 282 Q83 293 95 293 Q107 293 107 282"/><line x1="81" y1="282" x2="109" y2="282"/><line x1="95" y1="272" x2="105" y2="282"/><circle cx="94" cy="270" r="3"/>'
+    // PLATE SMALL
+    +'<circle cx="160" cy="278" r="11"/><circle cx="160" cy="278" r="7"/>'
+    // KNIFE SINGLE
+    +'<line x1="220" y1="260" x2="220" y2="287"/><path d="M220 260 L225 266 L220 272"/>'
+    // FISH SMALL
+    +'<path d="M263 275 Q272 268 280 275 Q272 282 263 275"/><path d="M263 275 L258 270 L259 275 L258 280 Z"/>'
+    +'</g></svg>';
+  var url='data:image/svg+xml,'+encodeURIComponent(svg);
+  document.querySelectorAll('.phone-stage, .food-bg').forEach(function(el){
+    if(el.classList.contains('phone-stage')) el.style.backgroundColor=bg;
+    el.style.backgroundImage='url('+url+'), url('+url+')';
+    el.style.backgroundSize='190px 190px, 190px 190px';
+    el.style.backgroundPosition='0 0, 95px 95px';
+  });
+})();
+</script>
