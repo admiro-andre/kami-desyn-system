@@ -155,7 +155,7 @@ Convenções: componentes *standalone*, uma pasta por tela em `src/app/features/
 - Protótipo: `kami-app.html#/c/fechado` (ecrã de telemóvel, 400x800)
 - Angular: `public/order/closed` → `ClosedPageComponent`, rota `/:slug/fechado`
 - Dados: horário, estado aberto/fechado
-- Navega para: LND-02
+- Navega para: CLI-01
 
 ### CLI-08, Fora da zona de entrega
 - Protótipo: `kami-app.html#/c/foradazona` (ecrã de telemóvel, 400x800)

@@ -818,6 +818,22 @@ mark{background:var(--sun);color:inherit;border-radius:3px;padding:0 1px}
 @media (prefers-reduced-motion:reduce){.m-wait::after{animation:none}}
 .m-linkbox{display:flex;align-items:center;gap:8px;border:1px dashed var(--border-strong);border-radius:var(--r-md);padding:6px 6px 6px 10px;font-size:12px;font-weight:800}
 .m-linkbox span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* Restaurante fechado */
+.m-reopen{width:100%;background:var(--canvas);border-radius:var(--r-lg);padding:16px;display:flex;flex-direction:column;gap:2px;text-align:left}
+.m-reopen small{font-size:12px;font-weight:700;color:var(--on-muted)}
+.m-reopen b{font-size:30px;font-weight:900;line-height:1.05;letter-spacing:-.02em}
+.m-reopen span{font-size:13px;font-weight:700}
+.m-hours{list-style:none;margin:0;padding:0;width:100%;display:flex;flex-direction:column;gap:2px;text-align:left}
+.m-hours li{display:flex;justify-content:space-between;gap:8px;padding:7px 10px;border-radius:var(--r-md);font-size:13px;font-weight:700}
+.m-hours li span:last-child{font-variant-numeric:tabular-nums}
+.m-hours li.off{color:var(--on-muted)}
+.m-hours li.next{background:var(--sun);font-weight:900}
+/* Fora da zona de entrega */
+.m-map.is-out .m-map-zone{inset:14px 120px 26px 16px}
+.m-map.is-out .m-map-pin{left:78%;top:44%;color:var(--danger)}
+.m-zone-out{display:inline-flex;gap:5px;align-items:center;width:fit-content;font-size:11px;font-weight:800;color:var(--danger);
+  background:var(--danger-s);border-radius:var(--r-full);padding:3px 9px;margin-top:4px}
+.m-zone-out .ico{width:12px;height:12px;stroke-width:3}
 
 .cmp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
 .cmp{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);display:flex;flex-direction:column;overflow:hidden;min-width:0}
@@ -1946,6 +1962,76 @@ mark{background:var(--sun);color:inherit;border-radius:3px;padding:0 1px}
       </div>
     </div>
 
+
+    <!-- 12. Restaurante fechado -->
+    <div class="phone-stage">
+      <div class="m-nav stage-nav">
+          <div class="circ"><svg><use href="#i-back"/></svg></div>
+          <div class="m-nav-mid">Quilamba<small>Fechado</small></div>
+          <div style="width:40px"></div>
+        </div>
+      <div class="phone-label" data-screen="CLI-07"><span class="phone-step">12</span>Restaurante fechado</div>
+      <div class="phone">
+        <div class="m-scroll" style="padding:20px 18px 16px;gap:16px">
+          <div>
+            <h2 style="font-size:22px;font-weight:900">O Quilamba está fechado</h2>
+            <p style="font-size:13px;font-weight:600;color:var(--on-muted);margin-top:6px">Fechou às 22h. Podes ver o menu, mas só podes enviar pedidos quando o restaurante abrir.</p>
+          </div>
+          <div class="m-reopen">
+            <small>Volta a abrir</small>
+            <b>Amanhã, 11h</b>
+            <span>Terça-feira, 3 de Novembro</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <span class="small bold">Horário</span>
+            <ul class="m-hours">
+              <li><span>Segunda</span><span>11h – 22h</span></li>
+              <li class="next"><span>Terça</span><span>11h – 22h</span></li>
+              <li><span>Quarta</span><span>11h – 22h</span></li>
+              <li><span>Quinta</span><span>11h – 22h</span></li>
+              <li><span>Sexta</span><span>11h – 23h</span></li>
+              <li><span>Sábado</span><span>12h – 23h</span></li>
+              <li class="off"><span>Domingo</span><span>Fechado</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="m-bottom"><button class="m-cta ghost">Ver o menu</button></div>
+      </div>
+    </div>
+
+    <!-- 13. Fora da zona de entrega -->
+    <div class="phone-stage">
+      <div class="m-nav stage-nav">
+          <div class="circ"><svg><use href="#i-back"/></svg></div>
+          <div class="m-nav-mid">Finalizar</div>
+          <div style="width:40px"></div>
+        </div>
+      <div class="phone-label" data-screen="CLI-08"><span class="phone-step">13</span>Fora da zona de entrega</div>
+      <div class="phone">
+        <div class="m-scroll" style="padding:4px 18px 16px;gap:12px">
+          <div class="m-seg"><span><svg class="ico"><use href="#i-bag"/></svg>Levantar</span><span class="on"><svg class="ico"><use href="#i-scooter"/></svg>Entrega</span></div>
+          <div class="m-map is-out">
+            <div class="m-map-zone"></div>
+            <div class="m-map-pin"><svg class="ico"><use href="#i-pinfill"/></svg></div>
+            <div class="circ circ-sm circ-light m-map-btn" title="Usar a minha localização"><svg><use href="#i-locate"/></svg></div>
+          </div>
+          <div class="m-addr">
+            <b>Camama, Rua da Lagoa</b>
+            <small>Arrasta o mapa para acertar o ponto</small>
+            <span class="m-zone-out"><svg class="ico"><use href="#i-x"/></svg>Fora da zona de entrega</span>
+          </div>
+          <div class="m-info warn"><svg class="ico"><use href="#i-map"/></svg><span>O Quilamba não entrega neste ponto. A zona de entrega é a área a tracejado. Se o ponto estiver errado, arrasta o mapa.</span></div>
+          <span class="m-link">Escrever a morada à mão</span>
+          <div class="field"><div class="field-label">Podes levantar o pedido no restaurante</div>
+            <div class="m-addr">
+              <b>Kilamba, Bloco Q, Edifício 12</b>
+              <small>Aberto até às 22h. Pronto em cerca de 20 min.</small>
+            </div>
+          </div>
+        </div>
+        <div class="m-bottom"><button class="m-cta"><svg class="ico"><use href="#i-bag"/></svg>Mudar para levantar</button></div>
+      </div>
+    </div>
   </div>
 
   <div class="subsec" id="m-componentes">
@@ -2039,6 +2125,14 @@ mark{background:var(--sun);color:inherit;border-radius:3px;padding:0 1px}
       <div class="cmp">
         <div class="cmp-demo white"><div style="width:260px;display:flex;flex-direction:column;gap:8px"><div class="m-map" style="height:100px"><div class="m-map-zone" style="inset:10px 30px 12px 20px"></div><div class="m-map-pin"><svg class="ico"><use href="#i-pinfill"/></svg></div></div><div class="m-addr"><b>Kilamba, Bloco T, Edifício 7</b><span class="m-zone-ok"><svg class="ico"><use href="#i-check"/></svg>Dentro da zona de entrega</span></div><span class="m-link">Escrever a morada à mão</span></div></div>
         <div class="cmp-meta"><b>Mapa e morada</b><code>.m-map · .m-map-zone · .m-map-pin · .m-addr · .m-zone-ok · .m-link</code><small>Ecrã 9. Zona de entrega a tracejado; alternativa manual por link.</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo white"><div style="width:260px;display:flex;flex-direction:column;gap:8px"><div class="m-map is-out" style="height:100px"><div class="m-map-zone" style="inset:10px 120px 12px 14px"></div><div class="m-map-pin"><svg class="ico"><use href="#i-pinfill"/></svg></div></div><div class="m-addr"><b>Camama, Rua da Lagoa</b><span class="m-zone-out"><svg class="ico"><use href="#i-x"/></svg>Fora da zona de entrega</span></div></div></div>
+        <div class="cmp-meta"><b>Fora da zona</b><code>.m-map.is-out · .m-zone-out</code><small>Ecrã 13. Pino vermelho fora da zona; propõe mudar para levantar.</small></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-demo white"><div style="width:240px;display:flex;flex-direction:column;gap:10px"><div class="m-reopen"><small>Volta a abrir</small><b>Amanhã, 11h</b><span>Terça-feira</span></div><ul class="m-hours"><li><span>Segunda</span><span>11h – 22h</span></li><li class="next"><span>Terça</span><span>11h – 22h</span></li><li class="off"><span>Domingo</span><span>Fechado</span></li></ul></div></div>
+        <div class="cmp-meta"><b>Restaurante fechado</b><code>.m-reopen · .m-hours · li.next | .off</code><small>Ecrã 12. Próxima abertura em destaque; dia seguinte marcado a amarelo.</small></div>
       </div>
       <div class="cmp">
         <div class="cmp-demo white"><div class="m-wait"><svg class="ico"><use href="#i-clock"/></svg></div><div class="m-linkbox" style="width:220px"><span>restaurante.kami.ao/quilamba/p/0145</span><div class="circ circ-sm"><svg><use href="#i-copy"/></svg></div></div></div>

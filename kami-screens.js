@@ -24,7 +24,7 @@ window.KAMI_SCREENS = [
   { id: 'CLI-04', rota: 'c/checkout', nome: 'Finalizar pedido', area: 'Cliente online', tipo: 'phone', ang: ['public/order/checkout', 'CheckoutPage', '/:slug/finalizar'], vai: ['CLI-05', 'CLI-08', 'CLI-03'], dados: 'modo, nome, telefone, local de entrega, zona, taxa' },
   { id: 'CLI-05', rota: 'c/confirmacao', nome: 'Pedido enviado', area: 'Cliente online', tipo: 'phone', ang: ['public/order/sent', 'OrderSentPage', '/:slug/pedido/:id/enviado'], vai: ['CLI-06'], dados: 'Pedido (número, total)' },
   { id: 'CLI-06', rota: 'c/track', nome: 'Acompanhar pedido', area: 'Cliente online', tipo: 'phone', ang: ['public/order/track', 'TrackPage', '/:slug/pedido/:id'], vai: ['CLI-01'], dados: 'Pedido.estado (novo, em preparação, pronto, concluído), estimativa' },
-  { id: 'CLI-07', rota: 'c/fechado', nome: 'Restaurante fechado', area: 'Cliente online', tipo: 'phone', ang: ['public/order/closed', 'ClosedPage', '/:slug/fechado'], vai: ['LND-02'], dados: 'horário, estado aberto/fechado' },
+  { id: 'CLI-07', rota: 'c/fechado', nome: 'Restaurante fechado', area: 'Cliente online', tipo: 'phone', ang: ['public/order/closed', 'ClosedPage', '/:slug/fechado'], vai: ['CLI-01'], dados: 'horário, estado aberto/fechado' },
   { id: 'CLI-08', rota: 'c/foradazona', nome: 'Fora da zona de entrega', area: 'Cliente online', tipo: 'phone', ang: ['public/order/out-of-zone', 'OutOfZonePage', '/:slug/fora-da-zona'], vai: ['CLI-04'], dados: 'local, zonas de entrega' },
   // ---- Cliente na mesa
   { id: 'MES-01', rota: 'm/scan', nome: 'Entrada por QR Code', area: 'Cliente na mesa', tipo: 'phone', ang: ['public/table/start', 'TableStartPage', '/:slug/mesa/:token'], vai: ['MES-02', 'MES-06'], dados: 'Mesa, atendimento activo' },
